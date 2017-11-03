@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "ci-test": "jest --ci --testResultsProcessor='jest-junit'",
     "test": "jest"
   },
   "dependencies": {
@@ -10,5 +11,9 @@
     "jest": "^21.2.1",
     "selenium-webdriver": "^3.6.0",
     "supertest": "^3.0.0"
+  },
+  "jest-junit": {
+    "suiteName": "Integration Tests",
+    "output": "./it-results.xml"
   }
 }
