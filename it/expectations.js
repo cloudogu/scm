@@ -10,7 +10,7 @@ exports.expectState = function(state) {
   // TODO configure groups
   const groups = state.groups;
   expect(groups).toContain('cesManager');
-  expect(groups).toContain('cesAdmins');
+  expect(groups).toContain('CesAdministrators');
 }
 
 exports.expectCasLogin = function(url) {

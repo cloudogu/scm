@@ -1,8 +1,23 @@
+let cesFqdn = process.env.CES_FQDN;
+if (!cesFqdn) {
+    // url from ecosystem with private network
+    cesFqdn = "192.168.42.2"
+}
+
+let webdriverType = process.env.WEBDRIVER;
+if (!webdriverType) {
+    webdriverType = 'local';
+}
+
 module.exports = {
-  baseUrl: 'https://demo.cloudogu.com',
-  username: 'ces-admin',
-  password: 'ecosystem2016',
-  displayName: 'admin',
-  email: 'ces-admin@cloudogu.com',
-  debug: true
+    fqdn: cesFqdn,
+    baseUrl: 'https://' + cesFqdn,
+    username: 'ces-admin',
+    password: 'ecosystem2016',
+    firstname: 'admin',
+    lastname: 'admin',
+    displayName: 'admin',
+    email: 'ces-admin@cloudogu.com',
+    webdriverType: webdriverType,
+    debug: true
 };
