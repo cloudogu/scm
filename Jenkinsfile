@@ -12,13 +12,13 @@ node('vagrant') {
         checkout scm
     }
 
-    stage('Lint') {
-        // lint dockerfiles
-        // only latest version available
-        docker.image('projectatomic/dockerfile-lint:latest').inside({
-            sh 'dockerfile_lint -f Dockerfile'
-        })
-    }
+  //  stage('Lint') {
+  //      // lint dockerfiles
+  //      // only latest version available
+  //      docker.image('projectatomic/dockerfile-lint:latest').inside({
+  //          sh 'dockerfile_lint -f Dockerfile'
+  //      })
+  //  }
 
     try {
 
