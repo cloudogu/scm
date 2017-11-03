@@ -51,7 +51,7 @@ describe('cas browser tests', () => {
         expect(username).toBe(config.username);
     });
 
-    test('check cas attributes', async() => { //in progress!
+    test('check cas attributes', async() => {
         login();
         driver.get(config.baseUrl + '/scm/api/rest/authentication/state.json');
         const bodyText = await driver.findElement(By.css('body')).getText();
@@ -62,7 +62,7 @@ describe('cas browser tests', () => {
     test('front channel logout', async() => {
         login();
         driver.wait(until.elementLocated(By.css('#navLogout a'))).click();
-        driver.wait(until.elementLocated(By.id('logout-message')));
+        driver.wait(until.elementLocated(By.css('div#msg.success'))); //changed!
         const url = await driver.getCurrentUrl();
 
         expectations.expectCasLogout(url);
