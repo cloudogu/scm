@@ -4,7 +4,6 @@ const request = require('supertest');
 const webdriver = require('selenium-webdriver');
 
 
-
 const By = webdriver.By;
 const until = webdriver.until;
 
@@ -95,6 +94,7 @@ describe('cas browser tests', () => {
         login();
         await driver.get(config.baseUrl + '/cas/logout');
         await driver.get(config.baseUrl + '/scm');
+        driver.wait(until.elementLocated(By.id('login')));
         const url = await driver.getCurrentUrl();
 
         expectations.expectCasLogin(url);
