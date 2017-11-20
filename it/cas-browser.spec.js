@@ -93,8 +93,8 @@ describe('cas browser tests', () => {
 
     test('back channel logout', async() => {
         login();
-        driver.get(config.baseUrl + '/cas/logout');
-        driver.get(config.baseUrl + '/scm');
+        await driver.get(config.baseUrl + '/cas/logout');
+        await driver.get(config.baseUrl + '/scm');
         const url = await driver.getCurrentUrl();
 
         expectations.expectCasLogin(url);
