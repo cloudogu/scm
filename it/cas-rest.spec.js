@@ -9,14 +9,14 @@ describe('cas rest tests', () =>  {
 
   test('authenticate with basic authentication', async() => {
 
-   /* await request(config.baseUrl)
+    await request(config.baseUrl)
       .get('/scm/api/rest/repositories.json')
       .auth(config.username, config.password)
-      .expect(200);*/
+      .expect(200);
   });
 
   test('check cas attributes', async() => {
-   /* const response = await request(config.baseUrl)
+    const response = await request(config.baseUrl)
       .post('/scm/api/rest/authentication/login.json')
       .type('form')
       .send({
@@ -25,7 +25,7 @@ describe('cas rest tests', () =>  {
       })
       .expect(200);
 
-      expectations.expectState(response.body);*/
+      expectations.expectState(response.body);
   });
 
 });
