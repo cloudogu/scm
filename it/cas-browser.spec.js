@@ -1,6 +1,6 @@
 const config = require('./config');
 const expectations = require('./expectations');
-
+const request = require('supertest');
 const webdriver = require('selenium-webdriver');
 
 
@@ -9,6 +9,8 @@ const By = webdriver.By;
 const until = webdriver.until;
 
 jest.setTimeout(30000);
+// disable certificate validation
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 let driver;
 
@@ -36,6 +38,27 @@ function login() {
 }
 
 describe('cas browser tests', () => {
+
+    test('authenticate with basic authentication', async() => {
+
+        await request(config.baseUrl)
+            .get('/scm/api/rest/repositories.json')
+            .auth(config.username, config.password)
+            .expect(200);
+    });
+
+    test('check cas attributes', async() => {
+        const response = await request(config.baseUrl)
+            .post('/scm/api/rest/authentication/login.json')
+            .type('form')
+            .send({
+                username: config.username,
+                password: config.password
+            })
+            .expect(200);
+
+        expectations.expectState(response.body);
+    });
 
     test('redirect to cas authentication', async() => {
         driver.get(config.baseUrl + '/scm');
