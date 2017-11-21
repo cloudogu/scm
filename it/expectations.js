@@ -1,16 +1,26 @@
 const config = require('./config');
 
-exports.expectState = function(state) {
+exports.expectStateTestUser = function(state) {
   const user = state.user;
   expect(user.type).toBe('cas');
-  expect(user.name).toBe(config.username);
-  expect(user.displayName).toBe(config.displayName);
-  expect(user.mail).toBe(config.email);
+  expect(user.name).toBe(config.testuserName);
+  expect(user.displayName).toBe(config.testuserDisplay);
+  expect(user.mail).toBe(config.testuserEmail);
 
-  // TODO configure groups
   const groups = state.groups;
-  expect(groups).toContain('cesManager');
-  expect(groups).toContain('CesAdministrators');
+  expect(groups).toContain(config.adminGroup);
+}
+
+exports.expectState = function(state) {
+    const user = state.user;
+    expect(user.type).toBe('cas');
+    expect(user.name).toBe(config.username);
+    expect(user.displayName).toBe(config.displayName);
+    expect(user.mail).toBe(config.email);
+
+    const groups = state.groups;
+    expect(groups).toContain('cesManager');
+    expect(groups).toContain(config.adminGroup);
 }
 
 exports.expectCasLogin = function(url) {

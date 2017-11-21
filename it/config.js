@@ -19,5 +19,13 @@ module.exports = {
     displayName: 'admin',
     email: 'ces-admin@cloudogu.com',
     webdriverType: webdriverType,
-    debug: true
+    debug: true,
+    adminGroup: 'CesAdministrators',
+
+    testuserName: 'testUser',
+    testuserDisplay: 'testUser',
+    testuserFirstname: 'testUser',
+    testuserSurname: 'testUser',
+    testuserEmail: 'testUser@test.de',
+    testuserPasswort: 'testuserpasswort'
 };
