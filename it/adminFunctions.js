@@ -50,7 +50,7 @@ module.exports = class adminFunctions{
         //delete user in scm
         await this.driver.get(config.baseUrl + '/scm/#userPanel;' + this.testuserName);
         await this.driver.wait(until.elementLocated(By.id('ext-comp-1022')), 5000).click();
-        await this.driver.findElement(By.id('ext-comp-1048')).click();
+        await this.driver.wait(until.elementLocated(By.id('ext-comp-1048')), 5000).click();
 
     };
 
