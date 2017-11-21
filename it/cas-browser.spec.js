@@ -18,8 +18,7 @@ beforeEach(async() => {
     driver = new webdriver.Builder()
         .withCapabilities(webdriver.Capabilities.chrome())
         .build();
-
-    adminFunctions = new classAdminFunctions(driver);
+    adminFunctions = new classAdminFunctions(driver, config.testuserName, config.testuserDisplay, config.testuserFirstname, config.testuserSurname, config.testuserEmail, config.testuserPasswort);
     await adminFunctions.createUser();
 });
 

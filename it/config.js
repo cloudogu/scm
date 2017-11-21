@@ -22,10 +22,19 @@ module.exports = {
     debug: true,
     adminGroup: 'CesAdministrators',
 
+    //testuser for cas-browser-tests
     testuserName: 'testUser',
     testuserDisplay: 'testUser',
     testuserFirstname: 'testUser',
     testuserSurname: 'testUser',
     testuserEmail: 'testUser@test.de',
-    testuserPasswort: 'testuserpasswort'
+    testuserPasswort: 'testuserpasswort',
+
+    //testuser for cas-rest-tests
+    resttestuserName: 'rest-testUser',
+    resttestuserDisplay: 'rest-testUser',
+    resttestuserFirstname: 'rest-testUser',
+    resttestuserSurname: 'rest-testUser',
+    resttestuserEmail: 'rest-testUser@test.de',
+    resttestuserPasswort: 'rest-testuserpasswort',
 };

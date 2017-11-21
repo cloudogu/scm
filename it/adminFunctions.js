@@ -6,8 +6,14 @@ const until = webdriver.until;
 
 module.exports = class adminFunctions{
 
-    constructor(driver) {
+    constructor(driver, testuserName, testuserDisplayName, testUserFirstname, testuserSurname, testuserEmail, testuserPasswort) {
         this.driver = driver;
+        this.testuserDisplay = testuserDisplayName;
+        this.testuserName=testuserName;
+        this.testuserFirstname=testUserFirstname;
+        this.testuserSurname=testuserSurname;
+        this.testuserEmail=testuserEmail;
+        this.testuserPasswort=testuserPasswort;
     };
 
     async login(relativeUrl) {
@@ -26,12 +32,12 @@ module.exports = class adminFunctions{
             .set('Content-Type', 'application/json;charset=UTF-8')
             .type('json')
             .send({'memberOf':[config.adminGroup],
-                'username':config.testuserName,
-                'givenname':config.testuserFirstname,
-                'surname': config.testuserSurname,
-                'displayName':config.testuserDisplay,
-                'mail':config.testuserEmail,
-                'password':config.testuserPasswort});
+                'username':this.testuserName,
+                'givenname':this.testuserFirstname,
+                'surname': this.testuserSurname,
+                'displayName':this.testuserDisplay,
+                'mail':this.testuserEmail,
+                'password':this.testuserPasswort});
     };
 
     async removeUser(){
@@ -42,7 +48,7 @@ module.exports = class adminFunctions{
 
         this.login('/scm');
         //delete user in scm
-        await this.driver.get(config.baseUrl + '/scm/#userPanel;' + config.testuserName);
+        await this.driver.get(config.baseUrl + '/scm/#userPanel;' + this.testuserName);
         await this.driver.wait(until.elementLocated(By.id('ext-comp-1022')), 5000).click();
         await this.driver.findElement(By.id('ext-comp-1048')).click();
 
@@ -50,14 +56,14 @@ module.exports = class adminFunctions{
 
     async testuserLogin() {
         this.driver.get(config.baseUrl + '/scm');
-        this.driver.findElement(By.id('username')).sendKeys(config.testuserName);
-        this.driver.findElement(By.id('password')).sendKeys(config.testuserPasswort);
+        this.driver.findElement(By.id('username')).sendKeys(this.testuserName);
+        this.driver.findElement(By.id('password')).sendKeys(this.testuserPasswort);
         this.driver.findElement(By.css('input[name="submit"]')).click();
 
         // waiting for finishing loading
         this.driver.wait(until.elementLocated(By.css('#scm-userinfo-tip')), 5000);
         const userInfoElement = this.driver.findElement(By.id('scm-userinfo-tip'));
-        this.driver.wait(until.elementTextIs(userInfoElement, config.testuserName), 5000);
+        this.driver.wait(until.elementTextIs(userInfoElement, this.testuserName), 5000);
 
     }
 
