@@ -63,7 +63,7 @@ describe('cas browser tests', () => {
     test('front channel logout', async() => {
         login();
         driver.wait(until.elementLocated(By.css('#navLogout a'))).click();
-        driver.wait(until.elementLocated(By.css('div#msg.success'))); //changed!
+        driver.wait(until.elementLocated(By.css('div#msg.success')));
         const url = await driver.getCurrentUrl();
 
         expectations.expectCasLogout(url);
