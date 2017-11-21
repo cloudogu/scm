@@ -1,31 +1,11 @@
 const request = require('supertest');
 const config = require('./config');
 const expectations = require('./expectations');
-const webdriver = require('selenium-webdriver');
-const classAdminFunctions = require('./adminFunctions');
 
-const By = webdriver.By;
-const until = webdriver.until;
 
 // disable certificate validation
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-let driver;
-let adminFunctions;
-
-beforeEach(async() => {
-    driver = new webdriver.Builder()
-        .withCapabilities(webdriver.Capabilities.chrome())
-        .build();
-
-    adminFunctions = new classAdminFunctions(driver, config.resttestuserName, config.resttestuserDisplay, config.resttestuserFirstname, config.resttestuserSurname, config.resttestuserEmail, config.resttestuserPasswort);
-    await adminFunctions.createUser();
-});
-
-afterEach(async() => {
-    await adminFunctions.removeUser();
-    driver.quit();
-});
 
 describe('cas rest tests', () =>  {
 
@@ -33,7 +13,7 @@ describe('cas rest tests', () =>  {
 
     await request(config.baseUrl)
       .get('/scm/api/rest/repositories.json')
-      .auth(config.resttestuserName, config.resttestuserPasswort)
+      .auth(config.username, config.password)
       .expect(200);
   });
 
@@ -42,12 +22,12 @@ describe('cas rest tests', () =>  {
       .post('/scm/api/rest/authentication/login.json')
       .type('form')
       .send({
-        username: config.resttestuserName,
-        password: config.resttestuserPasswort
+        username: config.username,
+        password: config.password
       })
       .expect(200);
 
-      expectations.expectStateRestTestUser(response.body);
+      expectations.expectState(response.body);
   });
 
 });
