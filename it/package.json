@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ci-test": "jest --ci --testResultsProcessor='jest-junit'",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "jest": {
     "resetModules": true
