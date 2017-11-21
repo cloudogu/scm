@@ -48,7 +48,6 @@ node('vagrant') {
         stage('Wait for dependencies') {
             timeout(15) {
                 sh 'vagrant ssh -c "sudo cesapp healthy --wait --timeout 600 --fail-fast cas"'
-                sh 'vagrant ssh -c "sudo cesapp healthy --wait --timeout 600 --fail-fast usermgt"'
             }
         }
 
@@ -179,8 +178,7 @@ void writeSetupStagingJSON() {
       "official/cas",
       "official/nginx",
       "official/postfix",
-      "official/postgresql",
-      "official/usermgt"
+      "official/postgresql"
     ],
     "completed":true
   },

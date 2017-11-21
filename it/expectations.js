@@ -11,17 +11,6 @@ exports.expectStateTestUser = function(state) {
   expect(groups).toContain(config.adminGroup);
 }
 
-exports.expectStateRestTestUser = function(state) {
-    const user = state.user;
-    expect(user.type).toBe('cas');
-    expect(user.name).toBe(config.resttestuserName);
-    expect(user.displayName).toBe(config.resttestuserDisplay);
-    expect(user.mail).toBe(config.resttestuserEmail);
-
-    const groups = state.groups;
-    expect(groups).toContain(config.adminGroup);
-}
-
 exports.expectState = function(state) {
     const user = state.user;
     expect(user.type).toBe('cas');

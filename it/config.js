@@ -20,21 +20,5 @@ module.exports = {
     email: 'ces-admin@cloudogu.com',
     webdriverType: webdriverType,
     debug: true,
-    adminGroup: 'CesAdministrators',
-
-    //testuser for cas-browser-tests
-    testuserName: 'testUser',
-    testuserDisplay: 'testUser',
-    testuserFirstname: 'testUser',
-    testuserSurname: 'testUser',
-    testuserEmail: 'testUser@test.de',
-    testuserPasswort: 'testuserpasswort',
-
-    //testuser for cas-rest-tests
-    resttestuserName: 'rest-testUser',
-    resttestuserDisplay: 'rest-testUser',
-    resttestuserFirstname: 'rest-testUser',
-    resttestuserSurname: 'rest-testUser',
-    resttestuserEmail: 'rest-testUser@test.de',
-    resttestuserPasswort: 'rest-testuserpasswort',
+    adminGroup: 'CesAdministrators'
 };
