@@ -6,6 +6,9 @@
     "ci-test": "jest --ci --testResultsProcessor='jest-junit'",
     "test": "jest"
   },
+  "jest": {
+    "resetModules": true
+  },
   "dependencies": {
     "chromedriver": "^2.33.2",
     "jest": "^21.2.1",
