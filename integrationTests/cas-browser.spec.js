@@ -28,7 +28,7 @@ async function login() {
     driver.findElement(By.id('password')).sendKeys(config.password);
     driver.findElement(By.css('input[name="submit"]')).click();
 
-    // waiting for finishing loading
+    // waiting until page is loaded
     driver.wait(until.elementLocated(By.css('#scm-userinfo-tip')), 5000);
     const userInfoElement = driver.findElement(By.id('scm-userinfo-tip'));
     driver.wait(until.elementTextIs(userInfoElement, config.username), 5000);
