@@ -2,7 +2,7 @@ FROM registry.cloudogu.com/official/java:8u121-4
 MAINTAINER Sebastian Sdorra <sebastian.sdorra@cloudogu.com>
 
 # scm-server environment
-ENV SCM_VERSION=1.54 \
+ENV SCM_VERSION=1.55 \
     SCM_SCRIPT_PLUGIN=1.6 \
     GROOVY_VERSION=2.4.12 \
     SCM_HOME=/var/lib/scm \

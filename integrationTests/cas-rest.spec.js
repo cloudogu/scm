@@ -2,9 +2,15 @@ const request = require('supertest');
 const config = require('./config');
 const expectations = require('./expectations');
 
+
+// disable certificate validation
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+
 describe('cas rest tests', () =>  {
 
   test('authenticate with basic authentication', async() => {
+
     await request(config.baseUrl)
       .get('/scm/api/rest/repositories.json')
       .auth(config.username, config.password)
