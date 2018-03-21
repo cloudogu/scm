@@ -9,14 +9,28 @@ def getValueFromEtcd(String key){
 	return json.node.value
 }
 
+def getEmailAddress(){
+    def configuredMailAddress;
+    try {
+      configuredMailAddress = getValueFromEtcd("config/_global/mail_address");
+    } catch (FileNotFoundException ex) {
+      println "could not find mail_address configuration in registry"
+    }
+    if (configuredMailAddress != null && configuredMailAddress.length() > 0) {
+      return configuredMailAddress;
+    } else {
+      return "scm@" + getValueFromEtcd("config/_global/domain");
+    }
+}
 
 try {
   def mailContext = injector.getInstance(Class.forName("sonia.scm.mail.api.MailContext"));
 
   def old = mailContext.getConfiguration();
   def from = old.getFrom();
+
   if (from == null || from.length() == 0){
-      from = "scm@" + getValueFromEtcd("config/_global/domain");
+    from = getEmailAddress();
   }
 
   // TODO unable to resolve class sonia.scm.mail.api.MailConfiguration
