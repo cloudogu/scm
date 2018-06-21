@@ -68,33 +68,33 @@ node('vagrant') {
         }
 
         stage('Integration Tests') {
-            if (fileExists('integrationTests/it-results.xml')) {
-                sh 'rm -f integrationTests/it-results.xml'
-            }
 
-            timeout(time: 5, unit: 'MINUTES') {
-                def seleniumChromeContainer = docker.image('selenium/standalone-chrome:3.6.0').run()
 
-                try {
-                    def seleniumChromeIP = containerIP(seleniumChromeContainer)
-                    def cesIP = getCesIP()
-
-                    dir('integrationTests') {
-
-                        docker.image('node:8.7.0-stretch').inside("-e WEBDRIVER=remote -e CES_FQDN=${cesIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${seleniumChromeIP}:4444/wd/hub") {
-                            sh 'yarn install'
-                            sh 'yarn run ci-test'
-                        }
+                    if (fileExists('integrationTests/it-results.xml')) {
+                        sh 'rm -f integrationTests/it-results.xml'
                     }
 
-                } finally {
-                    seleniumChromeContainer.stop()
-                    // archive test results
-                    junit 'integrationTests/it-results.xml'
-                }
-            }
+                    timeout(time: 15, unit: 'MINUTES') {
 
-        }
+
+                        try {
+
+                            def cesIP = getCesIP()
+
+                            dir('integrationTests') {
+                                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'zalenium_build.cloudogu.com', usernameVariable: 'TOKEN_ID', passwordVariable: 'TOKEN_SECRET']]) {
+                                  docker.image('node:8-stretch').inside("-e WEBDRIVER=remote -e CES_FQDN=${cesIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${env.TOKEN_ID}:${env.TOKEN_SECRET}@build.cloudogu.com:4444/wd/hub") {
+                                        sh 'yarn install'
+                                        sh 'yarn run ci-test'
+                                    }
+                                }
+                            }
+                        } finally {
+                            // archive test results
+                            junit 'integrationTests/it-results.xml'
+                        }
+                    }
+                }
 
     } finally {
         stage('Clean') {
@@ -123,7 +123,7 @@ void writeVagrantConfiguration() {
 
     config.vm.box = "cloudogu/ecosystem-basebox"
     config.vm.hostname = "ces"
-    config.vm.box_version = "0.5.1"
+    config.vm.box_version = "0.6.2"
     # Mount ecosystem and local dogu
     config.vm.synced_folder ".", "/vagrant", disabled: true
     config.vm.synced_folder "ecosystem", "/vagrant"
@@ -135,7 +135,8 @@ void writeVagrantConfiguration() {
     config.vm.provision "shell",
     inline: "mkdir /etc/ces && echo 'vagrant' > /etc/ces/type && /vagrant/install.sh"
     config.vm.provider "virtualbox" do |v|
-        v.memory = 3072
+        v.memory = 4096
+        v.linked_clone = true
         # v.cpus = 2
     end
   end
