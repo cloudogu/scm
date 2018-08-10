@@ -17,13 +17,15 @@
     "Name": "data",
     "Path": "/var/lib/scm",
     "Owner": "1000",
-    "Group": "1000"
+    "Group": "1000",
+    "NeedsBackup": true
   },
   {
     "Name": "custom.init.script.d",
     "Path": "/var/lib/custom.init.script.d",
     "Owner": "1000",
-    "Group": "1000"
+    "Group": "1000",
+    "NeedsBackup": true
   }],
   "HealthCheck": {
     "Type": "tcp",
