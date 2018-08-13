@@ -1,5 +1,5 @@
 FROM registry.cloudogu.com/official/java:8u151-3
-MAINTAINER Sebastian Sdorra <sebastian.sdorra@cloudogu.com>
+LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 # scm-server environment
 ENV SCM_VERSION=1.55 \
