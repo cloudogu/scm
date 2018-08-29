@@ -1,8 +1,8 @@
-FROM registry.cloudogu.com/official/java:8u121-4
-MAINTAINER Sebastian Sdorra <sebastian.sdorra@cloudogu.com>
+FROM registry.cloudogu.com/official/java:8u151-3
+LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 # scm-server environment
-ENV SCM_VERSION=1.55 \
+ENV SCM_VERSION=1.60 \
     SCM_SCRIPT_PLUGIN=1.6 \
     GROOVY_VERSION=2.4.12 \
     SCM_HOME=/var/lib/scm \
@@ -21,16 +21,13 @@ RUN set -x \
     && mkdir /opt \
     && tar -C /opt -xf /tmp/scm-server.tar \
     && cd /tmp \
-
     # install scm-script-plugin
     && mkdir -p WEB-INF/lib \
     && curl -Lks http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/${GROOVY_VERSION}/groovy-all-${GROOVY_VERSION}.jar -o /tmp/WEB-INF/lib/groovy-all-${GROOVY_VERSION}.jar \
     && curl -Lks http://maven.scm-manager.org/nexus/content/repositories/releases/sonia/scm/plugins/scm-script-plugin/${SCM_SCRIPT_PLUGIN}/scm-script-plugin-${SCM_SCRIPT_PLUGIN}.jar -o /tmp/WEB-INF/lib/scm-script-plugin-${SCM_SCRIPT_PLUGIN}.jar \
     && zip -u /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/lib/* \
-
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
-
     # set mercurial system ca-certificates
     # see https://github.com/cloudogu/ecosystem/issues/193
     && mkdir /etc/mercurial \
