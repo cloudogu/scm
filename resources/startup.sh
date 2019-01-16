@@ -14,11 +14,12 @@ if [ -d "${INIT_SCRIPT_FOLDER}" ]; then
 fi
 
 # copy fresh main init scripts
-cp -rf "${MAIN_INIT_SCRIPTS_FOLDER}" "${INIT_SCRIPT_FOLDER}"
+mkdir -p "${INIT_SCRIPT_FOLDER}"
+cp -rf "${MAIN_INIT_SCRIPTS_FOLDER}"/*.groovy "${INIT_SCRIPT_FOLDER}/"
 
 # merge custom init scripts, if the volume is not empty
-if [ "$(ls -A ${CUSTOM_INIT_SCRIPTS_FOLDER})" ]; then
-  cp "${CUSTOM_INIT_SCRIPTS_FOLDER}"/* "${INIT_SCRIPT_FOLDER}"
+if [ "$(ls -A ${CUSTOM_INIT_SCRIPTS_FOLDER}/*.groovy)" ]; then
+  cp "${CUSTOM_INIT_SCRIPTS_FOLDER}/"*.groovy "${INIT_SCRIPT_FOLDER}/"
 fi
 
 # create truststore, which is used in the default file
@@ -30,6 +31,26 @@ create-ca-certificates.sh /opt/scm-server/conf/ca-certificates.crt
 if ! [ -d "/var/lib/scm/config" ];  then
 	mkdir -p "/var/lib/scm/config"
 fi
+
+# install plugins
+if ! [ -d "/var/lib/scm/plugins" ];  then
+	mkdir -p "/var/lib/scm/plugins"
+
+  PLUGINS=(
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-cas-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-gravatar-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-gravatar-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-issuetracker-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-issuetracker-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-jira-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jira-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-mail-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-mail-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-jenkins-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jenkins-plugin-2.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-review-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-review-plugin-2.0.0-SNAPSHOT.smp"
+  )
+
+  for PLUGIN in "${PLUGINS[@]}"; do
+    (cd "/var/lib/scm/plugins" && curl --silent -O "${PLUGIN}")
+  done
+fi
+
 
 # Final startup
 exec /opt/scm-server/bin/scm-server

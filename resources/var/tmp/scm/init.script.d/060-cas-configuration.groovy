@@ -11,21 +11,14 @@ def getValueFromEtcd(String key){
 }
 
 try {
-    def cas = injector.getInstance(Class.forName("de.triology.scm.plugins.cas.CasAuthenticationHandler"));
-		def config = cas.getConfig();
+    def cas = injector.getInstance( Class.forName("com.cloudogu.scm.cas.CasContext", true, Thread.currentThread().getContextClassLoader()) );
+	def config = cas.get();
 
-		String fqdn = getValueFromEtcd("config/_global/fqdn");
-		config.setCasServerUrl("https://${fqdn}/cas");
+	String fqdn = getValueFromEtcd("config/_global/fqdn");
+	config.setCasUrl("https://${fqdn}/cas");
+	config.setEnabled(true);
 
-		config.setCasAttrUsername("username")
-		config.setCasAttrDisplayName("displayName");
-		config.setCasAttrMail("mail");
-		config.setCasAttrGroup("groups");
-
-		config.setTolerance("5000");
-		config.setEnabled(true);
-
-    cas.storeConfig(config);
-} catch( Exception e ) {
-    println "cas plugin seems not to be installed"
+    cas.set(config);
+} catch (ClassNotFoundException ex) {
+	 println "cas plugin seems not to be installed"
 }

@@ -2,30 +2,29 @@ FROM registry.cloudogu.com/official/java:8u171-1
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 # scm-server environment
-ENV SCM_VERSION=1.60 \
-    SCM_SCRIPT_PLUGIN=1.6 \
-    GROOVY_VERSION=2.4.12 \
-    SCM_HOME=/var/lib/scm \
+ENV SCM_HOME=/var/lib/scm \
     SSL_CERT_FILE=/opt/scm-server/conf/ca-certificates.crt \
+    CACHE=invalidateAgain \
     # mark as webapp for nginx
-    SERVICE_TAGS=webapp
-ENV SCM_PKG_URL=https://maven.scm-manager.org/nexus/content/repositories/releases/sonia/scm/scm-server/${SCM_VERSION}/scm-server-${SCM_VERSION}-app.tar.gz
+    SERVICE_TAGS=webapp \
+    SCM_PKG_URL=https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-2.x/job/2.0.0-m3/lastSuccessfulBuild/artifact/scm-server/target/scm-server-app.tar.gz
+
+COPY utils /opt/utils
 
 ## install scm-server
 RUN set -x \
-    && apk add --no-cache mercurial jq \
+    && apk add --no-cache mercurial jq unzip \
     && curl -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
     && addgroup -S -g 1000 scm \
     && adduser -S -h /opt/scm-server -s /bin/bash -G scm -u 1000 scm \
     && gunzip /tmp/scm-server.tar.gz \
-    && mkdir /opt \
     && tar -C /opt -xf /tmp/scm-server.tar \
     && cd /tmp \
     # install scm-script-plugin
-    && mkdir -p WEB-INF/lib \
-    && curl -Lks http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/${GROOVY_VERSION}/groovy-all-${GROOVY_VERSION}.jar -o /tmp/WEB-INF/lib/groovy-all-${GROOVY_VERSION}.jar \
-    && curl -Lks http://maven.scm-manager.org/nexus/content/repositories/releases/sonia/scm/plugins/scm-script-plugin/${SCM_SCRIPT_PLUGIN}/scm-script-plugin-${SCM_SCRIPT_PLUGIN}.jar -o /tmp/WEB-INF/lib/scm-script-plugin-${SCM_SCRIPT_PLUGIN}.jar \
-    && zip -u /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/lib/* \
+    && unzip /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/plugins/plugin-index.xml \
+    && curl -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-script-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-script-plugin-2.0.0-SNAPSHOT.smp -o /tmp/WEB-INF/plugins/scm-script-plugin-2.0.0-SNAPSHOT.smp \
+    && java -cp /opt/utils AddPluginToIndex /tmp/WEB-INF/plugins/plugin-index.xml /tmp/WEB-INF/plugins/scm-script-plugin-2.0.0-SNAPSHOT.smp \
+    && zip -u /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/plugins/* \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
     # set mercurial system ca-certificates
