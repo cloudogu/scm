@@ -10,14 +10,18 @@ def getValueFromEtcd(String key){
 	return json.node.value
 }
 
+def findClass(clazzAsString) {
+  return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
+}
+
 try {
-    def jenkins = injector.getInstance(Class.forName("sonia.scm.jenkins.JenkinsContext"));
+    def jenkins = injector.getInstance(findClass("sonia.scm.jenkins.JenkinsContext"));
 		def config = jenkins.getConfiguration();
 
 		String fqdn = getValueFromEtcd("config/_global/fqdn");
 		config.url = "https://${fqdn}/jenkins";
 
-    jenkins.storeConfiguration();
-} catch( Exception e ) {
+    jenkins.storeConfiguration(config);
+} catch( ClassNotFoundException e ) {
     println "jenkins plugin seems not to be installed"
 }
