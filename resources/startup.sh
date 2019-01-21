@@ -37,13 +37,15 @@ if ! [ -d "/var/lib/scm/plugins" ];  then
 	mkdir -p "/var/lib/scm/plugins"
 
   PLUGINS=(
-    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-cas-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-gravatar-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-gravatar-plugin-2.0.0-SNAPSHOT.smp"
-    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-issuetracker-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-issuetracker-plugin-2.0.0-SNAPSHOT.smp"
-    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-jira-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jira-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-cas-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-mail-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-mail-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-jenkins-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jenkins-plugin-2.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-review-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-review-plugin-2.0.0-SNAPSHOT.smp"
+
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-issuetracker-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-issuetracker-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-jira-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jira-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-redmine-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-redmine-plugin-2.0.0-SNAPSHOT.smp"
   )
 
   for PLUGIN in "${PLUGINS[@]}"; do
