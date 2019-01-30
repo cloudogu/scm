@@ -1,6 +1,6 @@
 {
   "Name": "testing/scm",
-  "Version": "2.0.0-2",
+  "Version": "2.0.0-4",
   "DisplayName": "SCM-Manager",
   "Description": "The easiest way to share and manage your Git, Mercurial and Subversion repositories over http.",
   "Category": "Development Apps",
