@@ -43,6 +43,7 @@ if ! [ -d "/var/lib/scm/plugins" ];  then
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-jenkins-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jenkins-plugin-2.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-review-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-review-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-webhook-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-webhook-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-tagprotection-plugin/job/feature%252Fv2/lastSuccessfulBuild/artifact/target/scm-tagprotection-plugin-2.0.0-SNAPSHOT.smp"
 
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-rest-legacy-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-rest-legacy-plugin-2.0-SNAPSHOT.smp"
 
