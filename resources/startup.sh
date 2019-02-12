@@ -50,6 +50,10 @@ if ! [ -d "/var/lib/scm/plugins" ];  then
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-issuetracker-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-issuetracker-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-jira-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jira-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-redmine-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-redmine-plugin-2.0.0-SNAPSHOT.smp"
+
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-activity-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-activity-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-statistic-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-statistic-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-cockpit-legacy-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cockpit-legacy-plugin-2.0-SNAPSHOT.smp"
   )
 
   for PLUGIN in "${PLUGINS[@]}"; do
