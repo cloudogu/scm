@@ -40,7 +40,7 @@ if ! [ -d "/var/lib/scm/plugins" ];  then
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-gravatar-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-gravatar-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-cas-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-mail-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-mail-plugin-2.0.0-SNAPSHOT.smp"
-    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-jenkins-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jenkins-plugin-2.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-jenkins-plugin/job/2.x/lastSuccessfulBuild/artifact/target/scm-jenkins-plugin-2.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-review-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-review-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-webhook-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-webhook-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-tagprotection-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-tagprotection-plugin-2.0.0-SNAPSHOT.smp"
@@ -54,6 +54,14 @@ if ! [ -d "/var/lib/scm/plugins" ];  then
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-activity-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-activity-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-statistic-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-statistic-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-cockpit-legacy-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cockpit-legacy-plugin-2.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-pathwp-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-pathwp-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-branchwp-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-branchwp-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-notify-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-notify-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-authormapping-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-authormapping-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-groupmanager-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-groupmanager-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-pushlog-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-pushlog-plugin-2.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-script-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-script-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-support-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-support-plugin-2.0.0-SNAPSHOT.smp"
   )
 
   for PLUGIN in "${PLUGINS[@]}"; do
