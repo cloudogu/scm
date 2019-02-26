@@ -36,7 +36,7 @@ mkdir -p revisions
 for PLUGIN in "${PLUGINS[@]}"; do
   RELEASE_FILE=$(echo $PLUGIN | awk -F '/' '{print $10}')
   echo ${RELEASE_FILE}
-  curl -g --silent "${PLUGIN}/api/xml?xpath=/*/action[@_class='hudson.plugins.git.util.BuildData']/lastBuiltRevision/SHA1" > revisions/${RELEASE_FILE}
+  curl -g --silent "${PLUGIN}/api/xml" > revisions/${RELEASE_FILE}
 done
 
-curl -g --silent "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-2.x/job/2.0.0-m3/lastSuccessfulBuild/api/xml?xpath=/*/action[@_class='hudson.plugins.git.util.BuildData']/lastBuiltRevision/SHA1" > revisions/scm-manager
+curl -g --silent "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-2.x/job/2.0.0-m3/lastSuccessfulBuild/api/xml" > revisions/scm-manager
