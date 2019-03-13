@@ -63,6 +63,7 @@ if ! [ -d "/var/lib/scm/plugins" ];  then
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-script-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-script-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-support-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-support-plugin-2.0.0-SNAPSHOT.smp"
     "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-directfilelink-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-directfilelink-plugin-2.0.0-SNAPSHOT.smp"
+    "https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-readme-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-readme-plugin-2.0.0-SNAPSHOT.smp"
   )
 
   for PLUGIN in "${PLUGINS[@]}"; do
