@@ -5,7 +5,8 @@ LABEL maintainer="sebastian.sdorra@cloudogu.com"
 ENV SCM_HOME=/var/lib/scm \
     SSL_CERT_FILE=/opt/scm-server/conf/ca-certificates.crt \
     # mark as webapp for nginx
-    SERVICE_TAGS=webapp \
+    SERVICE_8080_TAGS="webapp" \
+    SERVICE_8080_NAME="scm" \
     SCM_PKG_URL=https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-2.x/job/2.0.0-m3/lastSuccessfulBuild/artifact/scm-server/target/scm-server-app.tar.gz
 
 COPY utils /opt/utils
@@ -44,7 +45,7 @@ WORKDIR ${SCM_HOME}
 
 VOLUME ${SCM_HOME}
 
-EXPOSE 8080
+EXPOSE 8080 2222
 
 USER scm
 
