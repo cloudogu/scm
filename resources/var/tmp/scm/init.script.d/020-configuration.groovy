@@ -4,6 +4,10 @@
 import sonia.scm.config.ScmConfiguration;
 import sonia.scm.util.ScmConfigurationUtil;
 import groovy.json.JsonSlurper;
+import sonia.scm.group.Group;
+import sonia.scm.group.GroupManager;
+import sonia.scm.security.PermissionAssigner;
+import sonia.scm.security.PermissionDescriptor;
 
 // TODO sharing ???
 def getValueFromEtcd(String key){
@@ -14,21 +18,25 @@ def getValueFromEtcd(String key){
 }
 
 def config = injector.getInstance(ScmConfiguration.class);
-
-// set admin group
-if (config.getAdminGroups() == null){
-	config.setAdminGroups(new HashSet());
-} else {
-	config.getAdminGroups().clear();
-}
-String adminGroup = getValueFromEtcd("config/_global/admin_group");
-if (adminGroup != null && adminGroup.length() > 0){
-	config.getAdminGroups().add(adminGroup);
-}
-
+config.setNamespaceStrategy("CustomNamespaceStrategy");
 // set base url
 String fqdn = getValueFromEtcd("config/_global/fqdn");
 config.setBaseUrl("https://${fqdn}/scm");
-
 // store configuration
 ScmConfigurationUtil.getInstance().store(config);
+
+// set admin group
+String adminGroup = getValueFromEtcd("config/_global/admin_group");
+GroupManager groupManager = injector.getInstance(GroupManager.class);
+
+Group group = groupManager.get(adminGroup);
+if (group == null) {
+  group = new Group("cas", adminGroup);
+  group.setExternal(true);
+
+  group = groupManager.create(group);
+}
+
+PermissionAssigner permissionAssigner = injector.getInstance(PermissionAssigner.class);
+PermissionDescriptor descriptor = new PermissionDescriptor("*");
+permissionAssigner.setPermissionsForGroup(adminGroup, Collections.singleton(descriptor));
