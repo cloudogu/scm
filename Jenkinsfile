@@ -49,13 +49,9 @@ node('vagrant') {
             }
 
             // The current integration tests are build for scm v1
-            /*stage('Integration Tests') {
+            stage('Integration Tests') {
 
                 String externalIP = ecoSystem.externalIP
-
-                if (fileExists('integrationTests/it-results.xml')) {
-                    sh 'rm -f integrationTests/it-results.xml'
-                }
 
                 timeout(time: 15, unit: 'MINUTES') {
 
@@ -65,9 +61,9 @@ node('vagrant') {
 
                             dir('integrationTests') {
 
-                                docker.image('node:8.14.0-stretch').inside("-e WEBDRIVER=remote -e CES_FQDN=${externalIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${zaleniumIp}:4444/wd/hub") {
-                                    sh 'yarn install'
-                                    sh 'yarn run ci-test'
+                                docker.image('cloudogu/gauge-java:1.0.4')
+                                        .inside("-e WEBDRIVER=remote -e CES_FQDN=${externalIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${zaleniumIp}:4444/wd/hub") {
+                                    sh 'mvn test'
                                 }
 
                             }
@@ -75,10 +71,10 @@ node('vagrant') {
                         }
                     } finally {
                         // archive test results
-                        junit allowEmptyResults: true, testResults: 'integrationTests/it-results.xml'
+                        junit allowEmptyResults: true, testResults: 'integrationTests/target/gauge/xml-report/result.xml'
                     }
                 }
-            }*/
+            }
 
         } finally {
             stage('Clean') {
