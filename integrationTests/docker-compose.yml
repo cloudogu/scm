@@ -5,6 +5,6 @@ services:
     ports:
     - "4444:4444"
     volumes:
-    - ./target:/tmp/videos
+    - ./target:/home/seluser/videos
     - /var/run/docker.sock:/var/run/docker.sock
     command: start
