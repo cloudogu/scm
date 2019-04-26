@@ -10,37 +10,39 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StepImplementation {
 
-    private LoginPage loginPage;
+    private Object currentPage;
 
     @Step("Open the Login Page")
     public void openLoginPage() {
-        this.loginPage = new LoginPage().open();
+        this.currentPage = new LoginPage().open();
         Gauge.writeMessage("Page title is %s", Driver.webDriver.getTitle());
+    }
+
+    @Step("Login with configured username and password")
+    public void login() {
+        login(Config.USERNAME, Config.PASSWORD);
     }
 
     @Step("Login with user <username> and password <password>")
     public void login(String username, String password) {
-        loginPage.login(username, password);
+        LoginPage.LoginResult loginResult = ((LoginPage) currentPage).login(username, password);
+        Gauge.writeMessage("Login successful: %s", "" + loginResult.isSuccessful());
+        this.currentPage = loginResult.get();
     }
 
-    @Step("Go to Gauge Get Started Page")
-    public void gotoGetStartedPage() {
-        WebElement getStartedButton = Driver.webDriver.findElement(By.xpath("//a[@href='getting-started-guide/we-start/']"));
-        getStartedButton.click();
-
-        Gauge.writeMessage("Page title is %s", Driver.webDriver.getTitle());
+    @Step("Logout")
+    public void logout() {
+        ((ScmManagerRootPage)currentPage).logout();
     }
 
-    @Step("Ensure installation instructions are available")
-    public void ensureInstallationInstructionsAreAvailable() {
-        WebElement instructions = Driver.webDriver.findElement(By.xpath("//a[@href='/getting-started-guide/quick-install']"));
-        assertThat(instructions).isNotNull();
+    @Step("Logged in username equals configured display name")
+    public void assertCorrectUser() {
+        assertCorrectUser(Config.DISPLAY_NAME);
     }
 
-    @Step("Open the Gauge homepage")
-    public void implementation1() {
-        String app_url = System.getenv("APP_URL");
-        Driver.webDriver.get(app_url + "/");
-        assertThat(Driver.webDriver.getTitle()).contains("Gauge");
+    @Step("Logged in username is <username>")
+    public void assertCorrectUser(String username) {
+        String actualUsername = ((ScmManagerRootPage) currentPage).username();
+        assertThat(actualUsername).isEqualTo(username);
     }
 }

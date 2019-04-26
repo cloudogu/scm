@@ -2,7 +2,12 @@ Test CAS login
 ==========================
 
 * Open the Login Page
+* Login with configured username and password
 
-Login
------
-* Login with user "ces-admin" and password "ecosystem2016"
+Logout
+------
+* Logout
+
+Correct User
+------------
+* Logged in username equals configured display name
