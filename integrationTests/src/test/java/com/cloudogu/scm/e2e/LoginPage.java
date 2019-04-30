@@ -8,13 +8,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Optional;
 
 import static com.cloudogu.scm.e2e.Config.BASE_URL;
 
-public class LoginPage {
+public class LoginPage extends Page {
 
     private final WebDriver driver;
 
@@ -30,6 +29,7 @@ public class LoginPage {
     }
 
     public LoginPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -40,8 +40,7 @@ public class LoginPage {
 
     public LoginPage open() {
         driver.navigate().to(BASE_URL + "/scm");
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        wait.until(ExpectedConditions.elementToBeClickable(submitButton));
+        waitUntil(ExpectedConditions.elementToBeClickable(submitButton));
         return this;
     }
 
@@ -49,8 +48,7 @@ public class LoginPage {
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
         submitButton.click();
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        wait.until(ExpectedConditions.or(
+        waitUntil(ExpectedConditions.or(
                 LoginFailurePage.present(),
                 ScmManagerRootPage.present()
         ));
@@ -80,7 +78,7 @@ public class LoginPage {
             return LoginPage.this;
         }
 
-        public Object get() {
+        public Page get() {
             if (isSuccessful()) {
                 return scmManagerRootPage.get();
             } else {

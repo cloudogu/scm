@@ -13,9 +13,7 @@ import java.util.Optional;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-public class ScmManagerRootPage {
-
-    private final WebDriver driver;
+public class ScmManagerRootPage extends Page {
 
     @FindBy(className = "hero-foot")
     WebElement mainMenuEntries;
@@ -25,7 +23,7 @@ public class ScmManagerRootPage {
     WebElement meLink;
 
     private ScmManagerRootPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 

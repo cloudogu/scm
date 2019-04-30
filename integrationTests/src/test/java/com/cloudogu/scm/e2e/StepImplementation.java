@@ -3,14 +3,12 @@ package com.cloudogu.scm.e2e;
 import com.thoughtworks.gauge.Gauge;
 import com.thoughtworks.gauge.Step;
 import driver.Driver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class StepImplementation {
 
-    private Object currentPage;
+    private Page currentPage;
 
     @Step("Open the Login Page")
     public void openLoginPage() {
@@ -20,7 +18,7 @@ public class StepImplementation {
 
     @Step("Login with configured username and password")
     public void login() {
-        login(Config.USERNAME, Config.PASSWORD);
+        login(Config.ADMIN_USERNAME, Config.ADMIN_PASSWORD);
     }
 
     @Step("Login with user <username> and password <password>")
@@ -44,5 +42,10 @@ public class StepImplementation {
     public void assertCorrectUser(String username) {
         String actualUsername = ((ScmManagerRootPage) currentPage).username();
         assertThat(actualUsername).isEqualTo(username);
+    }
+
+    @Step("Current urlPattern matches <urlPattern>")
+    public void assertCurrentUrlMatches(String urlPattern) {
+        assertThat(currentPage.currentUrl()).matches(urlPattern);
     }
 }
