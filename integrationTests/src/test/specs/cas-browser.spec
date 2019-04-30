@@ -36,7 +36,7 @@
 * Verify SCM open
 * Logged in username equals configured display name
 * Open Me page
-* Email equals configured email
 * Display name equals configured display name
+* Email equals configured email
 * Groups contains configured ces admin group
 

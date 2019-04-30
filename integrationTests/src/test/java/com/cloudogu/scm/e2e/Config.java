@@ -7,6 +7,8 @@ public class Config {
     public static final String ADMIN_USERNAME = getOrDefault("ADMIN_USERNAME", "ces-admin");
     public static final String ADMIN_PASSWORD = getOrDefault("ADMIN_PASSWORD", "ecosystem2016");
     public static final String DISPLAY_NAME = getOrDefault("DISPLAY_NAME", "admin");
+    public static final String EMAIL = getOrDefault("EMAIL", "ces-admin@cloudogu.com");
+    public static final String ADMIN_GROUP = getOrDefault("ADMIN_GROUP", "CesAdministrators");
 
     private static String getOrDefault(String key, String defaultValue) {
         return System.getenv().getOrDefault(key, defaultValue);

@@ -66,13 +66,28 @@ public class StepImplementation {
     }
 
     @Step("Logout was successful")
-    public void a() { }
+    public void logoutSuccessful() {
+        browser.assertAtPage(LogoutPage.class);
+    }
+
     @Step("Open Me page")
-    public void b() { }
+    public void openMePage() {
+        browser.getPage(ScmManagerRootPage.class).clickMeLink();
+        browser.assertAtPage(MePage.class);
+    }
+
     @Step("Email equals configured email")
-    public void c() { }
+    public void emailEqualsConfiguredMail() {
+        assertThat(browser.getPage(MePage.class).eMail()).isEqualTo(Config.EMAIL);
+    }
+
     @Step("Display name equals configured display name")
-    public void d() { }
+    public void displayNameEqualsConfiguredDisplayName() {
+        assertThat(browser.getPage(MePage.class).displayName()).isEqualTo(Config.DISPLAY_NAME);
+    }
+
     @Step("Groups contains configured ces admin group")
-    public void e() { }
+    public void groupsContainsConfiguredCesAdminGroup() {
+        assertThat(browser.getPage(MePage.class).groups()).contains(Config.ADMIN_GROUP);
+    }
 }

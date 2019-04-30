@@ -24,7 +24,6 @@ public class ScmManagerRootPage extends Page {
 
     public ScmManagerRootPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
     }
 
     static Optional<ScmManagerRootPage> get(WebDriver driver) {
@@ -40,15 +39,15 @@ public class ScmManagerRootPage extends Page {
         return mainMenuEntries.isDisplayed();
     }
 
-    static ExpectedCondition<WebElement> present() {
-        return ExpectedConditions.presenceOfElementLocated(By.className("hero-foot"));
-    }
-
     void logout() {
         logoutMenuEntry.click();
     }
 
     String username() {
         return meLink.getText();
+    }
+
+     void clickMeLink() {
+        meLink.click();
     }
 }

@@ -2,6 +2,7 @@ package com.cloudogu.scm.e2e;
 
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.function.Function;
@@ -12,6 +13,7 @@ abstract class Page {
 
     protected Page(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public String currentUrl() {

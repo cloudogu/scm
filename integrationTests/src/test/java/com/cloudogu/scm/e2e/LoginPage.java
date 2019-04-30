@@ -12,10 +12,13 @@ public class LoginPage extends Page {
 
     private final WebDriver driver;
 
+    @Required
     @FindBy(id ="username")
     WebElement usernameField;
+    @Required
     @FindBy(id ="password")
     WebElement passwordField;
+    @Required
     @FindBy(css = "input[name='submit']")
     WebElement submitButton;
 
