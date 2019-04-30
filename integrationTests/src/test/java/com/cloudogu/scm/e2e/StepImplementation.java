@@ -18,7 +18,6 @@ public class StepImplementation {
         Gauge.writeMessage("Page title is %s", Driver.webDriver.getTitle());
     }
 
-
     @Step("Assert at login page")
     public void assertAtLoginPage() {
         browser.assertAtPage(LoginPage.class);

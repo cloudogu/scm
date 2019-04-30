@@ -15,10 +15,16 @@ import static java.util.Optional.of;
 
 public class ScmManagerRootPage extends Page {
 
+    @Required
     @FindBy(className = "hero-foot")
     WebElement mainMenuEntries;
+
+    @FindBy(className = "title")
+    WebElement titleField;
+
     @FindBy(linkText = "Logout")
     WebElement logoutMenuEntry;
+
     @FindBy(xpath = "//a[@href='/scm/me']")
     WebElement meLink;
 
@@ -37,6 +43,10 @@ public class ScmManagerRootPage extends Page {
     @Override
     public boolean isDisplayed() {
         return mainMenuEntries.isDisplayed();
+    }
+
+    public String title() {
+        return titleField.getText().trim();
     }
 
     void logout() {

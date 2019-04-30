@@ -11,9 +11,6 @@ import static java.util.stream.Collectors.toList;
 
 public class MePage extends ScmManagerRootPage {
 
-    @FindBy(className = "title")
-    WebElement title;
-
     @Required
     @FindBy(xpath = "//tr[th/text() = 'Username']/td")
     WebElement usernameField;
@@ -26,10 +23,6 @@ public class MePage extends ScmManagerRootPage {
 
     public MePage(WebDriver driver) {
         super(driver);
-    }
-
-    public String title() {
-        return usernameField.getText().trim();
     }
 
     public String username() {
