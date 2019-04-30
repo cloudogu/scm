@@ -3,7 +3,6 @@ package com.cloudogu.scm.e2e;
 import com.thoughtworks.gauge.Gauge;
 import com.thoughtworks.gauge.Step;
 import driver.Driver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static com.cloudogu.scm.e2e.Config.BASE_URL;
 import static org.assertj.core.api.Assertions.assertThat;

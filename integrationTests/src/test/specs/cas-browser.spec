@@ -1,4 +1,4 @@
-# Test CAS login
+# Test CAS browser login
 
 * Open the start page
 * Assert at login page
@@ -29,6 +29,7 @@
 * Logout was successful
 * Open the start page
 * Current urlPattern matches ".*/cas/login.*scm.*"
+* Assert at login page
 
 ## Correct User
 
