@@ -22,12 +22,12 @@ public class ScmManagerRootPage extends Page {
     @FindBy(xpath = "//a[@href='/scm/me']")
     WebElement meLink;
 
-    private ScmManagerRootPage(WebDriver driver) {
+    public ScmManagerRootPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
-    public static Optional<ScmManagerRootPage> get(WebDriver driver) {
+    static Optional<ScmManagerRootPage> get(WebDriver driver) {
         if (driver.findElement(By.className("hero-foot")) != null) {
             return of(new ScmManagerRootPage(driver));
         } else {
@@ -35,15 +35,20 @@ public class ScmManagerRootPage extends Page {
         }
     }
 
-    public static ExpectedCondition<WebElement> present() {
+    @Override
+    public boolean isDisplayed() {
+        return mainMenuEntries.isDisplayed();
+    }
+
+    static ExpectedCondition<WebElement> present() {
         return ExpectedConditions.presenceOfElementLocated(By.className("hero-foot"));
     }
 
-    public void logout() {
+    void logout() {
         logoutMenuEntry.click();
     }
 
-    public String username() {
+    String username() {
         return meLink.getText();
     }
 }
