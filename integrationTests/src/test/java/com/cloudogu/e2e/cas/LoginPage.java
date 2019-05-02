@@ -30,10 +30,6 @@ public class LoginPage extends Page {
         PageFactory.initElements(driver, this);
     }
 
-    public static ExpectedCondition present() {
-        return ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[name='submit']"));
-    }
-
     @Override
     public boolean isDisplayed() {
         return submitButton.isDisplayed();
