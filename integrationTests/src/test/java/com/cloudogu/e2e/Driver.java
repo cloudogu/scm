@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 public class Driver {
 
     // Holds the WebDriver instance
-    public static WebDriver webDriver;
+    static WebDriver webDriver;
 
     // Initialize a webDriver instance of required browser
     // Since this does not have a significance in the application's business domain, the BeforeSuite hook is used to instantiate the webDriver
@@ -24,5 +24,4 @@ public class Driver {
     public void closeDriver(){
         webDriver.quit();
     }
-
 }

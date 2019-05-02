@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 public abstract class Page {
 
-    protected final WebDriver driver;
+    private final WebDriver driver;
 
     protected Page(WebDriver driver) {
         this.driver = driver;
@@ -25,7 +25,11 @@ public abstract class Page {
         return wait.until(isTrue);
     }
 
-    public void verify() {
+    /**
+     * Wait until {@link #isDisplayed()} returns <code>true</code> to assert that the page is displayed.
+     * Calls {@link Assertions#fail(String)} if this is not be the case after
+     */
+    void verify() {
         if (!waitUntil((d) -> isDisplayed())) {
             Assertions.fail("Page " + this.getClass().getName() + " not complete");
         }

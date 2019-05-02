@@ -10,9 +10,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DriverFactory {
+class DriverFactory {
 
-    public static WebDriver getDriver() throws MalformedURLException {
+    static WebDriver getDriver() throws MalformedURLException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
         capabilities.setCapability(CapabilityType.PLATFORM_NAME, Platform.LINUX);
