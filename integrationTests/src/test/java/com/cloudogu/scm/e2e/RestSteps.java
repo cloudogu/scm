@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static com.cloudogu.scm.e2e.Config.BASE_URL;
 
-public class RestStepImplementation {
+public class RestSteps {
 
     @Step("Read repositories with configured username and password")
     public void readRepositories() throws IOException {

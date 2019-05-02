@@ -14,7 +14,16 @@ import static com.cloudogu.scm.e2e.Config.BASE_URL;
 
 class Browser {
 
+    private static final ThreadLocal<Browser> INSTANCES = ThreadLocal.withInitial(Browser::new);
+
     private State<? extends Page> currentPage;
+
+    private Browser() {
+    }
+
+    public static Browser browser() {
+        return INSTANCES.get();
+    }
 
     <T extends Page> void assertAtPage(Class<T> pageClass) {
         try {
