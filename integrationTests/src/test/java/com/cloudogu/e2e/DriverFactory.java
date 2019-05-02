@@ -12,10 +12,11 @@ import java.net.URL;
 
 class DriverFactory {
 
-    static WebDriver getDriver() throws MalformedURLException {
+    static WebDriver getDriver(String testName) throws MalformedURLException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
         capabilities.setCapability(CapabilityType.PLATFORM_NAME, Platform.LINUX);
+        capabilities.setCapability("name", testName);
         return new RemoteWebDriver(new URL(System.getenv("SELENIUM_REMOTE_URL")), capabilities);
     }
 }
