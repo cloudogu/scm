@@ -22,34 +22,34 @@ public class ScmSteps {
 
     @Step("Logged in username is <username>")
     public void verifyCorrectUser(String username) {
-        String actualUsername = Browser.browser().getPage(ScmManagerRootPage.class).username();
+        String actualUsername = browser().getPage(ScmManagerRootPage.class).username();
         assertThat(actualUsername).isEqualTo(username);
     }
 
     @Step("Verify SCM open")
     public void verifyScmOpen() {
-        Browser.browser().assertAtPage(ScmManagerRootPage.class);
+        browser().assertAtPage(ScmManagerRootPage.class);
     }
 
     @Step("Open Me page")
     public void openMePage() {
-        Browser.browser().getPage(ScmManagerRootPage.class).clickMeLink();
-        Browser.browser().assertAtPage(MePage.class);
+        browser().getPage(ScmManagerRootPage.class).clickMeLink();
+        browser().assertAtPage(MePage.class);
     }
 
     @Step("Email equals configured email")
     public void emailEqualsConfiguredMail() {
-        assertThat(Browser.browser().getPage(MePage.class).eMail()).isEqualTo(Config.EMAIL);
+        assertThat(browser().getPage(MePage.class).eMail()).isEqualTo(Config.EMAIL);
     }
 
     @Step("Display name equals configured display name")
     public void displayNameEqualsConfiguredDisplayName() {
-        assertThat(Browser.browser().getPage(MePage.class).displayName()).isEqualTo(Config.DISPLAY_NAME);
+        assertThat(browser().getPage(MePage.class).displayName()).isEqualTo(Config.DISPLAY_NAME);
     }
 
     @Step("Groups contains configured ces admin group")
     public void groupsContainsConfiguredCesAdminGroup() {
-        assertThat(Browser.browser().getPage(MePage.class).groups()).contains(Config.ADMIN_GROUP);
+        assertThat(browser().getPage(MePage.class).groups()).contains(Config.ADMIN_GROUP);
     }
 
     @Step("Logout with SCM")
