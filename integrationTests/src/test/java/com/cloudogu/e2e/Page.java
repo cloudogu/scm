@@ -1,4 +1,4 @@
-package com.cloudogu.scm.e2e;
+package com.cloudogu.e2e;
 
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.WebDriver;
@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.function.Function;
 
-abstract class Page {
+public abstract class Page {
 
     protected final WebDriver driver;
 

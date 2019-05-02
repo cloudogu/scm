@@ -1,6 +1,6 @@
 # Test CAS browser login
 
-* Open the start page
+* Open the SCM start page
 * Assert at login page
 
 ## Correct CAS URL
@@ -18,7 +18,7 @@
 
 * Login with configured username and password
 * Verify SCM open
-* Open the start page
+* Open the SCM start page
 * Verify SCM open
 
 ## Logout with CAS
@@ -27,7 +27,7 @@
 * Verify SCM open
 * Logout with CAS
 * Logout was successful
-* Open the start page
+* Open the SCM start page
 * Current urlPattern matches ".*/cas/login.*scm.*"
 * Assert at login page
 

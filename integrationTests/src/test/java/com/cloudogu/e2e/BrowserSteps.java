@@ -1,8 +1,8 @@
-package com.cloudogu.scm.e2e;
+package com.cloudogu.e2e;
 
 import com.thoughtworks.gauge.Step;
 
-import static com.cloudogu.scm.e2e.Browser.browser;
+import static com.cloudogu.e2e.Browser.browser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BrowserSteps {

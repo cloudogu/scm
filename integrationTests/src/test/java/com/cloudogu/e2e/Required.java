@@ -1,4 +1,4 @@
-package com.cloudogu.scm.e2e;
+package com.cloudogu.e2e;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package driver;
+package com.cloudogu.e2e;
 
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;

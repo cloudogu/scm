@@ -1,5 +1,7 @@
-package com.cloudogu.scm.e2e;
+package com.cloudogu.e2e.cas;
 
+import com.cloudogu.e2e.Page;
+import com.cloudogu.e2e.Required;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

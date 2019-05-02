@@ -1,6 +1,5 @@
-package com.cloudogu.scm.e2e;
+package com.cloudogu.e2e;
 
-import driver.Driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -10,9 +9,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-import static com.cloudogu.scm.e2e.Config.BASE_URL;
+import static org.assertj.core.api.Assertions.fail;
 
-class Browser {
+public class Browser {
 
     private static final ThreadLocal<Browser> INSTANCES = ThreadLocal.withInitial(Browser::new);
 
@@ -25,40 +24,42 @@ class Browser {
         return INSTANCES.get();
     }
 
-    <T extends Page> void assertAtPage(Class<T> pageClass) {
+    public <T extends Page> void assertAtPage(Class<T> pageClass) {
         try {
-            Arrays.stream(pageClass.getDeclaredFields())
-                    .filter(field -> field.getAnnotationsByType(Required.class).length > 0)
-                    .map(field -> field.getAnnotationsByType(FindBy.class))
-                    .filter(fields -> fields.length > 0)
-                    .forEach(this::isVisible);
-
+            waitForRequiredFields(pageClass);
             T page = pageClass.getConstructor(WebDriver.class).newInstance(Driver.webDriver);
             page.verify();
             this.currentPage = new State<>(pageClass, page);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException("could not initialize new page for class " + pageClass.getName());
+            fail("could not initialize new page for class " + pageClass.getName());
         }
     }
 
-    private void isVisible(FindBy[] findBIES) {
-        ExpectedCondition[] expectedConditions = Arrays.stream(findBIES)
-                .map(f -> new FindBy.FindByBuilder().buildIt(f, null))
-                .map(ExpectedConditions::visibilityOfElementLocated)
-                .toArray(ExpectedCondition[]::new);
-        WebDriverWait wait = new WebDriverWait(Driver.webDriver, 20);
-        wait.until(ExpectedConditions.and(expectedConditions));
+    private <T extends Page> void waitForRequiredFields(Class<T> pageClass) {
+        Arrays.stream(pageClass.getDeclaredFields())
+                .filter(field -> field.getAnnotationsByType(Required.class).length > 0)
+                .map(field -> field.getAnnotationsByType(FindBy.class))
+                .filter(fields -> fields.length > 0)
+                .forEach(this::waitUntilVisible);
     }
 
-    <T extends Page> T getPage(Class<T> pageClass) {
+    private void waitUntilVisible(FindBy... findBys) {
+        WebDriverWait wait = new WebDriverWait(Driver.webDriver, 20);
+        wait.until(ExpectedConditions.and(createVisibleConditions(findBys)));
+    }
+
+    private ExpectedCondition[] createVisibleConditions(FindBy[] findBys) {
+        return Arrays.stream(findBys)
+                    .map(f -> new FindBy.FindByBuilder().buildIt(f, null))
+                    .map(ExpectedConditions::visibilityOfElementLocated)
+                    .toArray(ExpectedCondition[]::new);
+    }
+
+    public <T extends Page> T getPage(Class<T> pageClass) {
         return currentPage.getPage(pageClass);
     }
 
-    void openStartPage() {
-        openPage(BASE_URL + "/scm");
-    }
-
-    <T extends Page> void openPage(String url) {
+    public void openUrl(String url) {
         Driver.webDriver.get(url);
     }
 

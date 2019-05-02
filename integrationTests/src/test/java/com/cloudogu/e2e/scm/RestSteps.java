@@ -1,5 +1,6 @@
-package com.cloudogu.scm.e2e;
+package com.cloudogu.e2e.scm;
 
+import com.cloudogu.e2e.Config;
 import com.thoughtworks.gauge.Step;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -14,7 +15,7 @@ import java.util.Base64;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import static com.cloudogu.scm.e2e.Config.BASE_URL;
+import static com.cloudogu.e2e.Config.BASE_URL;
 
 public class RestSteps {
 

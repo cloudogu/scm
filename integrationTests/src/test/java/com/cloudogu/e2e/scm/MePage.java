@@ -1,5 +1,6 @@
-package com.cloudogu.scm.e2e;
+package com.cloudogu.e2e.scm;
 
+import com.cloudogu.e2e.Required;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

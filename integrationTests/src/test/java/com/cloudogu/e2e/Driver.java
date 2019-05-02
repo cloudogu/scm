@@ -1,9 +1,7 @@
-package driver;
+package com.cloudogu.e2e;
 
 import com.thoughtworks.gauge.AfterScenario;
-import com.thoughtworks.gauge.AfterSuite;
 import com.thoughtworks.gauge.BeforeScenario;
-import com.thoughtworks.gauge.BeforeSuite;
 import org.openqa.selenium.WebDriver;
 
 import java.net.MalformedURLException;
