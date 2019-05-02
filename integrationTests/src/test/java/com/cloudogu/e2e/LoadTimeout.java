@@ -6,6 +6,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Sets the timeout used when waiting for a page. To use another than the default timeout
+ * ({@link #DEFAULT_TIMEOUT_IN_SECONDS}) for a specific page, just annotate the class with this annotation and specify
+ * your new timeout.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Inherited
