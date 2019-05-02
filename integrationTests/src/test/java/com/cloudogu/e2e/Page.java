@@ -7,6 +7,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.function.Function;
 
+/**
+ * Root object for "pages".
+ */
 @LoadTimeout
 public abstract class Page {
 
@@ -26,7 +29,7 @@ public abstract class Page {
         return waitUntil(isTrue, timeOutInSeconds);
     }
 
-    protected  <V> V waitUntil(Function<? super WebDriver, V> isTrue, int timeOutInSeconds) {
+    protected <V> V waitUntil(Function<? super WebDriver, V> isTrue, int timeOutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
         return wait.until(isTrue);
     }
@@ -45,6 +48,14 @@ public abstract class Page {
         }
     }
 
+    /**
+     * Override this in your page if you have to check things in addition to fields annotated with {@link Required} to
+     * verify that the page is displayed correctly. Note that this method shall not throw verifiaction errors itself
+     * byt that it called by {@link #verify()}.
+     *
+     * @return <code>true</code> if the page is displayed correctly and interaction is possible; <code>false</code>
+     * otherwise.
+     */
     public boolean isDisplayed() {
         return true;
     }
