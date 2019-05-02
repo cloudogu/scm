@@ -9,6 +9,6 @@ public class BrowserSteps {
 
     @Step("Current urlPattern matches <urlPattern>")
     public void assertCurrentUrlMatches(String urlPattern) {
-        assertThat(browser().getPage(Page.class).currentUrl()).matches(urlPattern);
+        assertThat(browser().getCurrentPage().currentUrl()).matches(urlPattern);
     }
 }

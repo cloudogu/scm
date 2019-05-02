@@ -79,6 +79,17 @@ public class Browser {
     }
 
     /**
+     * Get the current page, no matter what class that page may be. If you want to ensure that the current page is of
+     * a given class, use {@link #getPage(Class)} instead.
+     * <p>
+     * Equals <code>getPage(Page.class)</code>.
+     * @return The current page.
+     */
+    public Page getCurrentPage() {
+        return getPage(Page.class);
+    }
+
+    /**
      * Call this to open a URL directly.
      * @param url The URL to load.
      */
