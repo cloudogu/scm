@@ -24,6 +24,17 @@ public class Browser {
         return INSTANCES.get();
     }
 
+    /**
+     * Assert that the browser displays a page of the given class. Therefore this method
+     * <ol>
+     *     <li>waits for all required fields of the page to be visible (see {@link Required}), and</li>
+     *     <li>calls {@link Page#verify()} and therefore waits until all checks for the page are ok.</li>
+     * </ol>
+     *
+     * If the page cannot be verified, {@link org.assertj.core.api.Assertions#fail(String)} will be called.
+     * @param pageClass The expected page class.
+     * @param <T> The expected page class.
+     */
     public <T extends Page> void assertAtPage(Class<T> pageClass) {
         try {
             waitForRequiredFields(pageClass);
@@ -55,10 +66,22 @@ public class Browser {
                     .toArray(ExpectedCondition[]::new);
     }
 
+    /**
+     * Get the current page as an instance of the given page class. If the current page is not an instance of the
+     * given class, an {@link IllegalStateException} will be thrown. So you have to call {@link #assertAtPage(Class)}
+     * at least once with the same page class or a sub class beforehand.
+     * @param pageClass The expected page class.
+     * @param <T> The expected page class
+     * @return The current page, if it is an instance of the given expected page class.
+     */
     public <T extends Page> T getPage(Class<T> pageClass) {
         return currentPage.getPage(pageClass);
     }
 
+    /**
+     * Call this to open a URL directly.
+     * @param url The URL to load.
+     */
     public void openUrl(String url) {
         Driver.webDriver.get(url);
     }
