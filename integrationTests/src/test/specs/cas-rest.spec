@@ -1,4 +1,4 @@
-# Test CAS browser login
+# Test CAS REST login
 
 ## Read repositories with basic auth
 
