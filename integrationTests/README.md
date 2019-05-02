@@ -3,9 +3,10 @@
 1. Start up a local eco system with an SCM instance running
 1. Start Zalenium using docker-compose:
     `docker-compose up`
-1. Run the tests with docker:
 
-```$sh
+Then you can run the tests either with docker:
+
+```sh
 docker run -it --rm \
        --name jenkins-gauge \
        --network integrationtests_default \
@@ -20,6 +21,19 @@ docker run -it --rm \
        -u $(id -u) \
        cloudogu/gauge-java:1.0.4 \
        mvn test
+```
+
+Or you can run them directly with maven, provided you have at least Java 11 and Gauge
+installed locally:
+
+```sh
+SELENIUM_REMOTE_URL=http://localhost:4444/wd/hub \
+CES_FQDN=192.168.56.2 \
+ADMIN_USERNAME=admin \
+ADMIN_PASSWORD=adminpw \
+EMAIL=admin@example.com \
+ADMIN_GROUP=cesManager \
+mvn test
 ```
 
 You may have to adapt the settings like `CES_FQDN`, `ADMIN_USERNAME` and so on according
