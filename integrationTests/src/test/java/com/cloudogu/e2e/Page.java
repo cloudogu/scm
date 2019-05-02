@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.function.Function;
 
+@LoadTimeout
 public abstract class Page {
 
     private final WebDriver driver;
@@ -21,8 +22,17 @@ public abstract class Page {
     }
 
     protected <V> V waitUntil(Function<? super WebDriver, V> isTrue) {
-        WebDriverWait wait = new WebDriverWait(driver, 20);
+        int timeOutInSeconds = loadTimeoutForPage();
+        return waitUntil(isTrue, timeOutInSeconds);
+    }
+
+    protected  <V> V waitUntil(Function<? super WebDriver, V> isTrue, int timeOutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
         return wait.until(isTrue);
+    }
+
+    private int loadTimeoutForPage() {
+        return getClass().getAnnotationsByType(LoadTimeout.class)[0].timeoutInSeconds();
     }
 
     /**
