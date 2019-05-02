@@ -48,8 +48,7 @@ node('vagrant') {
                 ecoSystem.verify("/dogu")
             }
 
-            // The current integration tests are build for scm v1
-            stage('Integration Tests') {
+            stage('e2e Tests') {
 
                 String externalIP = ecoSystem.externalIP
 
