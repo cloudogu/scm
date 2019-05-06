@@ -1,6 +1,5 @@
 package com.cloudogu.e2e.scm;
 
-import com.cloudogu.e2e.Browser;
 import com.cloudogu.e2e.Config;
 import com.thoughtworks.gauge.Step;
 
@@ -15,7 +14,7 @@ public class ScmSteps {
         browser().openUrl(BASE_URL + "/scm");
     }
 
-    @Step("Logged in username equals configured display name")
+    @Step("Footer contains configured display name")
     public void verifyCorrectUser() {
         verifyCorrectUser(Config.DISPLAY_NAME);
     }
