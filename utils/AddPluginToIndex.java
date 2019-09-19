@@ -41,22 +41,25 @@ public class AddPluginToIndex {
 
     public static void main(String[] args) throws Exception {
         String pluginIndex = args[0];
-        String smp = args[1];
 
         Document doc = read(pluginIndex);
 
         Element root = doc.getDocumentElement();
 
-		Element plugins = doc.createElement("plugins");
-        root.appendChild(plugins);
+        for (int i = 1; i < args.length; ++i) {
+            Element plugins = doc.createElement("plugins");
+            root.appendChild(plugins);
 
-        Element checksum = doc.createElement("checksum");
-        checksum.appendChild(doc.createTextNode(checksum(smp)));
-        plugins.appendChild(checksum);
+            String smp = args[i];
 
-        Element name = doc.createElement("name");
-        name.appendChild(doc.createTextNode(name(smp)));
-        plugins.appendChild(name);
+            Element checksum = doc.createElement("checksum");
+            checksum.appendChild(doc.createTextNode(checksum(smp)));
+            plugins.appendChild(checksum);
+
+            Element name = doc.createElement("name");
+            name.appendChild(doc.createTextNode(name(smp)));
+            plugins.appendChild(name);
+        }
 
         write(doc, pluginIndex);
     }

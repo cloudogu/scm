@@ -1,6 +1,5 @@
 plugins:
   - scm-gravatar-plugin
-  - scm-cas-plugin
   - scm-mail-plugin
   - scm-jenkins-plugin
   - scm-review-plugin
@@ -19,7 +18,6 @@ plugins:
   - scm-authormapping-plugin
   - scm-groupmanager-plugin
   - scm-pushlog-plugin
-  - scm-script-plugin
   - scm-support-plugin
   - scm-directfilelink-plugin
   - scm-readme-plugin

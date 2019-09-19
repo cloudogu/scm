@@ -14,16 +14,17 @@ COPY utils /opt/utils
 ## install scm-server
 RUN set -x \
     && apk add --no-cache mercurial jq unzip \
-    && curl -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
+    && curl --fail  -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
     && addgroup -S -g 1000 scm \
     && adduser -S -h /opt/scm-server -s /bin/bash -G scm -u 1000 scm \
     && gunzip /tmp/scm-server.tar.gz \
     && tar -C /opt -xf /tmp/scm-server.tar \
     && cd /tmp \
-    # install scm-script-plugin
+    # install scm-script-plugin & scm-cas-plugin
     && unzip /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/plugins/plugin-index.xml \
-    && curl -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/scm-script-plugin/job/2.0.0/lastSuccessfulBuild/artifact/target/scm-script-plugin-2.0.0-SNAPSHOT.smp -o /tmp/WEB-INF/plugins/scm-script-plugin-2.0.0-SNAPSHOT.smp \
-    && java -cp /opt/utils AddPluginToIndex /tmp/WEB-INF/plugins/plugin-index.xml /tmp/WEB-INF/plugins/scm-script-plugin-2.0.0-SNAPSHOT.smp \
+    && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-script-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-script-plugin-2.0.0-SNAPSHOT.smp -o /tmp/WEB-INF/plugins/scm-script-plugin-2.0.0-SNAPSHOT.smp \
+    && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-cas-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-SNAPSHOT.smp -o /tmp/WEB-INF/plugins/scm-cas-plugin-2.0.0-SNAPSHOT.smp \ 
+    && java -cp /opt/utils AddPluginToIndex /tmp/WEB-INF/plugins/plugin-index.xml /tmp/WEB-INF/plugins/scm-script-plugin-2.0.0-SNAPSHOT.smp /tmp/WEB-INF/plugins/scm-cas-plugin-2.0.0-SNAPSHOT.smp \
     && zip -u /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/plugins/* \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
