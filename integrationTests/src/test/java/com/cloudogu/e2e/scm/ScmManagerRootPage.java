@@ -15,7 +15,7 @@ import static java.util.Optional.of;
 public class ScmManagerRootPage extends Page {
 
     @Required
-    @FindBy(className = "footer")
+    @FindBy(className = "hero-foot")
     WebElement mainMenuEntries;
 
     @FindBy(className = "title")
@@ -32,7 +32,7 @@ public class ScmManagerRootPage extends Page {
     }
 
     static Optional<ScmManagerRootPage> get(WebDriver driver) {
-        if (driver.findElement(By.className("footer")) != null) {
+        if (driver.findElement(By.className("hero-foot")) != null) {
             return of(new ScmManagerRootPage(driver));
         } else {
             return empty();
