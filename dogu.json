@@ -13,6 +13,11 @@
   "Dependencies": [
     "cas", "nginx", "postfix"
   ],
+  "Configuration": [{
+    "Name": "plugin_center_url",
+    "Description": "URL of SCM-Manager Plugin Center",
+    "Optional": true
+  }],
   "ExposedPorts": [{
       "Type": "tcp",
       "Host": 2222,

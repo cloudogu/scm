@@ -11,10 +11,14 @@ import sonia.scm.security.PermissionDescriptor;
 
 // TODO sharing ???
 def getValueFromEtcd(String key){
-	String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
-	URL url = new URL("http://${ip}:4001/v2/keys/${key}");
-	def json = new JsonSlurper().parseText(url.text)
-	return json.node.value
+  try {
+    String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
+    URL url = new URL("http://${ip}:4001/v2/keys/${key}");
+    def json = new JsonSlurper().parseText(url.text)
+    return json.node.value
+  } catch (FileNotFoundException e) {
+    return null;
+  }
 }
 
 def config = injector.getInstance(ScmConfiguration.class);
@@ -22,6 +26,13 @@ config.setNamespaceStrategy("CustomNamespaceStrategy");
 // set base url
 String fqdn = getValueFromEtcd("config/_global/fqdn");
 config.setBaseUrl("https://${fqdn}/scm");
+
+// set plugin center url
+String pluginCenterUrl = getValueFromEtcd("config/scm/plugin_center_url");
+if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
+  config.setPluginUrl(pluginCenterUrl);
+}
+
 // store configuration
 ScmConfigurationUtil.getInstance().store(config);
 
