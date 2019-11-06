@@ -11,7 +11,7 @@ node('vagrant') {
                 // Don't run concurrent builds for a branch, because they use the same workspace directory
                 disableConcurrentBuilds(),
                 parameters([
-                        choice(choices: ['testing', 'itz-bund', 'mkn', 'itemis'], description: 'Namespace for Dogu', name: 'Namespace'),
+                        choice(choices: ['testing', 'itz-bund', 'mkn', 'itemis', 'next'], description: 'Namespace for Dogu', name: 'Namespace'),
                         string(defaultValue: '', description: 'Dogu Version', name: 'Version', trim: true),
                         booleanParam(defaultValue: false, description: 'Push new dogu into registry', name: 'Push')
                 ])
