@@ -32,6 +32,11 @@ if ! [ -d "/var/lib/scm/config" ];  then
 	mkdir -p "/var/lib/scm/config"
 fi
 
+# delete outdated plugins
+if [ -a "plugins/delete_on_update" ];  then
+  rm -rf "plugins/delete_on_update"
+fi
+
 # install plugins
 if ! [ -d "/var/lib/scm/plugins" ];  then
 	mkdir -p "/var/lib/scm/plugins"

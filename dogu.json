@@ -23,6 +23,12 @@
       "Host": 2222,
       "Container": 2222
   }],
+  "ExposedCommands": [
+    {
+      "Name": "pre-upgrade",
+      "Command": "/pre-upgrade.sh"
+    }
+  ],
   "Volumes": [{
     "Name": "data",
     "Path": "/var/lib/scm",
