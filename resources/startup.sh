@@ -33,8 +33,8 @@ if ! [ -d "/var/lib/scm/config" ];  then
 fi
 
 # delete outdated plugins
-if [ -a "plugins/delete_on_update" ];  then
-  rm -rf "plugins/delete_on_update"
+if [ -a "/var/lib/scm/plugins/delete_on_update" ];  then
+  rm -rf "/var/lib/scm/plugins"
 fi
 
 # Final startup

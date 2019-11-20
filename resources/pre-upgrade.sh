@@ -16,7 +16,7 @@ if [ "${version_parts[0]}" == "2.0.0" ]; then
   MINOR_VERSION_DELETE_PLUGINS=30
   if [ "${version_parts[1]}" -lt "${MINOR_VERSION_DELETE_PLUGINS}" ]; then
     echo "Found old version less 2.0.0-${MINOR_VERSION_DELETE_PLUGINS}. Creating marker file."
-    touch plugins/delete_on_update
+    touch /var/lib/scm/plugins/delete_on_update
   else
     echo "Found old version greater or equal to 2.0.0-${MINOR_VERSION_DELETE_PLUGINS}. Nothing to do."
   fi
