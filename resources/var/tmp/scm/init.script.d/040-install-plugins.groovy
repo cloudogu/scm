@@ -4,12 +4,29 @@ import sonia.scm.plugin.PluginManager;
 
 // configuration
 def plugins = [
-    "scm-support-plugin",
-    "scm-cas-plugin",
-    "scm-mail-plugin",
     "scm-gravatar-plugin",
+    "scm-mail-plugin",
+    "scm-jenkins-plugin",
+    "scm-review-plugin",
+    "scm-webhook-plugin",
+    "scm-tagprotection-plugin",
+    "scm-rest-legacy-plugin",
+    "scm-issuetracker-plugin",
+    "scm-jira-plugin",
+    "scm-redmine-plugin",
+    "scm-activity-plugin",
     "scm-statistic-plugin",
-    "scm-cockpit-legacy-plugin"
+    "scm-cockpit-legacy-plugin",
+    "scm-pathwp-plugin",
+    "scm-branchwp-plugin",
+    "scm-notify-plugin",
+    "scm-authormapping-plugin",
+    "scm-groupmanager-plugin",
+    "scm-pushlog-plugin",
+    "scm-support-plugin",
+    "scm-directfilelink-plugin",
+    "scm-readme-plugin",
+    "scm-ssh-plugin",
 ];
 
 // methods

@@ -37,13 +37,5 @@ if [ -a "plugins/delete_on_update" ];  then
   rm -rf "plugins/delete_on_update"
 fi
 
-# install plugins
-if ! [ -d "/var/lib/scm/plugins" ];  then
-	mkdir -p "/var/lib/scm/plugins"
-
-  /usr/local/bin/scm-plugin-snapshot -config /etc/scm/plugin-config.yml /var/lib/scm/plugins
-fi
-
-
 # Final startup
 exec /opt/scm-server/bin/scm-server
