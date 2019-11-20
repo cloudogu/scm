@@ -23,7 +23,8 @@ RUN set -x \
     # install scm-script-plugin & scm-cas-plugin
     && unzip /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/plugins/plugin-index.xml \
     && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-script-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-script-plugin-2.0.0-SNAPSHOT.smp -o /tmp/WEB-INF/plugins/scm-script-plugin-2.0.0-SNAPSHOT.smp \
-    && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-cas-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-SNAPSHOT.smp -o /tmp/WEB-INF/plugins/scm-cas-plugin-2.0.0-SNAPSHOT.smp \ 
+    && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-cas-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-SNAPSHOT.smp -o /tmp/WEB-INF/plugins/scm-cas-plugin-2.0.0-SNAPSHOT.smp \
+    && zip -d /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/plugins/plugin-index.xml \
     && java -cp /opt/utils AddPluginToIndex /tmp/WEB-INF/plugins/plugin-index.xml /tmp/WEB-INF/plugins/scm-script-plugin-2.0.0-SNAPSHOT.smp /tmp/WEB-INF/plugins/scm-cas-plugin-2.0.0-SNAPSHOT.smp \
     && zip -u /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/plugins/* \
     # cleanup
