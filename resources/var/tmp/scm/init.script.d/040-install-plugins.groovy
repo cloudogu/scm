@@ -90,6 +90,7 @@ for (def name : plugins){
 
 if (restart){
     println "restarting scm-manager";
-    pluginManager.restart("initial plugin installation");
+//    pluginManager.restart("initial plugin installation");
     sleep(3000);
+    System.exit(0);
 }
