@@ -38,4 +38,8 @@ if [ -a "/var/lib/scm/plugins/delete_on_update" ];  then
 fi
 
 # Final startup
-exec /opt/scm-server/bin/scm-server
+
+while /opt/scm-server/bin/scm-server ; scm_exit_code=$? ; [ $scm_exit_code -eq 42 ] ; do
+  echo Got exit code $scm_exit_code -- restarting SCM-Manager
+done
+exit $scm_exit_code

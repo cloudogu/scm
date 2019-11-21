@@ -92,5 +92,5 @@ if (restart){
     println "restarting scm-manager";
 //    pluginManager.restart("initial plugin installation");
     sleep(3000);
-    System.exit(0);
+    System.exit(42);
 }
