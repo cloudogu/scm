@@ -16,10 +16,10 @@ def findClass(clazzAsString) {
 
 try {
     def jenkins = injector.getInstance(findClass("sonia.scm.jenkins.JenkinsContext"));
-		def config = jenkins.getConfiguration();
+	def config = jenkins.getConfiguration();
 
-		String fqdn = getValueFromEtcd("config/_global/fqdn");
-		config.url = "https://${fqdn}/jenkins";
+	String fqdn = getValueFromEtcd("config/_global/fqdn");
+	config.url = "https://${fqdn}/jenkins";
 
     jenkins.storeConfiguration(config);
 } catch( ClassNotFoundException e ) {

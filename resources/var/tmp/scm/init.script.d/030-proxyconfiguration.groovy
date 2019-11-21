@@ -16,52 +16,52 @@ boolean isProxyEnabledInEtcd = false;
 
 try{
 	isProxyEnabledInEtcd = "true".equals(getValueFromEtcd("config/_global/proxy/enabled"));
+} catch (FileNotFoundException e){
+	System.out.println("Etcd proxy configuration does not exist.");
+}
+
+if (isProxyEnabledInEtcd){
+	enableProxy(configuration);
+	setProxyServerSettings(configuration);
+	setProxyAuthenticationSettings(configuration);
+	setProxyExcludes(configuration);
+}
+
+def enableProxy(configuration){
+	configuration.setEnableProxy(true);
+}
+
+def disableProxy(configuration){
+	configuration.setEnableProxy(false);
+}
+
+def setProxyServerSettings(configuration){
+	try{
+		configuration.setProxyServer(getValueFromEtcd("config/_global/proxy/server"));
+		configuration.setProxyPort(Integer.parseInt(getValueFromEtcd("config/_global/proxy/port")));
 	} catch (FileNotFoundException e){
-		System.out.println("Etcd proxy configuration does not exist.");
+		System.out.println("Etcd proxy configuration is incomplete (server or port not found).");
+		disableProxy(configuration);
 	}
+}
 
-	if (isProxyEnabledInEtcd){
-		enableProxy(configuration);
-		setProxyServerSettings(configuration);
-		setProxyAuthenticationSettings(configuration);
-		setProxyExcludes(configuration);
+def setProxyAuthenticationSettings(configuration){
+	// Authentication credentials are optional
+	try{
+		String proxyUser = getValueFromEtcd("config/_global/proxy/username");
+		String proxyPassword = getValueFromEtcd("config/_global/proxy/password");
+		configuration.setProxyUser(proxyUser);
+		configuration.setProxyPassword(proxyPassword);
+	} catch (FileNotFoundException e){
+		System.out.println("Etcd proxy authentication configuration is incomplete or not existent.");
 	}
+}
 
-	def enableProxy(configuration){
-		configuration.setEnableProxy(true);
-	}
+def setProxyExcludes(configuration){
+	Set<String> excludes = new HashSet<String>();
+	excludes.add(getValueFromEtcd("config/_global/fqdn"));
+	configuration.setProxyExcludes(excludes);
+}
 
-	def disableProxy(configuration){
-		configuration.setEnableProxy(false);
-	}
-
-	def setProxyServerSettings(configuration){
-		try{
-			configuration.setProxyServer(getValueFromEtcd("config/_global/proxy/server"));
-			configuration.setProxyPort(Integer.parseInt(getValueFromEtcd("config/_global/proxy/port")));
-			} catch (FileNotFoundException e){
-				System.out.println("Etcd proxy configuration is incomplete (server or port not found).");
-				disableProxy(configuration);
-			}
-		}
-
-		def setProxyAuthenticationSettings(configuration){
-			// Authentication credentials are optional
-			try{
-				String proxyUser = getValueFromEtcd("config/_global/proxy/username");
-				String proxyPassword = getValueFromEtcd("config/_global/proxy/password");
-				configuration.setProxyUser(proxyUser);
-				configuration.setProxyPassword(proxyPassword);
-				} catch (FileNotFoundException e){
-					System.out.println("Etcd proxy authentication configuration is incomplete or not existent.");
-				}
-			}
-
-			def setProxyExcludes(configuration){
-				Set<String> excludes = new HashSet<String>();
-				excludes.add(getValueFromEtcd("config/_global/fqdn"));
-				configuration.setProxyExcludes(excludes);
-			}
-
-			// store configuration
-			ScmConfigurationUtil.getInstance().store(configuration);
+// store configuration
+ScmConfigurationUtil.getInstance().store(configuration);

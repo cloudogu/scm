@@ -38,7 +38,7 @@ def addSmeagolNotifyEntry(globalConfig){
 try {
 
     def webHookContext = injector.getInstance(findClass("sonia.scm.webhook.WebHookContext"));
-		def globalConfig = webHookContext.getGlobalConfiguration();
+    def globalConfig = webHookContext.getGlobalConfiguration();
 
     def newGlobalConfig = addSmeagolNotifyEntry(globalConfig);
     webHookContext.setGlobalConfiguration(newGlobalConfig);
