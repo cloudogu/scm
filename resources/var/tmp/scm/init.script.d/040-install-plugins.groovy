@@ -27,6 +27,7 @@ def plugins = [
     "scm-directfilelink-plugin",
     "scm-readme-plugin",
     "scm-ssh-plugin",
+    "scm-editor-plugin",
 ];
 
 // methods
