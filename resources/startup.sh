@@ -6,6 +6,8 @@ set -o pipefail
 INIT_SCRIPT_FOLDER="/opt/scm-server/init.script.d"
 MAIN_INIT_SCRIPTS_FOLDER="/var/tmp/scm/init.script.d"
 CUSTOM_INIT_SCRIPTS_FOLDER="/var/lib/custom.init.script.d"
+SCM_DATA="/var/lib/scm"
+SCM_DEFAULT_PLUGINS="/opt/scm-server/default-plugins"
 
 # remove old folder to be sure, 
 # that it contains no script which is already removed from custom init script folder
@@ -28,18 +30,35 @@ create_truststore.sh /opt/scm-server/conf/truststore.jks > /dev/null
 # create ca certificate store for mercurial
 create-ca-certificates.sh /opt/scm-server/conf/ca-certificates.crt
 
-if ! [ -d "/var/lib/scm/config" ];  then
-	mkdir -p "/var/lib/scm/config"
+if ! [ -d "${SCM_DATA}/config" ];  then
+	mkdir -p "${SCM_DATA}/config"
 fi
 
 # delete outdated plugins
-if [ -a "/var/lib/scm/plugins/delete_on_update" ];  then
-  rm -rf "/var/lib/scm/plugins"
+if [ -a "${SCM_DATA}/plugins/delete_on_update" ];  then
+  rm -rf "${SCM_DATA}/plugins"
 fi
+
+start_scm_server () {
+  # install default plugins
+  if ! [ -d "${SCM_DATA}/plugins" ];  then
+    mkdir "${SCM_DATA}/plugins"
+  fi
+  if { ! [ -d "${SCM_DATA}/plugins/scm-cas-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-cas-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-cas-plugin.smp" ] ;  then
+    echo "Reinstalling scm-cas-plugin from default plugin folder"
+    cp "${SCM_DEFAULT_PLUGINS}/scm-cas-plugin-2.0.0-SNAPSHOT.smp" "${SCM_DATA}/plugins"
+  fi
+  if { ! [ -d "${SCM_DATA}/plugins/scm-script-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-script-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-script-plugin.smp" ] ;  then
+    echo "Reinstalling scm-script-plugin from default plugin folder"
+    cp "${SCM_DEFAULT_PLUGINS}/scm-script-plugin-2.0.0-SNAPSHOT.smp" "${SCM_DATA}/plugins"
+  fi
+
+  /opt/scm-server/bin/scm-server
+}
 
 # Final startup
 
-while /opt/scm-server/bin/scm-server ; scm_exit_code=$? ; [ $scm_exit_code -eq 42 ] ; do
+while start_scm_server ; scm_exit_code=$? ; [ $scm_exit_code -eq 42 ] ; do
   echo Got exit code $scm_exit_code -- restarting SCM-Manager
 done
 exit $scm_exit_code
