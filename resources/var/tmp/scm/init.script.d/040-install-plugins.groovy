@@ -3,20 +3,15 @@
 import sonia.scm.plugin.PluginManager;
 
 // configuration
-def plugins = [
+def defaultPlugins = [
     "scm-gravatar-plugin",
     "scm-mail-plugin",
-    "scm-jenkins-plugin",
     "scm-review-plugin",
-    "scm-webhook-plugin",
     "scm-tagprotection-plugin",
-    "scm-rest-legacy-plugin",
     "scm-issuetracker-plugin",
     "scm-jira-plugin",
-    "scm-redmine-plugin",
     "scm-activity-plugin",
     "scm-statistic-plugin",
-    "scm-cockpit-legacy-plugin",
     "scm-pathwp-plugin",
     "scm-branchwp-plugin",
     "scm-notify-plugin",
@@ -29,6 +24,8 @@ def plugins = [
     "scm-ssh-plugin",
     "scm-editor-plugin",
 ];
+
+def plugins = [];
 
 // methods
 
@@ -56,19 +53,33 @@ def getAvailablePlugin(available, name){
    return null;
 }
 
+def isFirstStart() {
+    def defaultPluginsInstalledFlag = new File(sonia.scm.SCMContext.getContext().getBaseDirectory(), ".defaultPluginsInstalled");
+    return defaultPluginsInstalledFlag.createNewFile();
+}
+
 // action
 
-if (isDoguInstalled("redmine")){
+if (isDoguInstalled("redmine")) {
 	plugins.add("scm-redmine-plugin")
 }
 
-if (isDoguInstalled("jenkins")){
+if (isDoguInstalled("jenkins")) {
 	plugins.add("scm-jenkins-plugin")
 }
 
-if (isDoguInstalled("smeagol")){
+if (isDoguInstalled("smeagol")) {
 	plugins.add("scm-webhook-plugin")
 	plugins.add("scm-rest-legacy-plugin")
+}
+
+if (isDoguInstalled("cockpit")) {
+    plugins.add("scm-cockpit-legacy-plugin")
+}
+
+if (isFirstStart()) {
+    System.out.println("First start detected; installing default plugins.");
+    plugins.addAll(defaultPlugins)
 }
 
 def pluginManager = injector.getInstance(PluginManager.class);
@@ -76,22 +87,26 @@ def available = pluginManager.getAvailable();
 def installed = pluginManager.getInstalled();
 
 def restart = false;
-for (def name : plugins){
-  if (!isInstalled(installed, name)){
-      def availableInformation = getAvailablePlugin(available, name);
-      if (availableInformation == null) {
-          println "Cannot install missing plugin ${name}. No available plugin found!";
-      } else {
-          println "install missing plugin ${availableInformation.name} in version ${availableInformation.version}";
-          pluginManager.install(name, false);
-          restart = true;
-      }
-  }
+for (def name : plugins) {
+    if (!isInstalled(installed, name)){
+        def availableInformation = getAvailablePlugin(available, name);
+        if (availableInformation == null) {
+            System.out.println("Cannot install missing plugin ${name}. No available plugin found!");
+        } else {
+            System.out.println("install missing plugin ${availableInformation.name} in version ${availableInformation.version}");
+            pluginManager.install(name, false);
+            restart = true;
+        }
+    } else {
+        System.out.println("plugin ${name} already installed.");
+    }
 }
 
 if (restart){
-    println "restarting scm-manager";
+    System.out.println("restarting scm-manager");
 //    pluginManager.restart("initial plugin installation");
     sleep(3000);
     System.exit(42);
+} else {
+    System.out.println("no new plugins installed");
 }
