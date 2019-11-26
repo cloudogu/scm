@@ -7,7 +7,7 @@ INIT_SCRIPT_FOLDER="/opt/scm-server/init.script.d"
 MAIN_INIT_SCRIPTS_FOLDER="/var/tmp/scm/init.script.d"
 CUSTOM_INIT_SCRIPTS_FOLDER="/var/lib/custom.init.script.d"
 SCM_DATA="/var/lib/scm"
-SCM_DEFAULT_PLUGINS="/opt/scm-server/default-plugins"
+SCM_REQUIRED_PLUGINS="/opt/scm-server/required-plugins"
 
 # remove old folder to be sure, 
 # that it contains no script which is already removed from custom init script folder
@@ -40,17 +40,17 @@ if [ -a "${SCM_DATA}/plugins/delete_on_update" ];  then
 fi
 
 start_scm_server () {
-  # install default plugins
+  # install required plugins
   if ! [ -d "${SCM_DATA}/plugins" ];  then
     mkdir "${SCM_DATA}/plugins"
   fi
   if { ! [ -d "${SCM_DATA}/plugins/scm-cas-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-cas-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-cas-plugin.smp" ] ;  then
     echo "Reinstalling scm-cas-plugin from default plugin folder"
-    cp "${SCM_DEFAULT_PLUGINS}/scm-cas-plugin-2.0.0-SNAPSHOT.smp" "${SCM_DATA}/plugins"
+    cp "${SCM_REQUIRED_PLUGINS}/scm-cas-plugin-2.0.0-SNAPSHOT.smp" "${SCM_DATA}/plugins"
   fi
   if { ! [ -d "${SCM_DATA}/plugins/scm-script-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-script-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-script-plugin.smp" ] ;  then
     echo "Reinstalling scm-script-plugin from default plugin folder"
-    cp "${SCM_DEFAULT_PLUGINS}/scm-script-plugin-2.0.0-SNAPSHOT.smp" "${SCM_DATA}/plugins"
+    cp "${SCM_REQUIRED_PLUGINS}/scm-script-plugin-2.0.0-SNAPSHOT.smp" "${SCM_DATA}/plugins"
   fi
 
   /opt/scm-server/bin/scm-server
