@@ -1,6 +1,6 @@
 {
   "Name": "next/scm",
-  "Version": "2.0.0-29",
+  "Version": "2.0.0-31",
   "DisplayName": "SCM-Manager",
   "Description": "The easiest way to share and manage your Git, Mercurial and Subversion repositories over http.",
   "Category": "Development Apps",
@@ -23,6 +23,12 @@
       "Host": 2222,
       "Container": 2222
   }],
+  "ExposedCommands": [
+    {
+      "Name": "pre-upgrade",
+      "Command": "/pre-upgrade.sh"
+    }
+  ],
   "Volumes": [{
     "Name": "data",
     "Path": "/var/lib/scm",
