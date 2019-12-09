@@ -93,8 +93,12 @@ for (def name : plugins) {
             System.out.println("Cannot install missing plugin ${name}. No available plugin found!");
         } else {
             System.out.println("install missing plugin ${availableInformation.name} in version ${availableInformation.version}");
-            pluginManager.install(name, false);
-            restart = true;
+            try {
+                pluginManager.install(name, false);
+                restart = true;
+            } catch (sonia.scm.NotFoundException e) {
+                System.out.println("plugin or dependency for ${availableInformation.name} not found: ${e.message}");
+            }
         }
     } else {
         System.out.println("plugin ${name} already installed.");
@@ -103,9 +107,7 @@ for (def name : plugins) {
 
 if (restart){
     System.out.println("restarting scm-manager");
-//    pluginManager.restart("initial plugin installation");
-    sleep(3000);
-    System.exit(42);
+    pluginManager.executePendingAndRestart();
 } else {
     System.out.println("no new plugins installed");
 }
