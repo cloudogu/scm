@@ -47,5 +47,7 @@ EXPOSE 8080 2222
 
 USER scm
 
+HEALTHCHECK CMD [ $(doguctl healthy scm; echo $?) == 0 ]
+
 # start scm
 CMD ["/startup.sh"]
