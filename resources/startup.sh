@@ -46,11 +46,11 @@ start_scm_server () {
   fi
   if { ! [ -d "${SCM_DATA}/plugins/scm-cas-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-cas-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-cas-plugin.smp" ] ;  then
     echo "Reinstalling scm-cas-plugin from default plugin folder"
-    cp "${SCM_REQUIRED_PLUGINS}/scm-cas-plugin-2.0.0-SNAPSHOT.smp" "${SCM_DATA}/plugins"
+    cp "${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" "${SCM_DATA}/plugins"
   fi
   if { ! [ -d "${SCM_DATA}/plugins/scm-script-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-script-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-script-plugin.smp" ] ;  then
     echo "Reinstalling scm-script-plugin from default plugin folder"
-    cp "${SCM_REQUIRED_PLUGINS}/scm-script-plugin-2.0.0-SNAPSHOT.smp" "${SCM_DATA}/plugins"
+    cp "${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" "${SCM_DATA}/plugins"
   fi
 
   /opt/scm-server/bin/scm-server

@@ -1,4 +1,4 @@
-FROM registry.cloudogu.com/official/java:8u212-1
+FROM registry.cloudogu.com/official/java:8u222-1
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 # scm-server environment
@@ -8,7 +8,7 @@ ENV SCM_HOME=/var/lib/scm \
     # mark as webapp for nginx
     SERVICE_8080_TAGS="webapp" \
     SERVICE_8080_NAME="scm" \
-    SCM_PKG_URL=https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-2.x/job/2.0.0-m3/lastSuccessfulBuild/artifact/scm-server/target/scm-server-app.tar.gz
+    SCM_PKG_URL=https://maven.scm-manager.org/nexus/content/repositories/releases/sonia/scm/scm-server/2.0.0-rc1/scm-server-2.0.0-rc1-app.tar.gz
 
 ## install scm-server
 RUN set -x \
@@ -21,8 +21,8 @@ RUN set -x \
     && cd /tmp \
     # download scm-script-plugin & scm-cas-plugin
     && mkdir ${SCM_REQUIRED_PLUGINS} \
-    && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-script-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-script-plugin-2.0.0-SNAPSHOT.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin-2.0.0-SNAPSHOT.smp \
-    && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-cas-plugin/job/develop/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-SNAPSHOT.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin-2.0.0-SNAPSHOT.smp \
+    && curl --fail -Lks https://maven.scm-manager.org/nexus/content/repositories/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.0.0-rc1/scm-script-plugin-2.0.0-rc1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
+    && curl --fail -Lks https://maven.scm-manager.org/nexus/content/repositories/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.0.0-rc1/scm-cas-plugin-2.0.0-rc1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
     # set mercurial system ca-certificates

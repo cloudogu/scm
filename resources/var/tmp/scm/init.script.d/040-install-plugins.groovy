@@ -8,7 +8,6 @@ def defaultPlugins = [
     "scm-mail-plugin",
     "scm-review-plugin",
     "scm-tagprotection-plugin",
-    "scm-issuetracker-plugin",
     "scm-jira-plugin",
     "scm-activity-plugin",
     "scm-statistic-plugin",
@@ -21,7 +20,6 @@ def defaultPlugins = [
     "scm-support-plugin",
     "scm-directfilelink-plugin",
     "scm-readme-plugin",
-    "scm-ssh-plugin",
     "scm-editor-plugin",
 ];
 
@@ -66,6 +64,7 @@ if (isDoguInstalled("redmine")) {
 
 if (isDoguInstalled("jenkins")) {
 	plugins.add("scm-jenkins-plugin")
+	plugins.add("scm-ci-plugin")
 }
 
 if (isDoguInstalled("smeagol")) {
