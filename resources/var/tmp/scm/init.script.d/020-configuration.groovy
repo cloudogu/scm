@@ -31,6 +31,8 @@ config.setBaseUrl("https://${fqdn}/scm");
 String pluginCenterUrl = getValueFromEtcd("config/scm/plugin_center_url");
 if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl(pluginCenterUrl);
+} else {
+  config.setPluginUrl("https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/plugin-snapshot/job/master/lastSuccessfulBuild/artifact/plugins/plugin-center.json");
 }
 
 // store configuration
