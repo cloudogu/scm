@@ -98,6 +98,8 @@ for (def name : plugins) {
                 restart = true;
             } catch (sonia.scm.NotFoundException e) {
                 System.out.println("plugin or dependency for ${availableInformation.name} not found: ${e.message}");
+            } catch (sonia.scm.plugin.PluginChecksumMismatchException e) {
+                System.out.println("Plugin ${availableInformation.name} had wrong checksum: ${e.message}");
             }
         }
     } else {
