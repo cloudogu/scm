@@ -17,6 +17,11 @@
     "Name": "plugin_center_url",
     "Description": "URL of SCM-Manager Plugin Center",
     "Optional": true
+  },
+  {
+    "Name": "update_plugins",
+    "Description": "Set to 'true' to install available plugin updates on startup",
+    "Optional": true
   }],
   "ExposedPorts": [{
       "Type": "tcp",
