@@ -68,6 +68,18 @@ def isFirstStart() {
     return defaultPluginsInstalledFlag.createNewFile();
 }
 
+def installPlugin(pluginManager, pluginName) {
+    try {
+        pluginManager.install(pluginName, false);
+        return true;
+    } catch (sonia.scm.NotFoundException e) {
+        System.out.println("plugin or dependency for ${pluginName} not found: ${e.message}");
+    } catch (sonia.scm.plugin.PluginChecksumMismatchException e) {
+        System.out.println("Plugin ${pluginName} had wrong checksum: ${e.message}");
+    }
+    return false;
+}
+
 // action
 
 if (isDoguInstalled("redmine")) {
@@ -105,12 +117,7 @@ for (def name : plugins) {
             System.out.println("Cannot install missing plugin ${name}. No available plugin found!");
         } else {
             System.out.println("install missing plugin ${availableInformation.name} in version ${availableInformation.version}");
-            try {
-                pluginManager.install(name, false);
-                restart = true;
-            } catch (sonia.scm.NotFoundException e) {
-                System.out.println("plugin or dependency for ${availableInformation.name} not found: ${e.message}");
-            }
+            restart |= installPlugin(pluginManager, name)
         }
     } else {
         System.out.println("plugin ${name} already installed.");
@@ -124,12 +131,9 @@ if (Boolean.valueOf(getValueFromEtcd("/config/scm/update_plugins").toString())) 
         def information = plugin.descriptor.information
         System.out.println "found newer version for plugin ${information.name}@${information.version}"
         update = true
+        restart |= installPlugin(pluginManager, information.name)
     }
-    if (update){
-        System.out.println("updating plugins");
-        pluginManager.updateAll();
-        restart = true
-    } else {
+    if (!update) {
         System.out.println("no plugins updated");
     }
 } else {
