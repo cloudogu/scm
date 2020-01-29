@@ -8,6 +8,7 @@ import sonia.scm.group.Group;
 import sonia.scm.group.GroupManager;
 import sonia.scm.security.PermissionAssigner;
 import sonia.scm.security.PermissionDescriptor;
+import sonia.scm.SCMContextProvider;
 
 // TODO sharing ???
 def getValueFromEtcd(String key){
@@ -27,11 +28,13 @@ config.setNamespaceStrategy("CustomNamespaceStrategy");
 String fqdn = getValueFromEtcd("config/_global/fqdn");
 config.setBaseUrl("https://${fqdn}/scm");
 
+def context = injector.getInstance(SCMContextProvider.class);
+
 // set plugin center url
 String pluginCenterUrl = getValueFromEtcd("config/scm/plugin_center_url");
 if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl(pluginCenterUrl);
-} else {
+} else if (context.version.contains("SNAPSHOT")) {
   config.setPluginUrl("https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/plugin-snapshot/job/master/lastSuccessfulBuild/artifact/plugins/plugin-center.json");
 }
 
