@@ -8,7 +8,7 @@ ENV SCM_HOME=/var/lib/scm \
     # mark as webapp for nginx
     SERVICE_8080_TAGS="webapp" \
     SERVICE_8080_NAME="scm" \
-    SCM_PKG_URL=https://maven.scm-manager.org/nexus/service/local/repositories/releases/content/sonia/scm/scm-server/2.0.0-rc2/scm-server-2.0.0-rc2-app.tar.gz
+    SCM_PKG_URL=https://maven.scm-manager.org/nexus/service/local/repositories/releases/content/sonia/scm/scm-server/2.0.0-rc3/scm-server-2.0.0-rc3-app.tar.gz
 
 ## install scm-server
 RUN set -x \
