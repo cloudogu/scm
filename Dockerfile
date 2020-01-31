@@ -22,7 +22,7 @@ RUN set -x \
     # download scm-script-plugin & scm-cas-plugin
     && mkdir ${SCM_REQUIRED_PLUGINS} \
     && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-script-plugin/view/tags/job/2.0.0-rc1/lastSuccessfulBuild/artifact/target/scm-script-plugin-2.0.0-rc1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
-    && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-cas-plugin/view/tags/job/2.0.0-rc1/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-rc1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
+    && curl --fail -Lks https://oss.cloudogu.com/jenkins/job/scm-manager/job/plugins/job/scm-cas-plugin/view/tags/job/2.0.0-rc2/lastSuccessfulBuild/artifact/target/scm-cas-plugin-2.0.0-rc2.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
     # set mercurial system ca-certificates
