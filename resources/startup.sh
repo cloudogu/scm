@@ -39,19 +39,27 @@ if [ -a "${SCM_DATA}/plugins/delete_on_update" ];  then
   rm -rf "${SCM_DATA}/plugins"
 fi
 
-# install required plugins
-if ! [ -d "${SCM_DATA}/plugins" ];  then
-  mkdir "${SCM_DATA}/plugins"
-fi
-if { ! [ -d "${SCM_DATA}/plugins/scm-cas-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-cas-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-cas-plugin.smp" ] ;  then
-  echo "Reinstalling scm-cas-plugin from default plugin folder"
-  cp "${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" "${SCM_DATA}/plugins"
-fi
-if { ! [ -d "${SCM_DATA}/plugins/scm-script-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-script-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-script-plugin.smp" ] ;  then
-  echo "Reinstalling scm-script-plugin from default plugin folder"
-  cp "${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" "${SCM_DATA}/plugins"
-fi
+start_scm_server () {
+  # install required plugins
+  if ! [ -d "${SCM_DATA}/plugins" ];  then
+    mkdir "${SCM_DATA}/plugins"
+  fi
+  if { ! [ -d "${SCM_DATA}/plugins/scm-cas-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-cas-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-cas-plugin.smp" ] ;  then
+    echo "Reinstalling scm-cas-plugin from default plugin folder"
+    cp "${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" "${SCM_DATA}/plugins"
+  fi
+  if { ! [ -d "${SCM_DATA}/plugins/scm-script-plugin" ] || [ -a "${SCM_DATA}/plugins/scm-script-plugin/uninstall" ] ; } && ! [ -a "${SCM_DATA}/plugins/scm-script-plugin.smp" ] ;  then
+    echo "Reinstalling scm-script-plugin from default plugin folder"
+    cp "${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" "${SCM_DATA}/plugins"
+  fi
 
-# Final startup
+  /opt/scm-server/bin/scm-server
+}
 
-exec /opt/scm-server/bin/scm-server
+# Final startup and restart on exit code 42 (restart event)
+
+while start_scm_server ; scm_exit_code=$? ; [ $scm_exit_code -eq 42 ] ; do
+  echo Got exit code $scm_exit_code -- restarting SCM-Manager
+done
+
+exit $scm_exit_code

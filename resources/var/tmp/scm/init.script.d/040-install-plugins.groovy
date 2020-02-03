@@ -142,7 +142,9 @@ if (Boolean.valueOf(getValueFromEtcd("/config/scm/update_plugins").toString())) 
 
 if (restart){
     System.out.println("restarting scm-manager");
-    pluginManager.executePendingAndRestart();
+    sleep(3000);
+    System.exit(42);
+    //pluginManager.executePendingAndRestart();
 } else {
     System.out.println("no new plugins installed");
 }
