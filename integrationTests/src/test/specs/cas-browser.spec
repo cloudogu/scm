@@ -35,7 +35,6 @@
 
 * Login with configured username and password
 * Verify SCM open
-* Footer contains configured display name
 * Open Me page
 * Display name equals configured display name
 * Email equals configured email
