@@ -27,6 +27,9 @@ public class ScmManagerRootPage extends Page {
     @FindBy(xpath = "//a[@href='/scm/me']")
     WebElement meLink;
 
+    @FindBy(xpath = "//a[@href='/scm/me']/../../../div")
+    WebElement userNameField;
+
     public ScmManagerRootPage(WebDriver driver) {
         super(driver);
     }
@@ -53,7 +56,7 @@ public class ScmManagerRootPage extends Page {
     }
 
     String username() {
-        return meLink.getText();
+        return userNameField.getText();
     }
 
      void clickMeLink() {
