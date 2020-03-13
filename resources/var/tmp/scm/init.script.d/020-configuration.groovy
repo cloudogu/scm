@@ -38,6 +38,9 @@ if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl("https://oss.cloudogu.com/jenkins/job/scm-manager-github/job/ci-plugin-snapshot/job/master/lastSuccessfulBuild/artifact/plugins/plugin-center.json");
 }
 
+// disable anonymous access (this leads to an unreachable instance at the moment)
+config.setAnonymousAccessEnabled(false);
+
 // store configuration
 ScmConfigurationUtil.getInstance().store(config);
 
