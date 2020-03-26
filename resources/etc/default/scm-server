@@ -4,3 +4,5 @@ EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Djavax.net.ssl.trustStore=/opt/scm-se
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Djavax.net.ssl.trustStorePassword=changeit"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.init.script.d=/opt/scm-server/init.script.d"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.skipAdminCreation=true"
+EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.lifecycle.restart-strategy=exit"
+EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.restart.exit-code=42"

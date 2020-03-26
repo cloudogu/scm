@@ -35,7 +35,7 @@ String pluginCenterUrl = getValueFromEtcd("config/scm/plugin_center_url");
 if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl(pluginCenterUrl);
 } else if (context.version.contains("SNAPSHOT")) {
-  config.setPluginUrl("https://oss.cloudogu.com/jenkins/job/scm-manager/job/scm-manager-bitbucket/job/plugin-snapshot/job/master/lastSuccessfulBuild/artifact/plugins/plugin-center.json");
+  config.setPluginUrl("https://oss.cloudogu.com/jenkins/job/scm-manager-github/job/ci-plugin-snapshot/job/master/lastSuccessfulBuild/artifact/plugins/plugin-center.json");
 }
 
 // store configuration
