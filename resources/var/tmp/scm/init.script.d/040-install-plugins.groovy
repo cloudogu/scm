@@ -106,6 +106,16 @@ if (isFirstStart()) {
     plugins.addAll(defaultPlugins)
 }
 
+File pluginListFile = new File(sonia.scm.SCMContext.getContext().getBaseDirectory(), "installed_plugins_before_update.lst")
+if (pluginListFile.exists()) {
+    def reader = pluginListFile.newReader()
+    def line
+    while ((line = reader.readLine()) != null) {
+        System.out.println("Add previously installed plugin '${line}'");
+        plugins.add(line)
+    }
+}
+
 def pluginManager = injector.getInstance(PluginManager.class);
 def available = pluginManager.getAvailable();
 def installed = pluginManager.getInstalled();
