@@ -25,7 +25,8 @@ def defaultPlugins = [
     "scm-landingpage-plugin",
 ];
 
-def plugins = [];
+def plugins = []
+def pluginsFromOldInstallation = []
 
 // methods
 
@@ -106,6 +107,17 @@ if (isFirstStart()) {
     plugins.addAll(defaultPlugins)
 }
 
+File pluginListFile = new File(sonia.scm.SCMContext.getContext().getBaseDirectory(), "installed_plugins_before_update.lst")
+if (pluginListFile.exists()) {
+    def reader = pluginListFile.newReader()
+    def line
+    while ((line = reader.readLine()) != null) {
+        System.out.println("Add previously installed plugin '${line}'");
+        plugins.add(line)
+        pluginsFromOldInstallation.add(line)
+    }
+}
+
 def pluginManager = injector.getInstance(PluginManager.class);
 def available = pluginManager.getAvailable();
 def installed = pluginManager.getInstalled();
@@ -118,9 +130,11 @@ for (def name : plugins) {
             System.out.println("Cannot install missing plugin ${name}. No available plugin found!");
         } else {
             System.out.println("install missing plugin ${availableInformation.name} in version ${availableInformation.version}");
+            pluginsFromOldInstallation.remove(name)
             restart |= installPlugin(pluginManager, name)
         }
     } else {
+        pluginsFromOldInstallation.remove(name)
         System.out.println("plugin ${name} already installed.");
     }
 }
@@ -139,6 +153,15 @@ if (Boolean.valueOf(getValueFromEtcd("/config/scm/update_plugins").toString())) 
     }
 } else {
     System.out.println("skipping plugin update step");
+}
+
+if (pluginListFile.exists()) {
+    if (pluginsFromOldInstallation.isEmpty()) {
+        println "Deleting file with plugins from old installation; all plugins have been installed again."
+        pluginListFile.delete()
+    } else {
+        println "Not all plugins from old installation could be installed; keeping list to try again next time."
+    }
 }
 
 if (restart){
