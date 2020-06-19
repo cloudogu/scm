@@ -36,7 +36,7 @@ fi
 
 # delete outdated plugins
 if [ -a "${SCM_DATA}/plugins/delete_on_update" ];  then
-  ls -1 "${SCM_DATA}/plugins/scm-*-plugin" > "${SCM_DATA}/installed_plugins_before_update.lst"
+  ( ls -1 "${SCM_DATA}/plugins/" || true ) | grep -e "scm-.*-plugin" > "${SCM_DATA}/installed_plugins_before_update.lst" || true
   rm -rf "${SCM_DATA}/plugins"
 fi
 
