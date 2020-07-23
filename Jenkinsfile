@@ -29,9 +29,10 @@ node('vagrant') {
             ])
         }
 
-        // stage('Lint') {
+         stage('Lint') {
         //    lintDockerfile()
-        // }
+        shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
+         }
 
         stage('Apply Parameters') {
             if (params.Namespace != null && !params.Namespace.isEmpty()) {

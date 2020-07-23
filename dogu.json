@@ -1,5 +1,5 @@
 {
-  "Name": "itz-bund/scm",
+  "Name": "official/scm",
   "Version": "2.0.0-48",
   "DisplayName": "SCM-Manager",
   "Description": "The easiest way to share and manage your Git, Mercurial and Subversion repositories over http.",
@@ -9,7 +9,7 @@
   ],
   "Logo": "https://cloudogu.com/images/dogus/scm-manager.png",
   "Url": "https://www.scm-manager.org",
-  "Image": "registry.cloudogu.com/itz-bund/scm",
+  "Image": "registry.cloudogu.com/official/scm",
   "Dependencies": [
     "cas", "nginx", "postfix"
   ],
@@ -32,6 +32,10 @@
     {
       "Name": "pre-upgrade",
       "Command": "/pre-upgrade.sh"
+    },
+    {
+      "Name": "upgrade-notification",
+      "Command": "/upgrade-notification.sh"
     }
   ],
   "Volumes": [{
