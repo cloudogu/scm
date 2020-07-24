@@ -4,7 +4,7 @@ import com.cloudogu.ces.dogubuildlib.*
 
 node('vagrant') {
 
-    timestamps{
+    timestamps {
         properties([
                 // Keep only the last x builds to preserve space
                 buildDiscarder(logRotator(numToKeepStr: '10')),
@@ -21,18 +21,18 @@ node('vagrant') {
 
         stage('Checkout') {
             checkout([
-                    $class: 'GitSCM',
-                    branches: scm.branches,
+                    $class                           : 'GitSCM',
+                    branches                         : scm.branches,
                     doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-                    extensions: scm.extensions + [[$class: 'CleanBeforeCheckout']],
-                    userRemoteConfigs: scm.userRemoteConfigs
+                    extensions                       : scm.extensions + [[$class: 'CleanBeforeCheckout']],
+                    userRemoteConfigs                : scm.userRemoteConfigs
             ])
         }
 
-         stage('Lint') {
-        //    lintDockerfile()
-        shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
-         }
+//         stage('Lint') {
+//              lintDockerfile()
+//              shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
+//         }
 
         stage('Apply Parameters') {
             if (params.Namespace != null && !params.Namespace.isEmpty()) {
@@ -83,8 +83,8 @@ node('vagrant') {
 
                                 docker.image('cloudogu/gauge-java:1.0.4')
                                         .inside("-e WEBDRIVER=remote -e CES_FQDN=${externalIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${zaleniumIp}:4444/wd/hub") {
-                                    sh 'mvn test'
-                                }
+                                            sh 'mvn test'
+                                        }
 
                             }
 
