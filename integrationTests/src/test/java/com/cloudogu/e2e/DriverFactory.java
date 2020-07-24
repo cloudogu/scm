@@ -14,6 +14,7 @@ class DriverFactory {
 
     static WebDriver getDriver(String testName) throws MalformedURLException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setAcceptInsecureCerts(true);
         capabilities.setCapability(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
         capabilities.setCapability(CapabilityType.PLATFORM_NAME, Platform.LINUX);
         capabilities.setCapability("name", testName);
