@@ -31,7 +31,7 @@ def pluginsFromOldInstallation = []
 // methods
 
 def addMissingDefaultPluginsFromEtcd(plugins){
-    def etcdValue = getValueFromEtcd("additional_plugins");
+    def etcdValue = getValueFromEtcd("/config/scm/additional_plugins");
     if (etcdValue != null) {
         def additionalPlugins = etcdValue.split(",");
         System.out.println("Following plugins must be installed: ${additionalPlugins}");
