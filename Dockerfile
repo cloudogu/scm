@@ -1,31 +1,28 @@
-FROM registry.cloudogu.com/official/java:8u171-1
+FROM registry.cloudogu.com/official/java:8u242-1
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 # scm-server environment
-ENV SCM_VERSION=1.60 \
-    SCM_SCRIPT_PLUGIN=1.6 \
-    GROOVY_VERSION=2.4.12 \
-    SCM_HOME=/var/lib/scm \
+ENV SCM_HOME=/var/lib/scm \
+    SCM_REQUIRED_PLUGINS=/opt/scm-server/required-plugins \
     SSL_CERT_FILE=/opt/scm-server/conf/ca-certificates.crt \
     # mark as webapp for nginx
-    SERVICE_TAGS=webapp
-ENV SCM_PKG_URL=https://maven.scm-manager.org/nexus/content/repositories/releases/sonia/scm/scm-server/${SCM_VERSION}/scm-server-${SCM_VERSION}-app.tar.gz
+    SERVICE_8080_TAGS="webapp" \
+    SERVICE_8080_NAME="scm" \
+    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.3.0/unix-2.3.0-app.tar.gz
 
 ## install scm-server
 RUN set -x \
-    && apk add --no-cache mercurial jq \
-    && curl -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
+    && apk add --no-cache mercurial jq unzip \
+    && curl --fail  -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
     && addgroup -S -g 1000 scm \
     && adduser -S -h /opt/scm-server -s /bin/bash -G scm -u 1000 scm \
     && gunzip /tmp/scm-server.tar.gz \
-    && mkdir /opt \
     && tar -C /opt -xf /tmp/scm-server.tar \
     && cd /tmp \
-    # install scm-script-plugin
-    && mkdir -p WEB-INF/lib \
-    && curl -Lks http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/${GROOVY_VERSION}/groovy-all-${GROOVY_VERSION}.jar -o /tmp/WEB-INF/lib/groovy-all-${GROOVY_VERSION}.jar \
-    && curl -Lks http://maven.scm-manager.org/nexus/content/repositories/releases/sonia/scm/plugins/scm-script-plugin/${SCM_SCRIPT_PLUGIN}/scm-script-plugin-${SCM_SCRIPT_PLUGIN}.jar -o /tmp/WEB-INF/lib/scm-script-plugin-${SCM_SCRIPT_PLUGIN}.jar \
-    && zip -u /opt/scm-server/var/webapp/scm-webapp.war WEB-INF/lib/* \
+    # download scm-script-plugin & scm-cas-plugin
+    && mkdir ${SCM_REQUIRED_PLUGINS} \
+    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.0.0/scm-script-plugin-2.0.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
+    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.0.0/scm-cas-plugin-2.0.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
     # set mercurial system ca-certificates
@@ -46,9 +43,11 @@ WORKDIR ${SCM_HOME}
 
 VOLUME ${SCM_HOME}
 
-EXPOSE 8080
+EXPOSE 8080 2222
 
 USER scm
+
+HEALTHCHECK CMD [ $(doguctl healthy scm; echo $?) == 0 ]
 
 # start scm
 CMD ["/startup.sh"]

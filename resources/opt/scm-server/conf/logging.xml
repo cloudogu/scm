@@ -3,7 +3,7 @@
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-10X{transaction_id}] %-5level %logger - %msg%n</pattern>
     </encoder>
   </appender>
 
@@ -11,6 +11,7 @@
   <logger name="sonia.scm.filter.GZipFilter" level="WARN" />
   <logger name="sonia.scm.filter.GZipResponseStream" level="WARN" />
   <logger name="sonia.scm.util.ServiceUtil" level="WARN" />
+  <logger name="sonia.scm.script" level="DEBUG" />
 
   <root level="WARN">
     <appender-ref ref="STDOUT" />

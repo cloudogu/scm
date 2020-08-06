@@ -1,6 +1,6 @@
 {
   "Name": "official/scm",
-  "Version": "1.60-2",
+  "Version": "2.3.0-1",
   "DisplayName": "SCM-Manager",
   "Description": "The easiest way to share and manage your Git, Mercurial and Subversion repositories over http.",
   "Category": "Development Apps",
@@ -12,6 +12,31 @@
   "Image": "registry.cloudogu.com/official/scm",
   "Dependencies": [
     "cas", "nginx", "postfix"
+  ],
+  "Configuration": [{
+    "Name": "plugin_center_url",
+    "Description": "URL of SCM-Manager Plugin Center",
+    "Optional": true
+  },
+  {
+    "Name": "update_plugins",
+    "Description": "Set to 'true' to install available plugin updates on startup",
+    "Optional": true
+  }],
+  "ExposedPorts": [{
+      "Type": "tcp",
+      "Host": 2222,
+      "Container": 2222
+  }],
+  "ExposedCommands": [
+    {
+      "Name": "pre-upgrade",
+      "Command": "/pre-upgrade.sh"
+    },
+    {
+      "Name": "upgrade-notification",
+      "Command": "/upgrade-notification.sh"
+    }
   ],
   "Volumes": [{
     "Name": "data",

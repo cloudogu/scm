@@ -12,40 +12,37 @@ def getValueFromEtcd(String key){
 	return json.node.value
 }
 
-def deleteOldSmeagolNotifyEntry(config){
-  def iter = config.iterator();
-  while(iter.hasNext()){
-    def hook = iter.next();
-    String url = hook.getUrlPattern();
-    if(url.endsWith("notify?id=\${repository.id}")) {
-      iter.remove();
-    }
-  }
+// TODO sharing ?
+def findClass(clazzAsString) {
+  return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
 }
 
-def addNewSmeagolNotifyEntry(globalConfig){
+def addSmeagolNotifyEntry(globalConfig){
   String fqdn = getValueFromEtcd("config/_global/fqdn");
   String url = "https://${fqdn}/smeagol/rest/api/v1/notify?id=\${repository.id}";
+
   boolean executeOnEveryCommit = false;
   boolean sendCommitData = false;
-  String httpMethod = "GET";
+
+  def httpMethod = Enum.valueOf(findClass("sonia.scm.webhook.HttpMethod"), "GET");
   
-  def properties = new BasicPropertiesAware();
-  properties.setProperty("webhooks",url+";"+executeOnEveryCommit+";"+sendCommitData+";"+httpMethod);
-  def webHookConfigurationClass = Class.forName("sonia.scm.webhook.WebHookConfiguration");
-  def config = webHookConfigurationClass.newInstance(properties);
+  Set webhooks = new HashSet();
+  def webhookClass = findClass("sonia.scm.webhook.WebHook");
+  webhooks.add(webhookClass.newInstance(url, executeOnEveryCommit, sendCommitData, httpMethod));
+
+  def webHookConfigurationClass = findClass("sonia.scm.webhook.WebHookConfiguration");
+  def config = webHookConfigurationClass.newInstance(webhooks);
   return globalConfig.merge(config);
 }
 
 try {
 
-    def webHookContext = injector.getInstance(Class.forName("sonia.scm.webhook.WebHookContext"));
-		def globalConfig = webHookContext.getGlobalConfiguration();
+    def webHookContext = injector.getInstance(findClass("sonia.scm.webhook.WebHookContext"));
+    def globalConfig = webHookContext.getGlobalConfiguration();
 
-    deleteOldSmeagolNotifyEntry(globalConfig);
-    def newGlobalConfig = addNewSmeagolNotifyEntry(globalConfig);
+    def newGlobalConfig = addSmeagolNotifyEntry(globalConfig);
     webHookContext.setGlobalConfiguration(newGlobalConfig);
 
-} catch( Exception e ) {
+} catch( ClassNotFoundException e ) {
     println "webhook plugin seems not to be installed"
 }

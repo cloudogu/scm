@@ -23,8 +23,16 @@ def getEmailAddress(){
     }
 }
 
+def findClass(clazzAsString) {
+  return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader());
+}
+
+def findInstance(clazzAsString) {
+  return injector.getInstance( findClass(clazzAsString) );
+}
+
 try {
-  def mailContext = injector.getInstance(Class.forName("sonia.scm.mail.api.MailContext"));
+  def mailContext = findInstance("sonia.scm.mail.api.MailContext");
 
   def old = mailContext.getConfiguration();
   def from = old.getFrom();
@@ -34,8 +42,8 @@ try {
   }
 
   // TODO unable to resolve class sonia.scm.mail.api.MailConfiguration
-  def configClass = Class.forName("sonia.scm.mail.api.MailConfiguration");
-  def strategyClass = Class.forName("org.codemonkey.simplejavamail.TransportStrategy");
+  def configClass = findClass("sonia.scm.mail.api.MailConfiguration");
+  def strategyClass = findClass("org.codemonkey.simplejavamail.TransportStrategy");
   def configuration = configClass.newInstance([
       host: "postfix", // hostname
       port: 25, // port
@@ -45,6 +53,6 @@ try {
   ]);
 
   mailContext.store(configuration);
-} catch( Exception e ) {
+} catch( ClassNotFoundException e ) {
   println "mail plugin seems not to be installed"
 }
