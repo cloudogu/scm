@@ -36,7 +36,8 @@ def addMissingDefaultPluginsFromEtcd(plugins){
         def additionalPlugins = etcdValue.split(",");
         System.out.println("Following plugins must be installed: ${additionalPlugins}");
 
-        for (def plugin : additionalPlugins) {
+        for (def p : additionalPlugins) {
+            def plugin = p.trim();
             if (!plugins.contains(plugin)) {
                 System.out.println("add missing default plugin to installation queue: ${plugin}");
                 plugins.add(plugin)
