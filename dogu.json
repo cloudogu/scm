@@ -19,6 +19,11 @@
     "Optional": true
   },
   {
+    "Name": "additional_plugins",
+    "Description": "Comma separated list of plugin names to install on start. Uninstalled plugins will also be installed again, since they are defined as default.",
+    "Optional": true
+  },
+  {
     "Name": "update_plugins",
     "Description": "Set to 'true' to install available plugin updates on startup",
     "Optional": true

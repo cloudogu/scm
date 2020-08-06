@@ -30,6 +30,22 @@ def pluginsFromOldInstallation = []
 
 // methods
 
+def addMissingDefaultPluginsFromEtcd(plugins){
+    def etcdValue = getValueFromEtcd("/config/scm/additional_plugins");
+    if (etcdValue != null) {
+        def additionalPlugins = etcdValue.split(",");
+        System.out.println("Following plugins must be installed: ${additionalPlugins}");
+
+        for (def p : additionalPlugins) {
+            def plugin = p.trim();
+            if (!plugins.contains(plugin)) {
+                System.out.println("add missing default plugin to installation queue: ${plugin}");
+                plugins.add(plugin)
+            }
+        }
+    }
+}
+
 def isDoguInstalled(name){
 	String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
 	URL url = new URL("http://${ip}:4001/v2/keys/dogu/${name}/current");
@@ -106,6 +122,8 @@ if (isFirstStart()) {
     System.out.println("First start detected; installing default plugins.");
     plugins.addAll(defaultPlugins)
 }
+
+addMissingDefaultPluginsFromEtcd(plugins)
 
 File pluginListFile = new File(sonia.scm.SCMContext.getContext().getBaseDirectory(), "installed_plugins_before_update.lst")
 if (pluginListFile.exists()) {
