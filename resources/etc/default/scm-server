@@ -6,3 +6,4 @@ EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.init.script.d=/opt/scm-ser
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.skipAdminCreation=true"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.lifecycle.restart-strategy=exit"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.restart.exit-code=42"
+EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.restart.wait=1000"
