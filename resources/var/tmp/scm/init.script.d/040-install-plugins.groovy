@@ -23,7 +23,7 @@ def defaultPlugins = [
     "scm-readme-plugin",
     "scm-editor-plugin",
     "scm-landingpage-plugin",
-    "scm-repository-template-plugin
+    "scm-repository-template-plugin"
 ];
 
 def plugins = []
