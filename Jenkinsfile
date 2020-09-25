@@ -1,5 +1,5 @@
 #!groovy
-@Library(['github.com/cloudogu/dogu-build-lib@v1.0.0', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
+@Library(['github.com/cloudogu/dogu-build-lib@36c827530', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
 import com.cloudogu.ces.dogubuildlib.*
 
 def NAMESPACES = ["testing", "itz-bund", "next", "official"]
@@ -99,7 +99,8 @@ node('vagrant') {
             stage('Push') {
                 for (namespace in NAMESPACES) {
                     if (params."Push_${namespace}" != null && params."Push_${namespace}") {
-                        ecoSystem.changeNamespace(namespace)
+                        ecoSystem.purge("scm")
+                        ecoSystem.changeNamespace(namespace, "/dogu")
                         ecoSystem.build("/dogu")
                         ecoSystem.push("/dogu")
                     }
