@@ -13,21 +13,33 @@
   "Dependencies": [
     "cas", "nginx", "postfix"
   ],
-  "Configuration": [{
-    "Name": "plugin_center_url",
-    "Description": "URL of SCM-Manager Plugin Center",
-    "Optional": true
-  },
-  {
-    "Name": "additional_plugins",
-    "Description": "Comma separated list of plugin names to install on start. Uninstalled plugins will also be installed again, since they are defined as default.",
-    "Optional": true
-  },
-  {
-    "Name": "update_plugins",
-    "Description": "Set to 'true' to install available plugin updates on startup",
-    "Optional": true
-  }],
+  "Configuration": [
+    {
+      "Name": "plugin_center_url",
+      "Description": "URL of SCM-Manager Plugin Center",
+      "Optional": true
+    },
+    {
+      "Name": "release_feed_url",
+      "Description": "URL of SCM-Manager release RSS feed",
+      "Optional": true
+    },
+    {
+      "Name": "disable_release_feed",
+      "Description": "If set to 'true', SCM-Manager will not query for new releases",
+      "Optional": true
+    },
+    {
+      "Name": "additional_plugins",
+      "Description": "Comma separated list of plugin names to install on start. Uninstalled plugins will also be installed again, since they are defined as default.",
+      "Optional": true
+    },
+    {
+      "Name": "update_plugins",
+      "Description": "Set to 'true' to install available plugin updates on startup",
+      "Optional": true
+    }
+  ],
   "ExposedPorts": [{
       "Type": "tcp",
       "Host": 2222,
