@@ -1,20 +1,23 @@
 #!groovy
-@Library(['github.com/cloudogu/dogu-build-lib@v1.0.0', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
+@Library(['github.com/cloudogu/dogu-build-lib@36c827530', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
 import com.cloudogu.ces.dogubuildlib.*
+
+def NAMESPACES = ["testing", "itz-bund", "next", "official"]
 
 node('vagrant') {
 
     timestamps {
+        def props = [];
+        props.add(string(defaultValue: '', description: 'Dogu Version', name: 'Version', trim: true));
+        for (namespace in NAMESPACES) {
+            props.add(booleanParam(defaultValue: false, description: "Push new dogu into registry with namespace '${namespace}'", name: "Push_${namespace}"))
+        }
         properties([
                 // Keep only the last x builds to preserve space
                 buildDiscarder(logRotator(numToKeepStr: '10')),
                 // Don't run concurrent builds for a branch, because they use the same workspace directory
                 disableConcurrentBuilds(),
-                parameters([
-                        choice(choices: ['testing', 'itz-bund', 'mkn', 'itemis', 'next', 'official'], description: 'Namespace for Dogu', name: 'Namespace'),
-                        string(defaultValue: '', description: 'Dogu Version', name: 'Version', trim: true),
-                        booleanParam(defaultValue: false, description: 'Push new dogu into registry', name: 'Push')
-                ])
+                parameters(props)
         ])
 
         EcoSystem ecoSystem = new EcoSystem(this, "gcloud-ces-operations-internal-packer", "jenkins-gcloud-ces-operations-internal")
@@ -35,9 +38,6 @@ node('vagrant') {
 //         }
 
         stage('Apply Parameters') {
-            if (params.Namespace != null && !params.Namespace.isEmpty()) {
-                ecoSystem.changeNamespace(params.Namespace)
-            }
             if (params.Version != null && !params.Version.isEmpty()) {
                 ecoSystem.setVersion(params.Version)
             }
@@ -97,8 +97,13 @@ node('vagrant') {
             }
 
             stage('Push') {
-                if (params.Push != null && params.Push) {
-                    ecoSystem.push("/dogu")
+                for (namespace in NAMESPACES) {
+                    if (params."Push_${namespace}" != null && params."Push_${namespace}") {
+                        ecoSystem.purge("scm")
+                        ecoSystem.changeNamespace(namespace, "/dogu")
+                        ecoSystem.build("/dogu")
+                        ecoSystem.push("/dogu")
+                    }
                 }
             }
 

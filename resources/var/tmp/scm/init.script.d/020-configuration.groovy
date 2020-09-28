@@ -38,6 +38,16 @@ if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl("https://oss.cloudogu.com/jenkins/job/scm-manager-github/job/ci-plugin-snapshot/job/master/lastSuccessfulBuild/artifact/plugins/plugin-center.json");
 }
 
+// set release feed  url
+String disableReleaseFeed = getValueFromEtcd("config/scm/disable_release_feed");
+String releaseFeedUrl = getValueFromEtcd("config/scm/release_feed_url");
+
+if (disableReleaseFeed != null && disableReleaseFeed.equalsIgnoreCase("true")) {
+  config.setReleaseFeedUrl("");
+} else if (releaseFeedUrl != null && !releaseFeedUrl.isEmpty()) {
+  config.setReleaseFeedUrl(releaseFeedUrl);
+}
+
 // store configuration
 ScmConfigurationUtil.getInstance().store(config);
 
