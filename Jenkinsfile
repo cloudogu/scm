@@ -3,12 +3,17 @@
 import com.cloudogu.ces.dogubuildlib.*
 
 def NAMESPACES = ["testing", "itz-bund", "next", "official"]
+def IGNORE_TAG = "ignore-tag"
+def CREATE_NEW_TAG = "create-new-tag"
+def BUILD_TAG = "build-existing-tag"
+def TAG_STRATEGIES = [IGNORE_TAG, CREATE_NEW_TAG, BUILD_TAG]
 
 node('vagrant') {
 
     timestamps {
         def props = [];
-        props.add(string(defaultValue: '', description: 'Dogu Version', name: 'Version', trim: true));
+        props.add(string(defaultValue: '', description: 'Dogu Version', name: 'Version', trim: true))
+        props.add(choice(name: 'Tag_Strategy', choices: TAG_STRATEGIES))
         for (namespace in NAMESPACES) {
             props.add(booleanParam(defaultValue: false, description: "Push new dogu into registry with namespace '${namespace}'", name: "Push_${namespace}"))
         }
@@ -30,6 +35,21 @@ node('vagrant') {
                     extensions                       : scm.extensions + [[$class: 'CleanBeforeCheckout']],
                     userRemoteConfigs                : scm.userRemoteConfigs
             ])
+        }
+
+        stage('Check for tag') {
+            if (params.Tag_Strategy != IGNORE_TAG) {
+                sh "git fetch --tags"
+                def tags = sh(returnStdout: true, script: 'git tag -l').trim().readLines()
+                if (params.Tag_Strategy == BUILD_TAG) {
+                    if (!tags.contains(params.Version)) {
+                        error("Git tag ${params.Version} does not exist.")
+                    }
+                    sh "git checkout 'refs/tags/${params.Version}'"
+                } else if (params.Tag_Strategy == CREATE_NEW_TAG && tags.contains(params.Version)) {
+                    error("Git tag ${params.Version} already exists.")
+                }
+            }
         }
 
 //         stage('Lint') {
@@ -96,13 +116,28 @@ node('vagrant') {
                 }
             }
 
+            stage('Push changes to remote repository') {
+                if (params.Tag_Strategy == CREATE_NEW_TAG) {
+                    // create new tag
+                    sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' tag -m '${params.Version}' ${params.Version}"
+
+                    // push changes back to remote repository
+                    withCredentials([usernamePassword(credentialsId: 'cesmarvin', usernameVariable: 'GIT_AUTH_USR', passwordVariable: 'GIT_AUTH_PSW')]) {
+                        sh "git -c credential.helper=\"!f() { echo username='\$GIT_AUTH_USR'; echo password='\$GIT_AUTH_PSW'; }; f\" push origin ${params.Version}"
+                    }
+                }
+            }
+
             stage('Push') {
-                for (namespace in NAMESPACES) {
-                    if (params."Push_${namespace}" != null && params."Push_${namespace}") {
-                        ecoSystem.purge("scm")
-                        ecoSystem.changeNamespace(namespace, "/dogu")
-                        ecoSystem.build("/dogu")
-                        ecoSystem.push("/dogu")
+                // No dogu release without tag allowed
+                if (params.Tag_Strategy != IGNORE_TAG) {
+                    for (namespace in NAMESPACES) {
+                        if (params."Push_${namespace}" != null && params."Push_${namespace}") {
+                            ecoSystem.purge("scm")
+                            ecoSystem.changeNamespace(namespace, "/dogu")
+                            ecoSystem.build("/dogu")
+                            ecoSystem.push("/dogu")
+                        }
                     }
                 }
             }
