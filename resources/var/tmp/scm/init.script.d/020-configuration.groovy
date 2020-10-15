@@ -48,6 +48,9 @@ if (disableReleaseFeed != null && disableReleaseFeed.equalsIgnoreCase("true")) {
   config.setReleaseFeedUrl(releaseFeedUrl);
 }
 
+// enable automatic user converter
+config.setEnabledUserConverter(true)
+
 // store configuration
 ScmConfigurationUtil.getInstance().store(config);
 
