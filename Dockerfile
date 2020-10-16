@@ -8,7 +8,7 @@ ENV SCM_HOME=/var/lib/scm \
     # mark as webapp for nginx
     SERVICE_8080_TAGS="webapp" \
     SERVICE_8080_NAME="scm" \
-    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.7.1/unix-2.7.1-app.tar.gz
+    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.6.3/unix-2.6.3-app.tar.gz
 
 ## install scm-server
 RUN set -x \
