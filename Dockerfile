@@ -8,7 +8,7 @@ ENV SCM_HOME=/var/lib/scm \
     # mark as webapp for nginx
     SERVICE_8080_TAGS="webapp" \
     SERVICE_8080_NAME="scm" \
-    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.7.1/unix-2.7.1-app.tar.gz
+    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.8.0/unix-2.8.0-app.tar.gz
 
 ## install scm-server
 RUN set -x \
@@ -21,7 +21,7 @@ RUN set -x \
     && cd /tmp \
     # download scm-script-plugin & scm-cas-plugin
     && mkdir ${SCM_REQUIRED_PLUGINS} \
-    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.1.3/scm-script-plugin-2.1.3.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
+    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.2.0/scm-script-plugin-2.2.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.1.2/scm-cas-plugin-2.1.2.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
