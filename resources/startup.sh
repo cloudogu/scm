@@ -45,6 +45,10 @@ start_scm_server () {
   if ! [ -d "${SCM_DATA}/plugins" ];  then
     mkdir "${SCM_DATA}/plugins"
   fi
+  if { ! [ -d "${SCM_DATA}/plugins/scm-code-editor-plugin" ] || [ -f "${SCM_DATA}/plugins/scm-code-editor-plugin/uninstall" ] ; } && ! [ -f "${SCM_DATA}/plugins/scm-code-editor-plugin.smp" ] ;  then
+    echo "Reinstalling scm-code-editor-plugin from default plugin folder"
+    cp "${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp" "${SCM_DATA}/plugins"
+  fi
   if { ! [ -d "${SCM_DATA}/plugins/scm-cas-plugin" ] || [ -f "${SCM_DATA}/plugins/scm-cas-plugin/uninstall" ] ; } && ! [ -f "${SCM_DATA}/plugins/scm-cas-plugin.smp" ] ;  then
     echo "Reinstalling scm-cas-plugin from default plugin folder"
     cp "${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" "${SCM_DATA}/plugins"
