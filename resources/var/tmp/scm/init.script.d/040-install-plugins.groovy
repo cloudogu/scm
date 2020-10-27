@@ -21,7 +21,6 @@ def defaultPlugins = [
     "scm-support-plugin",
     "scm-directfilelink-plugin",
     "scm-readme-plugin",
-    "scm-code-editor-plugin",
     "scm-editor-plugin",
     "scm-landingpage-plugin",
     "scm-repository-template-plugin",
