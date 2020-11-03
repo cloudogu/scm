@@ -1,4 +1,4 @@
-FROM registry.cloudogu.com/official/java:8u242-1
+FROM registry.cloudogu.com/official/java:11.0.5-3
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 # scm-server environment
