@@ -25,127 +25,135 @@ node('vagrant') {
                 parameters(props)
         ])
 
-        EcoSystem ecoSystem = new EcoSystem(this, "gcloud-ces-operations-internal-packer", "jenkins-gcloud-ces-operations-internal")
+        catchError {
 
-        stage('Checkout') {
-            checkout([
-                    $class                           : 'GitSCM',
-                    branches                         : scm.branches,
-                    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-                    extensions                       : scm.extensions + [[$class: 'CleanBeforeCheckout']],
-                    userRemoteConfigs                : scm.userRemoteConfigs
-            ])
-        }
+            EcoSystem ecoSystem = new EcoSystem(this, "gcloud-ces-operations-internal-packer", "jenkins-gcloud-ces-operations-internal")
 
-        stage('Check for tag') {
-            if (params.Tag_Strategy != IGNORE_TAG) {
-                sh "git fetch --tags"
-                def tags = sh(returnStdout: true, script: 'git tag -l').trim().readLines()
-                if (params.Tag_Strategy == BUILD_TAG) {
-                    if (!tags.contains(params.Version)) {
-                        error("Git tag ${params.Version} does not exist.")
+            stage('Checkout') {
+                checkout([
+                        $class                           : 'GitSCM',
+                        branches                         : scm.branches,
+                        doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+                        extensions                       : scm.extensions + [[$class: 'CleanBeforeCheckout']],
+                        userRemoteConfigs                : scm.userRemoteConfigs
+                ])
+            }
+
+            stage('Check for tag') {
+                if (params.Tag_Strategy != IGNORE_TAG) {
+                    sh "git fetch --tags"
+                    def tags = sh(returnStdout: true, script: 'git tag -l').trim().readLines()
+                    if (params.Tag_Strategy == BUILD_TAG) {
+                        if (!tags.contains(params.Version)) {
+                            error("Git tag ${params.Version} does not exist.")
+                        }
+                        sh "git checkout 'refs/tags/${params.Version}'"
+                    } else if (params.Tag_Strategy == CREATE_NEW_TAG && tags.contains(params.Version)) {
+                        error("Git tag ${params.Version} already exists.")
                     }
-                    sh "git checkout 'refs/tags/${params.Version}'"
-                } else if (params.Tag_Strategy == CREATE_NEW_TAG && tags.contains(params.Version)) {
-                    error("Git tag ${params.Version} already exists.")
                 }
             }
-        }
 
 //         stage('Lint') {
 //              lintDockerfile()
 //              shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
 //         }
 
-        stage('Apply Parameters') {
-            if (params.Version != null && !params.Version.isEmpty()) {
-                ecoSystem.setVersion(params.Version)
-            }
-        }
-
-        try {
-
-            stage('Provision') {
-                ecoSystem.provision("/dogu");
-            }
-
-            stage('Setup') {
-                ecoSystem.loginBackend('cesmarvin-setup')
-                ecoSystem.setup()
-            }
-
-            stage('Wait for dependencies') {
-                timeout(15) {
-                    ecoSystem.waitForDogu("cas")
-                    ecoSystem.waitForDogu("usermgt")
+            stage('Apply Parameters') {
+                if (params.Version != null && !params.Version.isEmpty()) {
+                    ecoSystem.setVersion(params.Version)
                 }
             }
 
-            stage('Build') {
-                ecoSystem.build("/dogu")
-            }
+            try {
 
-            stage('Verify') {
-                ecoSystem.verify("/dogu")
-            }
+                stage('Provision') {
+                    ecoSystem.provision("/dogu");
+                }
 
-            stage('e2e Tests') {
+                stage('Setup') {
+                    ecoSystem.loginBackend('cesmarvin-setup')
+                    ecoSystem.setup()
+                }
 
-                String externalIP = ecoSystem.externalIP
+                stage('Wait for dependencies') {
+                    timeout(15) {
+                        ecoSystem.waitForDogu("cas")
+                        ecoSystem.waitForDogu("usermgt")
+                    }
+                }
 
-                timeout(time: 15, unit: 'MINUTES') {
+                stage('Build') {
+                    ecoSystem.build("/dogu")
+                }
 
-                    try {
+                stage('Verify') {
+                    ecoSystem.verify("/dogu")
+                }
 
-                        withZalenium { zaleniumIp ->
+                stage('e2e Tests') {
 
-                            dir('integrationTests') {
+                    String externalIP = ecoSystem.externalIP
 
-                                docker.image('cloudogu/gauge-java:1.0.4')
-                                        .inside("-e WEBDRIVER=remote -e CES_FQDN=${externalIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${zaleniumIp}:4444/wd/hub") {
-                                            sh 'mvn test'
-                                        }
+                    timeout(time: 15, unit: 'MINUTES') {
+
+                        try {
+
+                            withZalenium { zaleniumIp ->
+
+                                dir('integrationTests') {
+
+                                    docker.image('cloudogu/gauge-java:1.0.4')
+                                            .inside("-e WEBDRIVER=remote -e CES_FQDN=${externalIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${zaleniumIp}:4444/wd/hub") {
+                                                sh 'mvn test'
+                                            }
+
+                                }
 
                             }
-
-                        }
-                    } finally {
-                        // archive test results
-                        junit allowEmptyResults: true, testResults: 'integrationTests/target/gauge/xml-report/result.xml'
-                    }
-                }
-            }
-
-            stage('Push changes to remote repository') {
-                if (params.Tag_Strategy == CREATE_NEW_TAG) {
-                    // create new tag
-                    sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' tag -m '${params.Version}' ${params.Version}"
-
-                    // push changes back to remote repository
-                    withCredentials([usernamePassword(credentialsId: 'cesmarvin', usernameVariable: 'GIT_AUTH_USR', passwordVariable: 'GIT_AUTH_PSW')]) {
-                        sh "git -c credential.helper=\"!f() { echo username='\$GIT_AUTH_USR'; echo password='\$GIT_AUTH_PSW'; }; f\" push origin ${params.Version}"
-                    }
-                }
-            }
-
-            stage('Push') {
-                // No dogu release without tag allowed
-                if (params.Tag_Strategy != IGNORE_TAG) {
-                    for (namespace in NAMESPACES) {
-                        if (params."Push_${namespace}" != null && params."Push_${namespace}") {
-                            ecoSystem.purge("scm")
-                            ecoSystem.changeNamespace(namespace, "/dogu")
-                            ecoSystem.build("/dogu")
-                            ecoSystem.push("/dogu")
+                        } finally {
+                            // archive test results
+                            junit allowEmptyResults: true, testResults: 'integrationTests/target/gauge/xml-report/result.xml'
                         }
                     }
                 }
-            }
 
-        } finally {
-            stage('Clean') {
-                ecoSystem.destroy()
+                stage('Push changes to remote repository') {
+                    if (params.Tag_Strategy == CREATE_NEW_TAG) {
+                        // create new tag
+                        sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' tag -m '${params.Version}' ${params.Version}"
+
+                        // push changes back to remote repository
+                        withCredentials([usernamePassword(credentialsId: 'cesmarvin', usernameVariable: 'GIT_AUTH_USR', passwordVariable: 'GIT_AUTH_PSW')]) {
+                            sh "git -c credential.helper=\"!f() { echo username='\$GIT_AUTH_USR'; echo password='\$GIT_AUTH_PSW'; }; f\" push origin ${params.Version}"
+                        }
+                    }
+                }
+
+                stage('Push') {
+                    // No dogu release without tag allowed
+                    if (params.Tag_Strategy != IGNORE_TAG) {
+                        for (namespace in NAMESPACES) {
+                            if (params."Push_${namespace}" != null && params."Push_${namespace}") {
+                                ecoSystem.purge("scm")
+                                ecoSystem.changeNamespace(namespace, "/dogu")
+                                ecoSystem.build("/dogu")
+                                ecoSystem.push("/dogu")
+                            }
+                        }
+                    }
+                }
+
+            } finally {
+                stage('Clean') {
+                    ecoSystem.destroy()
+                }
             }
+        }
+        if (currentBuild.currentResult == 'FAILURE') {
+            mail to: "scm-team@cloudogu.com",
+                 subject: "${JOB_NAME} - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}!",
+                 body: "Check console output at ${BUILD_URL} to view the results."
         }
     }
 }
