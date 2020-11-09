@@ -23,7 +23,7 @@ RUN set -x \
     && mkdir ${SCM_REQUIRED_PLUGINS} \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/1.0.0/scm-code-editor-plugin-1.0.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.2.0/scm-script-plugin-2.2.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
-    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.1.2/scm-cas-plugin-2.1.2.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
+    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.2.0/scm-cas-plugin-2.2.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
     # set mercurial system ca-certificates
