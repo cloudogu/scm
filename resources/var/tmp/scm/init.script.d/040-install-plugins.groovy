@@ -24,7 +24,8 @@ def defaultPlugins = [
     "scm-editor-plugin",
     "scm-landingpage-plugin",
     "scm-repository-template-plugin",
-    "scm-commit-message-checker-plugin"
+    "scm-commit-message-checker-plugin",
+    "scm-trace-monitor-plugin"
 ];
 
 def plugins = []
