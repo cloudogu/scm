@@ -7,3 +7,7 @@ EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.skipAdminCreation=true"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.lifecycle.restart-strategy=exit"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.restart.exit-code=42"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.restart-migration.wait=1000"
+if [ "$(doguctl config "container_config/memory_limit" -d "empty")" != "empty" ];  then
+  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -XX:MaxRAMPercentage=85.0"
+  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -XX:MinRAMPercentage=50.0"
+fi
