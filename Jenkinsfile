@@ -56,7 +56,7 @@ node('vagrant') {
 
          stage('Lint') {
 //             we cannot use the Dockerfile Linter because it fails without the labels `name` and `version` which we doesn't use
-//              lintDockerfile()
+//             lintDockerfile()
               shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
          }
 
