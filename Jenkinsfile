@@ -54,10 +54,11 @@ node('vagrant') {
                 }
             }
 
-//         stage('Lint') {
+         stage('Lint') {
+//             we cannot use the Dockerfile Linter because it fails without the labels `name` and `version` which we doesn't use
 //              lintDockerfile()
-//              shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
-//         }
+              shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
+         }
 
             stage('Apply Parameters') {
                 if (params.Version != null && !params.Version.isEmpty()) {
