@@ -27,11 +27,11 @@ RUN set -x \
     # download scm-script-plugin & scm-cas-plugin
     && mkdir ${SCM_REQUIRED_PLUGINS} \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/1.0.0/scm-code-editor-plugin-1.0.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp \
-#    && echo "${SCM_CODE_EDITOR_PLUGIN_SHA256} ${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp" | sha256sum -c - \
+    && echo "${SCM_CODE_EDITOR_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp" | sha256sum -c - \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.2.0/scm-script-plugin-2.2.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
-#    && echo "${SCM_SCRIPT_PLUGIN_SHA256} ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" | sha256sum -c - \
+    && echo "${SCM_SCRIPT_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" | sha256sum -c - \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.2.1/scm-cas-plugin-2.2.1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
-#    && echo "${SCM_CAS_PLUGIN_SHA256} ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" | sha256sum -c - \
+    && echo "${SCM_CAS_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" | sha256sum -c - \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
     # set mercurial system ca-certificates
