@@ -54,11 +54,11 @@ node('vagrant') {
                 }
             }
 
-         stage('Lint') {
+            stage('Lint') {
 //             we cannot use the Dockerfile Linter because it fails without the labels `name` and `version` which we doesn't use
 //             lintDockerfile()
-              shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
-         }
+                shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
+            }
 
             stage('Apply Parameters') {
                 if (params.Version != null && !params.Version.isEmpty()) {
@@ -93,30 +93,7 @@ node('vagrant') {
                 }
 
                 stage('e2e Tests') {
-
-                    String externalIP = ecoSystem.externalIP
-
-                    timeout(time: 15, unit: 'MINUTES') {
-
-                        try {
-
-                            withZalenium { zaleniumIp ->
-
-                                dir('integrationTests') {
-
-                                    docker.image('cloudogu/gauge-java:1.0.4')
-                                            .inside("-e WEBDRIVER=remote -e CES_FQDN=${externalIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${zaleniumIp}:4444/wd/hub") {
-                                                sh 'mvn test'
-                                            }
-
-                                }
-
-                            }
-                        } finally {
-                            // archive test results
-                            junit allowEmptyResults: true, testResults: 'integrationTests/target/gauge/xml-report/result.xml'
-                        }
-                    }
+                    ecoSystem.runMavenIntegrationTests(15)
                 }
 
                 stage('Push changes to remote repository') {
@@ -153,8 +130,8 @@ node('vagrant') {
         }
         if (currentBuild.currentResult == 'FAILURE') {
             mail to: "scm-team@cloudogu.com",
-                 subject: "${JOB_NAME} - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}!",
-                 body: "Check console output at ${BUILD_URL} to view the results."
+                    subject: "${JOB_NAME} - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}!",
+                    body: "Check console output at ${BUILD_URL} to view the results."
         }
     }
 }
