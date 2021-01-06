@@ -1,4 +1,4 @@
-FROM registry.cloudogu.com/official/java:11.0.5-3
+FROM registry.cloudogu.com/official/java:11.0.5-4
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 # scm-server environment
@@ -8,12 +8,17 @@ ENV SCM_HOME=/var/lib/scm \
     # mark as webapp for nginx
     SERVICE_8080_TAGS="webapp" \
     SERVICE_8080_NAME="scm" \
-    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.12.0/unix-2.12.0-app.tar.gz
+    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.12.0/unix-2.12.0-app.tar.gz \
+    SCM_PKG_SHA256=ea2263c9018735004cde70c941a530574d67c1cb15b1cd56e3d2f4e0eb88ef89 \
+    SCM_CODE_EDITOR_PLUGIN_SHA256=c5d80fa7ab9723fd3d41b8422ec83433bc3376f59850d97a589fe093f5ca8989 \
+    SCM_SCRIPT_PLUGIN_SHA256=4765df9331136df8adc2fb9a4f3a302914ca0a31981b854cac1cc9d2af03e355 \
+    SCM_CAS_PLUGIN_SHA256=c24b297a29185edd5fe7bdd08bc85c4e583dc79110257ab26ef72f72b74b7cc6
 
 ## install scm-server
 RUN set -x \
     && apk add --no-cache mercurial jq unzip \
     && curl --fail  -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
+    && echo "${SCM_PKG_SHA256} /tmp/scm-server.tar.gz" | sha256sum -c - \
     && addgroup -S -g 1000 scm \
     && adduser -S -h /opt/scm-server -s /bin/bash -G scm -u 1000 scm \
     && gunzip /tmp/scm-server.tar.gz \
@@ -22,8 +27,11 @@ RUN set -x \
     # download scm-script-plugin & scm-cas-plugin
     && mkdir ${SCM_REQUIRED_PLUGINS} \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/1.0.0/scm-code-editor-plugin-1.0.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp \
+    && echo "${SCM_CODE_EDITOR_PLUGIN_SHA256} ${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp" | sha256sum -c - \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.2.0/scm-script-plugin-2.2.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
+    && echo "${SCM_SCRIPT_PLUGIN_SHA256} ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" | sha256sum -c - \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.2.1/scm-cas-plugin-2.2.1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
+    && echo "${SCM_CAS_PLUGIN_SHA256} ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" | sha256sum -c - \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
     # set mercurial system ca-certificates
@@ -48,7 +56,7 @@ EXPOSE 8080 2222
 
 USER scm
 
-HEALTHCHECK CMD [ $(doguctl healthy scm; echo $?) == 0 ]
+HEALTHCHECK CMD doguctl healthy scm || exit 1
 
 # start scm
 CMD ["/startup.sh"]
