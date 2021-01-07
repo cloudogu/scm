@@ -1,7 +1,6 @@
 #!groovy
-@Library(['github.com/cloudogu/dogu-build-lib@eff3093', 'github.com/cloudogu/zalenium-build-lib@v1.2.0']) _
+@Library(['github.com/cloudogu/dogu-build-lib@eff3093', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
 import com.cloudogu.ces.dogubuildlib.*
-import com.cloudogu.ces.zaleniumbuildlib.*
 
 def NAMESPACES = ["testing", "itz-bund", "next", "official"]
 def IGNORE_TAG = "ignore-tag"
@@ -56,7 +55,7 @@ node('vagrant') {
             }
 
             stage('Lint') {
-//             we cannot use the Dockerfile Linter because it fails without the labels `name` and `version` which we doesn't use
+//             we cannot use the Dockerfile Linter because it fails without the labels `name` and `version` which we don't use
 //             lintDockerfile()
                 shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
             }
@@ -94,7 +93,23 @@ node('vagrant') {
                 }
 
                 stage('e2e Tests') {
-                    ecoSystem.runMavenIntegrationTests(15)
+
+                    String externalIP = ecoSystem.externalIP
+                    timeout(time: 15, unit: 'MINUTES') {
+                        try {
+                            withZalenium { zaleniumIp ->
+                                dir('integrationTests') {
+                                    docker.image('cloudogu/gauge-java:1.0.4')
+                                            .inside("-e WEBDRIVER=remote -e CES_FQDN=${externalIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${zaleniumIp}:4444/wd/hub") {
+                                                sh 'mvn test'
+                                            }
+                                }
+                            }
+                        } finally {
+                            // archive test results
+                            junit allowEmptyResults: true, testResults: 'integrationTests/target/gauge/xml-report/result.xml'
+                        }
+                    }
                 }
 
                 stage('Push changes to remote repository') {
