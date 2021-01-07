@@ -1,6 +1,7 @@
 #!groovy
-@Library(['github.com/cloudogu/dogu-build-lib@36c827530', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
+@Library(['github.com/cloudogu/dogu-build-lib@eff3093', 'github.com/cloudogu/zalenium-build-lib@v1.2.0']) _
 import com.cloudogu.ces.dogubuildlib.*
+import com.cloudogu.ces.zaleniumbuildlib.*
 
 def NAMESPACES = ["testing", "itz-bund", "next", "official"]
 def IGNORE_TAG = "ignore-tag"
