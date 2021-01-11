@@ -5,7 +5,6 @@ set -o nounset
 set -o pipefail
 
 OLD_VERSION="$1"
-NEW_VERSION="$2"
 
 IFS='-' read -ra version_parts <<< "$OLD_VERSION"
 
