@@ -16,7 +16,7 @@ ENV SCM_HOME=/var/lib/scm \
 
 ## install scm-server
 RUN set -x \
-    && apk add --no-cache mercurial jq unzip \
+    && apk add --no-cache ttf-dejavu mercurial jq unzip \
     && curl --fail  -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
     && echo "${SCM_PKG_SHA256} */tmp/scm-server.tar.gz" | sha256sum -c - \
     && addgroup -S -g 1000 scm \
