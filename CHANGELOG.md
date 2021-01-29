@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add SCM-MarkDown-PlantUML-Plugin as default plugin
 
 ### Changed
-- Upgrade SCM-Manager version to 2.13.0
+- Upgrade SCM-Manager version to 2.13.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.13.0/CHANGELOG.md))
 
 ## [2.12.0-1]
 ### Changed
