@@ -72,6 +72,22 @@
       "Validation": {
         "Type": "FLOAT_PERCENTAGE_HUNDRED"
       }
+    },
+    {
+      "Name": "logging/root",
+      "Description": "Set the root log level to one of ERROR, WARN, INFO, DEBUG or TRACE. Default is INFO",
+      "Optional": true,
+      "Default": "INFO",
+      "Validation": {
+        "Type": "ONE_OF",
+        "Values": [
+          "WARN",
+          "ERROR",
+          "INFO",
+          "DEBUG",
+          "TRACE"
+        ]
+      }
     }
   ],
   "ExposedPorts": [{
