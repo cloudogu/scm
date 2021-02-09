@@ -16,3 +16,8 @@ if [ "$(doguctl config "container_config/memory_limit" -d "empty")" != "empty" ]
   EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -XX:MaxRAMPercentage=${MEMORY_LIMIT_MAX_PERCENTAGE}"
   EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -XX:MinRAMPercentage=${MEMORY_LIMIT_MIN_PERCENTAGE}"
 fi
+
+if [ "$(doguctl config 'logging/root' -d 'empty')" != "empty" ];  then
+  SCM_CORE_LOG_LEVEL=$(doguctl config "logging/root")
+  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.logging.core.level=${SCM_CORE_LOG_LEVEL}"
+fi
