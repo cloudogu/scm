@@ -12,7 +12,7 @@ ENV SCM_HOME=/var/lib/scm \
     SCM_PKG_SHA256=094615bdd6a532d15c1ef0be36e4d5f3bbe69365eb09f4424751e8ae022589ea \
     SCM_CODE_EDITOR_PLUGIN_SHA256=c5d80fa7ab9723fd3d41b8422ec83433bc3376f59850d97a589fe093f5ca8989 \
     SCM_SCRIPT_PLUGIN_SHA256=4765df9331136df8adc2fb9a4f3a302914ca0a31981b854cac1cc9d2af03e355 \
-    SCM_CAS_PLUGIN_SHA256=c24b297a29185edd5fe7bdd08bc85c4e583dc79110257ab26ef72f72b74b7cc6
+    SCM_CAS_PLUGIN_SHA256=eeb1169b2797747cd4ef2bf78c8b9b221d45844776d38cf64c9e8e1c1501f1f0
 
 ## install scm-server
 RUN set -x \
@@ -30,7 +30,7 @@ RUN set -x \
     && echo "${SCM_CODE_EDITOR_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp" | sha256sum -c - \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.2.0/scm-script-plugin-2.2.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
     && echo "${SCM_SCRIPT_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" | sha256sum -c - \
-    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.2.1/scm-cas-plugin-2.2.1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
+    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.2.2/scm-cas-plugin-2.2.2.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
     && echo "${SCM_CAS_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" | sha256sum -c - \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
