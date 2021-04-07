@@ -9,8 +9,6 @@ import sonia.scm.security.PermissionAssigner;
 import sonia.scm.security.PermissionDescriptor;
 import sonia.scm.SCMContextProvider;
 
-println("RUNNING NEW CONFIG SCRIPT")
-
 def sh(String cmd) {
   try {
     proc = cmd.execute()
@@ -26,13 +24,13 @@ def sh(String cmd) {
 def getGlobalValueFromEtcd(String key) {
   value = sh("doguctl config --global --default DEFAULT_VALUE ${key}")
   println "reading global etcd value: '${key}' -> '${value}'"
-  return value == "DEFAULT_VALUE"? null: value
+  return value == "DEFAULT_VALUE" ? null : value
 }
 
 def getValueFromEtcd(String key) {
   value = sh("doguctl config --default DEFAULT_VALUE ${key}")
   println "reading etcd value: '${key}' -> '${value}'"
-  return value == "DEFAULT_VALUE"? null: value
+  return value == "DEFAULT_VALUE" ? null : value
 }
 
 def setEtcdValue(String key, String value) {
