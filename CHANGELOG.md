@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Old admin group will be deleted if value is changed in etcd ([#35](https://github.com/cloudogu/scm/pull/35))
 
+### Fixed
+- Missing graphiz for PlantUML plugin ([#36](https://github.com/cloudogu/scm/pull/36))
+
 ## [2.16.0-1]
 ### Changed
 - Upgrade SCM-Manager to version 2.16.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.16.0/CHANGELOG.md))
