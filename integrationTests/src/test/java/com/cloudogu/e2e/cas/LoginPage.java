@@ -21,7 +21,7 @@ public class LoginPage extends Page {
     @FindBy(id ="password")
     WebElement passwordField;
     @Required
-    @FindBy(css = "input[name='submit']")
+    @FindBy(css = "button[name='submit']")
     WebElement submitButton;
 
     public LoginPage(WebDriver driver) {
