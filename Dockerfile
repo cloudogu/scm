@@ -8,8 +8,8 @@ ENV SCM_HOME=/var/lib/scm \
     # mark as webapp for nginx
     SERVICE_8080_TAGS="webapp" \
     SERVICE_8080_NAME="scm" \
-    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.17.0/unix-2.17.0.tar.gz \
-    SCM_PKG_SHA256=208d745081d9c7de4a3332dfa9aad1ea1ce4cd5d8de3f8ec7a5957f2b0ca418d \
+    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.17.1/unix-2.17.1.tar.gz \
+    SCM_PKG_SHA256=4b203f020284fe7e49e42efaf018e1707b4c406b830d547cf8daf6018f5a2294 \
     SCM_CODE_EDITOR_PLUGIN_SHA256=c5d80fa7ab9723fd3d41b8422ec83433bc3376f59850d97a589fe093f5ca8989 \
     SCM_SCRIPT_PLUGIN_SHA256=4765df9331136df8adc2fb9a4f3a302914ca0a31981b854cac1cc9d2af03e355 \
     SCM_CAS_PLUGIN_SHA256=5aa4434bf0397cdbe799e88d549c5ed3287737049ec6c51c16f26ba696057777
