@@ -14,6 +14,8 @@
 
 **Website:** https://www.scm-manager.org
 
+**Docs:** https://scm-manager.org/docs/latest/de/
+
 **Dependencies:** cas, nginx, postfix
 
 ## Installation Ecosystem
