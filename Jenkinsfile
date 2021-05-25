@@ -148,21 +148,13 @@ node('vagrant') {
                             String releaseFile = "content/releases/${params.ScmVersion.replace('.', '-')}.yml"
 
                             def release = readYaml file: releaseFile
-                            boolean exists = false
-                            for (int i=0; i < release.packages.size(); i++ ) {
-                                if (release.packages[i].type == 'ces') {
-                                    exists = true
-                                    break
-                                }
-                            }
-                            if (!exists) {
+                            if (!containsReleasePackage(release, 'ces')) {
                                 release.packages.add([type: 'ces'])
                                 writeYaml file: releaseFile, data: release, overwrite: true
                                 sh "git add ${releaseFile}"
                                 sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' commit -m 'Add ces package to release ${params.ScmVersion}' ${releaseFile}"
-                                withCredentials([usernamePassword(credentialsId: 'cesmarvin', usernameVariable: 'GIT_AUTH_USR', passwordVariable: 'GIT_AUTH_PSW')]) {
-                                    sh "git -c credential.helper=\"!f() { echo username='\$GIT_AUTH_USR'; echo password='\$GIT_AUTH_PSW'; }; f\" push origin master"
-                                }
+                                authGit 'cesmarvin', 'push origin master'
+
                             } else {
                                 echo "release ${params.ScmVersion} contains ces package already"
                             }
@@ -192,4 +184,23 @@ String getVersion() {
         return "${params.ScmVersion}-${params.DoguVersionCounter}"
     }
     return null
+}
+
+boolean containsReleasePackage(release, packageType) {
+    boolean exists = false
+    for (int i=0; i < release.packages.size(); i++ ) {
+        if (release.packages[i].type == packageType) {
+            exists = true
+            break
+        }
+    }
+    return exists
+}
+
+void authGit(String credentials, String command) {
+  withCredentials([
+    usernamePassword(credentialsId: credentials, usernameVariable: 'AUTH_USR', passwordVariable: 'AUTH_PSW')
+  ]) {
+    sh "git -c credential.helper=\"!f() { echo username='\$AUTH_USR'; echo password='\$AUTH_PSW'; }; f\" ${command}"
+  }
 }
