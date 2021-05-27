@@ -12,7 +12,8 @@ node('vagrant') {
 
     timestamps {
         def props = [];
-        props.add(string(defaultValue: '', description: 'Dogu Version', name: 'Version', trim: true))
+        props.add(string(defaultValue: '', description: 'SCM Version', name: 'ScmVersion', trim: true))
+        props.add(string(defaultValue: '1', description: 'Dogu Version Counter', name: 'DoguVersionCounter', trim: true))
         props.add(choice(name: 'Tag_Strategy', choices: TAG_STRATEGIES))
         for (namespace in NAMESPACES) {
             props.add(booleanParam(defaultValue: false, description: "Push new dogu into registry with namespace '${namespace}'", name: "Push_${namespace}"))
@@ -44,12 +45,12 @@ node('vagrant') {
                     sh "git fetch --tags"
                     def tags = sh(returnStdout: true, script: 'git tag -l').trim().readLines()
                     if (params.Tag_Strategy == BUILD_TAG) {
-                        if (!tags.contains(params.Version)) {
-                            error("Git tag ${params.Version} does not exist.")
+                        if (!tags.contains(version)) {
+                            error("Git tag ${version} does not exist.")
                         }
-                        sh "git checkout 'refs/tags/${params.Version}'"
-                    } else if (params.Tag_Strategy == CREATE_NEW_TAG && tags.contains(params.Version)) {
-                        error("Git tag ${params.Version} already exists.")
+                        sh "git checkout 'refs/tags/${version}'"
+                    } else if (params.Tag_Strategy == CREATE_NEW_TAG && tags.contains(version)) {
+                        error("Git tag ${version} already exists.")
                     }
                 }
             }
@@ -61,8 +62,8 @@ node('vagrant') {
             }
 
             stage('Apply Parameters') {
-                if (params.Version != null && !params.Version.isEmpty()) {
-                    ecoSystem.setVersion(params.Version)
+                if (version != null) {
+                    ecoSystem.setVersion(version)
                 }
             }
 
@@ -115,11 +116,11 @@ node('vagrant') {
                 stage('Push changes to remote repository') {
                     if (params.Tag_Strategy == CREATE_NEW_TAG) {
                         // create new tag
-                        sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' tag -m '${params.Version}' ${params.Version}"
+                        sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' tag -m '${version}' ${version}"
 
                         // push changes back to remote repository
                         withCredentials([usernamePassword(credentialsId: 'cesmarvin', usernameVariable: 'GIT_AUTH_USR', passwordVariable: 'GIT_AUTH_PSW')]) {
-                            sh "git -c credential.helper=\"!f() { echo username='\$GIT_AUTH_USR'; echo password='\$GIT_AUTH_PSW'; }; f\" push origin ${params.Version}"
+                            sh "git -c credential.helper=\"!f() { echo username='\$GIT_AUTH_USR'; echo password='\$GIT_AUTH_PSW'; }; f\" push origin ${version}"
                         }
                     }
                 }
@@ -138,6 +139,31 @@ node('vagrant') {
                     }
                 }
 
+                stage('Website') {
+                    echo "update website for ${version}"
+                    if (params.Push_official) {
+                        dir('website') {
+                            git branch: 'master', changelog: false, credentialsId: 'cesmarvin', poll: false, url: 'https://github.com/scm-manager/website.git'
+
+                            String releaseFile = "content/releases/${params.ScmVersion.replace('.', '-')}.yml"
+
+                            def release = readYaml file: releaseFile
+                            if (!containsReleasePackage(release, 'ces')) {
+                                release.packages.add([type: 'ces'])
+                                writeYaml file: releaseFile, data: release, overwrite: true
+                                sh "git add ${releaseFile}"
+                                sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' commit -m 'Add ces package to release ${params.ScmVersion}' ${releaseFile}"
+                                authGit 'cesmarvin', 'push origin master'
+
+                            } else {
+                                echo "release ${params.ScmVersion} contains ces package already"
+                            }
+                        }
+                    } else {
+                        echo 'we only update the website if the official dogu is pushed'
+                    }
+                }
+
             } finally {
                 stage('Clean') {
                     ecoSystem.destroy()
@@ -150,4 +176,31 @@ node('vagrant') {
                     body: "Check console output at ${BUILD_URL} to view the results."
         }
     }
+}
+
+
+String getVersion() {
+    if (params.ScmVersion != null && !params.ScmVersion.isEmpty()) {
+        return "${params.ScmVersion}-${params.DoguVersionCounter}"
+    }
+    return null
+}
+
+boolean containsReleasePackage(release, packageType) {
+    boolean exists = false
+    for (int i=0; i < release.packages.size(); i++ ) {
+        if (release.packages[i].type == packageType) {
+            exists = true
+            break
+        }
+    }
+    return exists
+}
+
+void authGit(String credentials, String command) {
+  withCredentials([
+    usernamePassword(credentialsId: credentials, usernameVariable: 'AUTH_USR', passwordVariable: 'AUTH_PSW')
+  ]) {
+    sh "git -c credential.helper=\"!f() { echo username='\$AUTH_USR'; echo password='\$AUTH_PSW'; }; f\" ${command}"
+  }
 }
