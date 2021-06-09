@@ -1,7 +1,7 @@
 <img src="https://cloudogu.com/images/dogus/scm-manager.png" alt="scm-manager logo" height="100px">
 
 
-[![GitHub license](https://img.shields.io/github/license/cloudogu/scm.svg)](https://github.com/cloudogu/scm/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/cloudogu/scm.svg)](https://github.com/cloudogu/scm/blob/develop/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/cloudogu/scm.svg)](https://github.com/cloudogu/scm/releases)
 
 # SCM-Manager Dogu
