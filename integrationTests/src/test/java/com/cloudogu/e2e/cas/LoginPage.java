@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage extends Page {
 
@@ -36,6 +38,9 @@ public class LoginPage extends Page {
 
     public void login(String username, String password) {
         tooltip.click();
+        WebDriverWait wait = new WebDriverWait(driver,5);
+        wait.until(ExpectedConditions.invisibilityOf(tooltip));
+
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
         submitButton.click();
