@@ -1,6 +1,8 @@
 // this script configures the cas plugin
 
-import groovy.json.JsonSlurper;
+import groovy.json.JsonSlurper
+
+import java.util.regex.Pattern;
 
 // TODO sharing ?
 def getValueFromEtcd(String key) {
@@ -17,7 +19,7 @@ try {
     String fqdn = getValueFromEtcd("config/_global/fqdn")
     config.setCasUrl("https://${fqdn}/cas")
     config.setEnabled(true)
-    String escapedFqdn = fqdn.replaceAll(".", "\\.");
+    String escapedFqdn = Pattern.quote(fqdn)
     config.setAllowedProxyChains("^https://${escapedFqdn}/.*\$")
 
     cas.set(config);
