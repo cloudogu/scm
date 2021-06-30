@@ -17,7 +17,8 @@ try {
     String fqdn = getValueFromEtcd("config/_global/fqdn")
     config.setCasUrl("https://${fqdn}/cas")
     config.setEnabled(true)
-    config.setAllowedProxyChains("^https://${fqdn}/.*\$")
+    String escapedFqdn = fqdn.replaceAll(".", "\\.");
+    config.setAllowedProxyChains("^https://${escapedFqdn}/.*\$")
 
     cas.set(config);
 } catch (ClassNotFoundException ex) {
