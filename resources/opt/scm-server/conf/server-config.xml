@@ -10,7 +10,7 @@
       <Arg><New class="org.eclipse.jetty.server.ForwardedRequestCustomizer"/></Arg>
     </Call>
   </New>
-  
+
   <Call name="addConnector">
     <Arg>
       <New class="org.eclipse.jetty.server.ServerConnector">
@@ -45,7 +45,7 @@
       <Arg>false</Arg>
     </Call>
     <Set name="tempDirectory">
-      /tmp/scm
+      /var/cache/scm
     </Set>
   </New>
 
