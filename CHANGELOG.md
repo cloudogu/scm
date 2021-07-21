@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update script plugin to version 2.2.1 ([Changelog](https://github.com/scm-manager/scm-script-plugin/blob/2.2.1/CHANGELOG.md))
 - Upgrade SCM-Manager to version 2.21.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.21.0/CHANGELOG.md))
 
+### Fixed
+- Integration-Tests for SCM-Manager UI for new header
+
 ## [2.20.0-1]
 ### Changed
 - Upgrade SCM-Manager to version 2.20.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.20.0/CHANGELOG.md))

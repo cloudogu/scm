@@ -15,14 +15,17 @@ import static java.util.Optional.of;
 public class ScmManagerRootPage extends Page {
 
     @Required
-    @FindBy(className = "hero-foot")
+    @FindBy(className = "navbar-brand")
     WebElement mainMenuEntries;
+
+    @FindBy(className = "navbar-burger")
+    WebElement burgerMenu;
 
     @FindBy(className = "title")
     WebElement titleField;
 
-    @FindBy(linkText = "Logout")
-    WebElement logoutMenuEntry;
+    @FindBy(xpath = "//a[@href='/scm/logout']")
+    WebElement logoutButton;
 
     @FindBy(xpath = "//a[@href='/scm/me']")
     WebElement meLink;
@@ -35,7 +38,7 @@ public class ScmManagerRootPage extends Page {
     }
 
     static Optional<ScmManagerRootPage> get(WebDriver driver) {
-        if (driver.findElement(By.className("hero-foot")) != null) {
+        if (driver.findElement(By.className("navbar-brand")) != null) {
             return of(new ScmManagerRootPage(driver));
         } else {
             return empty();
@@ -52,7 +55,8 @@ public class ScmManagerRootPage extends Page {
     }
 
     void logout() {
-        logoutMenuEntry.click();
+        burgerMenu.click();
+        logoutButton.click();
     }
 
     String username() {
