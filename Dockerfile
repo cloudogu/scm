@@ -11,7 +11,7 @@ ENV SCM_HOME=/var/lib/scm \
     SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.20.0/unix-2.20.0.tar.gz \
     SCM_PKG_SHA256=ec674265f14190055eda0010cd774509454390ca383037735e3c01d5d157b98d \
     SCM_CODE_EDITOR_PLUGIN_SHA256=c5d80fa7ab9723fd3d41b8422ec83433bc3376f59850d97a589fe093f5ca8989 \
-    SCM_SCRIPT_PLUGIN_SHA256=4765df9331136df8adc2fb9a4f3a302914ca0a31981b854cac1cc9d2af03e355 \
+    SCM_SCRIPT_PLUGIN_SHA256=9dd0d065e33a1864457ab3506dad05d8c5a11d80abb8529646c2056e4f3ecf6d \
     SCM_CAS_PLUGIN_SHA256=b6e8f960cdc7f81f73da4acae1b53c87e0855e418f7145c2cd37b98e0e94f008
 
 ## install scm-server
@@ -28,7 +28,7 @@ RUN set -x \
     && mkdir ${SCM_REQUIRED_PLUGINS} \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/1.0.0/scm-code-editor-plugin-1.0.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp \
     && echo "${SCM_CODE_EDITOR_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp" | sha256sum -c - \
-    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.2.0/scm-script-plugin-2.2.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
+    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.2.1/scm-script-plugin-2.2.1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
     && echo "${SCM_SCRIPT_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" | sha256sum -c - \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.3.0/scm-cas-plugin-2.3.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
     && echo "${SCM_CAS_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" | sha256sum -c - \

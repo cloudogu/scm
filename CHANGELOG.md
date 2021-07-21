@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Configure CAS proxy chains to allow all dogus within fqdn range ([#39](https://github.com/cloudogu/scm/pull/39))
 - Expose temporary directory for server ([#40](https://github.com/cloudogu/scm/pull/40))
+- Update script plugin to version 2.2.1 ([Changelog](https://github.com/scm-manager/scm-script-plugin/blob/2.2.1/CHANGELOG.md))
 
 ## [2.20.0-1]
 ### Changed
