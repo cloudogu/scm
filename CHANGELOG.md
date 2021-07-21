@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Added
+- Configuration option for workdir cache ([#41](https://github.com/cloudogu/scm/pull/41))
+
 ## [2.21.0-1]
 ### Changed
 - Configure CAS proxy chains to allow all dogus within fqdn range ([#39](https://github.com/cloudogu/scm/pull/39))
