@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Changed
+- Upgrade SCM-Manager to version 2.22.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.22.0/CHANGELOG.md))
+
+### Added
+- Configuration option for workdir cache ([#41](https://github.com/cloudogu/scm/pull/41))
+
 ## [2.21.0-1]
 ### Changed
 - Configure CAS proxy chains to allow all dogus within fqdn range ([#39](https://github.com/cloudogu/scm/pull/39))

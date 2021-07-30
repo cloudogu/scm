@@ -88,6 +88,12 @@
           "TRACE"
         ]
       }
+    },
+    {
+      "Name": "caching/workdir/size",
+      "Description":"Size of cache for working directories used to edit repository content, for example using the editor or the review plugin. To disable cache, clean this value.",
+      "Optional": true,
+      "Default": "5"
     }
   ],
   "ExposedPorts": [{

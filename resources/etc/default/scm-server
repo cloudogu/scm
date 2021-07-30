@@ -21,3 +21,8 @@ if [ "$(doguctl config 'logging/root' -d 'empty')" != "empty" ];  then
   SCM_CORE_LOG_LEVEL=$(doguctl config "logging/root")
   EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.logging.core.level=${SCM_CORE_LOG_LEVEL}"
 fi
+
+if [ "$(doguctl config 'caching/workdir/size' -d 'empty')" != "empty" ];  then
+  SCM_WORKDIR_CACHE=$(doguctl config "caching/workdir/size")
+  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.workingCopyPoolSize=${SCM_WORKDIR_CACHE} -Dscm.workingCopyPoolStrategy=sonia.scm.repository.work.SimpleCachingWorkingCopyPool"
+fi
