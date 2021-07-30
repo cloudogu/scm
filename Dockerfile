@@ -8,11 +8,11 @@ ENV SCM_HOME=/var/lib/scm \
     # mark as webapp for nginx
     SERVICE_8080_TAGS="webapp" \
     SERVICE_8080_NAME="scm" \
-    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.21.0/unix-2.21.0.tar.gz \
-    SCM_PKG_SHA256=cd1a306ab65c79e0b65ac7b50dcf84fdea39cc76309180fce6492f86cd96ce35 \
+    SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.22.0/unix-2.22.0.tar.gz \
+    SCM_PKG_SHA256=aa9537eb790e7efdefff3a4278d36448e8755ede1b4566d1de226a97e767d712 \
     SCM_CODE_EDITOR_PLUGIN_SHA256=c5d80fa7ab9723fd3d41b8422ec83433bc3376f59850d97a589fe093f5ca8989 \
-    SCM_SCRIPT_PLUGIN_SHA256=9dd0d065e33a1864457ab3506dad05d8c5a11d80abb8529646c2056e4f3ecf6d \
-    SCM_CAS_PLUGIN_SHA256=b6e8f960cdc7f81f73da4acae1b53c87e0855e418f7145c2cd37b98e0e94f008
+    SCM_SCRIPT_PLUGIN_SHA256=07de0736ce324d2154b199b306c156ff74ecf7816638f2c5307bd3cdbd3da7f6 \
+    SCM_CAS_PLUGIN_SHA256=c73674301e4f1f41a901e90b3f1ffd2895426e4b926fd88ac0d26285ef7368c4
 
 ## install scm-server
 RUN set -x \
@@ -28,9 +28,9 @@ RUN set -x \
     && mkdir ${SCM_REQUIRED_PLUGINS} \
     && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/1.0.0/scm-code-editor-plugin-1.0.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp \
     && echo "${SCM_CODE_EDITOR_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp" | sha256sum -c - \
-    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.2.1/scm-script-plugin-2.2.1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
+    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.3.0/scm-script-plugin-2.3.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp \
     && echo "${SCM_SCRIPT_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" | sha256sum -c - \
-    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.3.0/scm-cas-plugin-2.3.0.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
+    && curl --fail -Lks https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.3.1/scm-cas-plugin-2.3.1.smp -o ${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp \
     && echo "${SCM_CAS_PLUGIN_SHA256} *${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" | sha256sum -c - \
     # cleanup
     && rm -rf /tmp/* /var/cache/apk/* \
