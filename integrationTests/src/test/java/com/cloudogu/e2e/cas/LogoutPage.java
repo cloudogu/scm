@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 public class LogoutPage extends Page {
 
     @Required
-    @FindBy(id ="msg")
+    @FindBy(className = "banner-heading")
     WebElement messageField;
 
     public LogoutPage(WebDriver driver) {

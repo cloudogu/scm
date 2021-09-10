@@ -22,7 +22,7 @@ public class LoginPage extends Page {
     @Required
     @FindBy(css = "button[name='submit']")
     WebElement submitButton;
-    @FindBy(className = " warp-onboarding")
+    @FindBy(className = "warp-onboarding")
     WebElement tooltip;
 
     public LoginPage(WebDriver driver) {
