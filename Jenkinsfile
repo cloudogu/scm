@@ -103,23 +103,7 @@ node('vagrant') {
                 }
 
                 stage('e2e Tests') {
-
-                    String externalIP = ecoSystem.externalIP
-                    timeout(time: 15, unit: 'MINUTES') {
-                        try {
-                            withZalenium { zaleniumIp ->
-                                dir('integrationTests') {
-                                    docker.image('cloudogu/gauge-java:1.0.4')
-                                            .inside("-e WEBDRIVER=remote -e CES_FQDN=${externalIP} -e SELENIUM_BROWSER=chrome -e SELENIUM_REMOTE_URL=http://${zaleniumIp}:4444/wd/hub") {
-                                                sh 'mvn test'
-                                            }
-                                }
-                            }
-                        } finally {
-                            // archive test results
-                            junit allowEmptyResults: true, testResults: 'integrationTests/target/gauge/xml-report/result.xml'
-                        }
-                    }
+                    ecoSystem.runCypressIntegrationTests([enableVideo: true, enableScreenshots: true])
                 }
 
                 stage('Push changes to remote repository') {
