@@ -2,14 +2,24 @@
 const doguTestLibrary = require('@cloudogu/dogu-integration-test-library')
 doguTestLibrary.registerSteps()
 
+When(/^the burger menu is open$/, () => {
+    cy.get('button[class=navbar-burger]').click();
+});
+
 When(/^the user clicks the dogu logout button$/, () => {
-    cy.get('[data-testid=$primary-navigation-logout]').click();
+    Cypress.on('uncaught:exception', () => { return false; });
+    cy.get('button[class=navbar-burger]').click();
+    cy.get('[data-testid=primary-navigation-logout]').click();
 });
 
 Then(/^the user has administrator privileges in the dogu$/, () => {
-    cy.get('[data-testid=$primary-navigation-admin]').should('be.visible')
+    Cypress.on('uncaught:exception', () => { return false; });
+    cy.get('button[class=navbar-burger]').click();
+    cy.get('[data-testid="primary-navigation-admin"]').should('be.visible')
 });
 
 Then(/^the user has no administrator privileges in the dogu$/, () => {
-    cy.get('[data-testid=$primary-navigation-admin]').should('not.be.visible')
+    Cypress.on('uncaught:exception', () => { return false; });
+    cy.get('button[class=navbar-burger]').click();
+    cy.get('[data-testid="primary-navigation-admin"]').should('not.exist')
 });

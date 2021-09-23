@@ -1,4 +1,5 @@
 {
+  "license": "MIT",
   "dependencies": {
     "cypress": "7.1.0",
     "cypress-cucumber-preprocessor": "4.1.0",
