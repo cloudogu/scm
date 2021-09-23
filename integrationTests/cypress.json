@@ -3,9 +3,9 @@
   "env": {
     "DoguName": "scm",
     "MaxLoginRetries": 3,
-    "AdminUsername":  "ces-admin",
-    "AdminPassword":  "ecosystem2016",
-    "AdminGroup":  "CesAdministrators"
+    "AdminUsername":  "admin",
+    "AdminPassword":  "admin",
+    "AdminGroup":  "admins"
   },
   "videoCompression": false,
   "nonGlobalStepBaseDir": false
