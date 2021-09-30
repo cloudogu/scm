@@ -10,8 +10,7 @@ def TAG_STRATEGIES = [IGNORE_TAG, CREATE_NEW_TAG, BUILD_TAG]
 
 node('vagrant') {
 
-    // TODO replace with develop and daily
-    String cronTrigger = BRANCH_NAME == "feature/nightly_snapshot_build" ? "@hourly" : ""
+    String cronTrigger = BRANCH_NAME == "develop" ? "@daily" : ""
 
     timestamps {
         def props = [];
