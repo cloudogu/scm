@@ -65,6 +65,10 @@ node('vagrant') {
                 if (version != null) {
                     ecoSystem.setVersion(version)
                 }
+                // TODO only on nightly build
+                docker.image('groovy:3.0.9-jdk11').inside {
+                    sh "groovy build/latestsnapshot.groovy"
+                }
             }
 
             try {
