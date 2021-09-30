@@ -69,7 +69,6 @@ node('vagrant') {
                 if (version != null) {
                     ecoSystem.setVersion(version)
                 }
-                // TODO only on nightly build
                 if (isNightly()) {
                     echo "use snapshot dependencies for nightly build"
                     docker.image('groovy:3.0.9-jdk11').inside {
@@ -209,7 +208,7 @@ boolean containsReleasePackage(release, packageType) {
 }
 
 boolean isNightly() {
-    return currentBuild.rawBuild.getCause(hudson.triggers.TimerTrigger$TimerTriggerCause) != null
+    return currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause').size() > 0
 }
 
 void authGit(String credentials, String command) {
