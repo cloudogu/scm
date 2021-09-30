@@ -92,6 +92,16 @@ def updateDockerfile(env) {
   file.write lines.join("\n")
 }
 
+def normalizeVersion(String version) {
+  // 2.23.1-20210928.082411-10
+  int index = version.indexOf("-");
+  if (index > 0) {
+    String snapshotPart = version.substring(index + 1)
+    return version.substring(0, index) + "." + snapshotPart.replace("-", "").replace(".", "")
+  }
+  return version
+}
+
 def updateDoguJson(String version) {
   def jsonSlurper = new JsonSlurper()
   def file = new File('dogu.json')
@@ -101,8 +111,9 @@ def updateDoguJson(String version) {
   def doguJson = jsonSlurper.parseText(content)
 
   def oldVersion = doguJson.Version
+
   def parts = oldVersion.split("-")
-  def newVersion = version.replace("-", "_") + "-" + parts[parts.length -1]
+  def newVersion = normalizeVersion(version) + "-" + parts[parts.length -1]
   
   file.write content.replace("\"${oldVersion}\"", "\"${newVersion}\"")
 }
