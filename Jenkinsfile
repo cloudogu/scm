@@ -10,6 +10,9 @@ def TAG_STRATEGIES = [IGNORE_TAG, CREATE_NEW_TAG, BUILD_TAG]
 
 node('vagrant') {
 
+    // TODO replace with develop and daily
+    String cronTrigger = BRANCH_NAME == "feature/nightly_snapshot_build" ? "@hourly" : ""
+
     timestamps {
         def props = [];
         props.add(string(defaultValue: '', description: 'SCM Version', name: 'ScmVersion', trim: true))
@@ -23,7 +26,8 @@ node('vagrant') {
                 buildDiscarder(logRotator(numToKeepStr: '10')),
                 // Don't run concurrent builds for a branch, because they use the same workspace directory
                 disableConcurrentBuilds(),
-                parameters(props)
+                parameters(props),
+                pipelineTriggers([cron(cronTrigger)]),
         ])
 
         catchError {
@@ -66,8 +70,11 @@ node('vagrant') {
                     ecoSystem.setVersion(version)
                 }
                 // TODO only on nightly build
-                docker.image('groovy:3.0.9-jdk11').inside {
-                    sh "groovy build/latestsnapshot.groovy"
+                if (isNightly()) {
+                    echo "use snapshot dependencies for nightly build"
+                    docker.image('groovy:3.0.9-jdk11').inside {
+                        sh "groovy build/latestsnapshot.groovy"
+                    }
                 }
             }
 
@@ -199,6 +206,10 @@ boolean containsReleasePackage(release, packageType) {
         }
     }
     return exists
+}
+
+boolean isNightly() {
+    return currentBuild.rawBuild.getCause(hudson.triggers.TimerTrigger$TimerTriggerCause) != null
 }
 
 void authGit(String credentials, String command) {
