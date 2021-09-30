@@ -53,6 +53,11 @@ def appendCodeEditorPlugin(env) {
   appendPackage(env, 'SCM_CODE_EDITOR_PLUGIN', pkg)
 }
 
+def appendCesPlugin(env) {
+  def pkg = createPluginPackage('scm-ces-plugin')
+  appendPackage(env, 'SCM_CES_PLUGIN', pkg)
+}
+
 def updateLine(env, line) {
   int index = line.indexOf('=')
   if (index > 0) {
@@ -110,6 +115,7 @@ appendPackage(env, 'SCM_PKG', corePkg)
 appendCasPlugin(env)
 appendCodeEditorPlugin(env)
 appendScriptPlugin(env)
+appendCesPlugin(env)
 
 updateDockerfile(env)
 updateDoguJson(corePkg.version)
