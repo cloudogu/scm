@@ -1,5 +1,8 @@
+import groovy.json.JsonSlurper
+
 class Package {
 
+  String version;
   String url;
   String checksum;
 
@@ -20,7 +23,7 @@ def createPackage(String baseUrl, String extension) {
   def packageUrl = "${baseUrl}/${latestVersion}/${packagePrefix}-${snapshotVersion.value}.${extension}"
   def checksum = new URL("${baseUrl}/${latestVersion}/${packagePrefix}-${snapshotVersion.value}.${extension}.sha256").text
 
-  return new Package(url: packageUrl, checksum: checksum)
+  return new Package(version: snapshotVersion.value, url: packageUrl, checksum: checksum)
 }
 
 def createPluginPackage(String plugin) {
@@ -33,14 +36,6 @@ def createPluginPackage(String plugin) {
 def appendPackage(env, prefix, pkg) {
   env.put(prefix + '_URL', pkg.url)
   env.put(prefix + '_SHA256', pkg.checksum)
-}
-
-def appendCore(env) {
-  def pkg = createPackage(
-    'https://packages.scm-manager.org/repository/snapshots/sonia/scm/packaging/unix',
-    'tar.gz'
-  )
-  appendPackage(env, 'SCM_PKG', pkg)
 }
 
 def appendCasPlugin(env) {
@@ -86,10 +81,32 @@ def updateDockerfile(env) {
   file.write lines.join("\n")
 }
 
+def updateDoguJson(String version) {
+  def jsonSlurper = new JsonSlurper()
+  def file = new File('dogu.json')
+
+  def content = file.text
+
+  def doguJson = jsonSlurper.parseText(content)
+
+  def oldVersion = doguJson.Version
+  def parts = oldVersion.split("-")
+  def newVersion = version.replace("-", "_") + "-" + parts[parts.length -1]
+  
+  file.write content.replace("\"${oldVersion}\"", "\"${newVersion}\"")
+}
+
 def env = [:]
-appendCore(env)
+
+def corePkg = createPackage(
+  'https://packages.scm-manager.org/repository/snapshots/sonia/scm/packaging/unix',
+  'tar.gz'
+)
+appendPackage(env, 'SCM_PKG', pkg)
+
 appendCasPlugin(env)
 appendCodeEditorPlugin(env)
 appendScriptPlugin(env)
 
 updateDockerfile(env)
+updateDoguJson(corePkg.version)
