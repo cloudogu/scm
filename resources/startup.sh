@@ -40,6 +40,10 @@ if [ -f "${SCM_DATA}/plugins/delete_on_update" ];  then
   rm -rf "${SCM_DATA}/plugins"
 fi
 
+# create api token for service account
+API_TOKEN=$(doguctl random)
+doguctl config --encrypted serviceaccount_token "${API_TOKEN}"
+
 start_scm_server () {
   # install required plugins
   if ! [ -d "${SCM_DATA}/plugins" ];  then
