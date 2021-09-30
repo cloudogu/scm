@@ -78,6 +78,9 @@ def updateDockerfile(env) {
   file.eachLine { line ->
     lines.add(updateLine(env, line))
   }
+  if (!lines.last().empty) {
+    lines.add("")
+  }
   file.write lines.join("\n")
 }
 
@@ -102,7 +105,7 @@ def corePkg = createPackage(
   'https://packages.scm-manager.org/repository/snapshots/sonia/scm/packaging/unix',
   'tar.gz'
 )
-appendPackage(env, 'SCM_PKG', pkg)
+appendPackage(env, 'SCM_PKG', corePkg)
 
 appendCasPlugin(env)
 appendCodeEditorPlugin(env)
