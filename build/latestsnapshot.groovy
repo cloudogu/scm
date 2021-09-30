@@ -63,6 +63,9 @@ def updateLine(env, line) {
   if (index > 0) {
     String left = line.substring(0, index)
     def key = left.trim()
+    if (key.startsWith("ARG")) {
+      key = key.substring(3).trim()
+    }
     if (env.containsKey(key)) {
       String value = env.get(key)
       String right = line.substring(index + 1)
