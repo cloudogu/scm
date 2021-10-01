@@ -42,7 +42,7 @@ fi
 
 # create api token for service account
 API_TOKEN=$(doguctl random)
-doguctl config --encrypted serviceaccount_token "${API_TOKEN}"
+doguctl config --encrypted ${CES_TOKEN_CONFIGURATION_KEY} "${API_TOKEN}"
 
 start_scm_server () {
   # install required plugins

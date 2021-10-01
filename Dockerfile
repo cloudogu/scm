@@ -5,6 +5,8 @@ LABEL maintainer="sebastian.sdorra@cloudogu.com"
 ENV SCM_HOME=/var/lib/scm \
     SCM_REQUIRED_PLUGINS=/opt/scm-server/required-plugins \
     SSL_CERT_FILE=/opt/scm-server/conf/ca-certificates.crt \
+    CES_TOKEN_HEADER=X-CES-Token \
+    CES_TOKEN_CONFIGURATION_KEY=serviceaccount_token \
     # mark as webapp for nginx
     SERVICE_8080_TAGS="webapp" \
     SERVICE_8080_NAME="scm" \
