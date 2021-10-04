@@ -20,13 +20,13 @@ Cypress.Commands.add("getIndex", getIndex)
  */
 const deleteUserFromDoguViaAPI = (username, exitOnFail = false) => {
     return cy.request({
-        method: "GET",
-        url: Cypress.config().baseUrl + `/nexus/service/rest/v1/users/${username}`,
+        method: "DELETE",
+        url: Cypress.config().baseUrl + `/scm/api/v2/users/${username}`,
         auth: {
             'user': env.GetAdminUsername(),
             'pass': env.GetAdminPassword()
         },
-        failOnStatusCode: exitOnFail
+        failOnStatusCode: true
     })
 }
 
