@@ -1,5 +1,4 @@
-const { Given, When, Then } = require("cypress-cucumber-preprocessor/steps");
-const env = require("@cloudogu/dogu-integration-test-library/lib/environment_variables");
+const { Then } = require("cypress-cucumber-preprocessor/steps");
 
 Then(/^the user can access the index$/, () => {
   cy.getIndex().then((response) => {
