@@ -70,6 +70,18 @@ file:
     group: root
     filetype: file
     contains: []
+  /create-sa.sh:
+    exists: true
+    owner: root
+    group: root
+    filetype: file
+    contains: []
+  /remove-sa.sh:
+    exists: true
+    owner: root
+    group: root
+    filetype: file
+    contains: []
   /var/lib/scm:
     exists: true
     owner: scm
