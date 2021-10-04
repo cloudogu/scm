@@ -3,16 +3,19 @@ set -o errexit
 set -o pipefail
 
 if [ -z "$1" ]; then
-    echo "usage create-sa.sh servicename [permission]"
+    echo "usage create-sa.sh servicename [ro|rw]"
     exit 1
 fi
 
 SERVICE="$1"
 
-if [ -z "$2" ]; then
+if [ -z "$2" ] || [[ "$2" == "ro" ]]; then
     PERMISSION="repository:read,pull:*"
+elif [[ "$2" == "rw" ]]; then
+    PERMISSION="*"
 else
-    PERMISSION="$2"
+    echo "usage create-sa.sh servicename [ro|rw]"
+    exit 1
 fi
 
 # create random username suffix and password
