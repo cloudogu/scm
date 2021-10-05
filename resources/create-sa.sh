@@ -2,19 +2,21 @@
 set -o errexit
 set -o pipefail
 
-if [ -z "$1" ]; then
-    echo "usage create-sa.sh servicename [ro|rw]"
+if [ -z "$2" ]; then
+    echo "usage create-sa.sh <ro|rw|admin> servicename"
     exit 1
 fi
 
-SERVICE="$1"
+SERVICE="$2"
 
-if [ -z "$2" ] || [[ "$2" == "ro" ]]; then
+if [[ "$1" == "ro" ]]; then
     PERMISSION="repository:read,pull:*"
-elif [[ "$2" == "rw" ]]; then
+elif [[ "$1" == "rw" ]]; then
+    PERMISSION="repository:*"
+elif [[ "$1" == "admin" ]]; then
     PERMISSION="*"
 else
-    echo "usage create-sa.sh servicename [ro|rw]"
+    echo "usage create-sa.sh <ro|rw|admin> servicename"
     exit 1
 fi
 
@@ -27,7 +29,7 @@ PASSWORD=$(doguctl random)
 API_TOKEN=$(doguctl config --encrypted ${CES_TOKEN_CONFIGURATION_KEY})
 
 # create user
-STATUSCODE=$(curl --silent http://localhost:8080/scm/api/v2/users -H "${CES_TOKEN_HEADER}: ${API_TOKEN}" --data '{"name":"'${USER}'","displayName":"CES Serviceaccount","active":true,"password":"'${PASSWORD}'"}' -H "Content-Type: application/vnd.scmm-user+json;v=2" --write-out "%{http_code}")
+STATUSCODE=$(curl --silent http://localhost:8080/scm/api/v2/users -H "${CES_TOKEN_HEADER}: ${API_TOKEN}" --data '{"name":"'${USER}'","displayName":"CES Serviceaccount for '${SERVICE}'","active":true,"password":"'${PASSWORD}'"}' -H "Content-Type: application/vnd.scmm-user+json;v=2" --write-out "%{http_code}")
 if [ $STATUSCODE -ne 201 ]; then
     echo failed creating user: $STATUSCODE
     exit 2

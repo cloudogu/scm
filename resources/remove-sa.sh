@@ -3,7 +3,7 @@ set -o errexit
 set -o pipefail
 
 if [ -z "$1" ]; then
-    echo "usage create-sa.sh servicename"
+    echo "usage remove-sa.sh servicename"
     exit 1
 fi
 
@@ -20,6 +20,10 @@ do
   if [[ $username =~ $USERMATCH ]]
   then
     echo DELETE $username
-    curl --silent http://localhost:8080/scm/api/v2/users/$username -X DELETE -H "${CES_TOKEN_HEADER}: ${API_TOKEN}"
+    STATUSCODE=$(curl --silent http://localhost:8080/scm/api/v2/users/$username -X DELETE -H "${CES_TOKEN_HEADER}: ${API_TOKEN}" --write-out "%{http_code}")
+    if [ $STATUSCODE -ne 204 ]; then
+        echo failed deleting user $username: $STATUSCODE
+        exit 1
+    fi
   fi
 done
