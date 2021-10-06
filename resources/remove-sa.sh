@@ -2,12 +2,12 @@
 set -o errexit
 set -o pipefail
 
-if [ -z "$1" ]; then
-    echo "usage remove-sa.sh servicename"
+if [ -z "$2" ]; then
+    echo "usage remove-sa.sh irrelevant servicename"
     exit 1
 fi
 
-SERVICE="$1"
+SERVICE="$2"
 
 # connection token
 API_TOKEN=$(doguctl config --encrypted ${CES_TOKEN_CONFIGURATION_KEY})
