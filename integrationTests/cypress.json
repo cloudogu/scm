@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://192.168.56.2",
-  "defaultCommandTimeout": 10000,
+  "defaultCommandTimeout": 30000,
   "env": {
     "DoguName": "scm",
     "MaxLoginRetries": 3,

@@ -191,7 +191,8 @@ boolean containsReleasePackage(release, packageType) {
 }
 
 boolean isNightly() {
-    return currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause').size() > 0
+    // return currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause').size() > 0
+    return true
 }
 
 void authGit(String credentials, String command) {
