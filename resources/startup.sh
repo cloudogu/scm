@@ -7,7 +7,8 @@ INIT_SCRIPT_FOLDER="/opt/scm-server/init.script.d"
 MAIN_INIT_SCRIPTS_FOLDER="/var/tmp/scm/init.script.d"
 CUSTOM_INIT_SCRIPTS_FOLDER="/var/lib/custom.init.script.d"
 SCM_DATA="/var/lib/scm"
-SCM_REQUIRED_PLUGINS="/opt/scm-server/required-plugins"
+SCM_REQUIRED_PLUGINS_FOLDER="/opt/scm-server/required-plugins"
+SCM_REQUIRED_PLUGINS="scm-code-editor-plugin scm-cas-plugin scm-script-plugin scm-ces-plugin"
 
 # remove old folder to be sure,
 # that it contains no script which is already removed from custom init script folder
@@ -40,24 +41,21 @@ if [ -f "${SCM_DATA}/plugins/delete_on_update" ];  then
   rm -rf "${SCM_DATA}/plugins"
 fi
 
+# create api token for service account
+API_TOKEN=$(doguctl random)
+doguctl config --encrypted "${CES_TOKEN_CONFIGURATION_KEY}" "${API_TOKEN}"
+
 start_scm_server () {
   # install required plugins
   if ! [ -d "${SCM_DATA}/plugins" ];  then
     mkdir "${SCM_DATA}/plugins"
   fi
-  if { ! [ -d "${SCM_DATA}/plugins/scm-code-editor-plugin" ] || [ -f "${SCM_DATA}/plugins/scm-code-editor-plugin/uninstall" ] ; } && ! [ -f "${SCM_DATA}/plugins/scm-code-editor-plugin.smp" ] ;  then
-    echo "Reinstalling scm-code-editor-plugin from default plugin folder"
-    cp "${SCM_REQUIRED_PLUGINS}/scm-code-editor-plugin.smp" "${SCM_DATA}/plugins"
-  fi
-  if { ! [ -d "${SCM_DATA}/plugins/scm-cas-plugin" ] || [ -f "${SCM_DATA}/plugins/scm-cas-plugin/uninstall" ] ; } && ! [ -f "${SCM_DATA}/plugins/scm-cas-plugin.smp" ] ;  then
-    echo "Reinstalling scm-cas-plugin from default plugin folder"
-    cp "${SCM_REQUIRED_PLUGINS}/scm-cas-plugin.smp" "${SCM_DATA}/plugins"
-  fi
-  if { ! [ -d "${SCM_DATA}/plugins/scm-script-plugin" ] || [ -f "${SCM_DATA}/plugins/scm-script-plugin/uninstall" ] ; } && ! [ -f "${SCM_DATA}/plugins/scm-script-plugin.smp" ] ;  then
-    echo "Reinstalling scm-script-plugin from default plugin folder"
-    cp "${SCM_REQUIRED_PLUGINS}/scm-script-plugin.smp" "${SCM_DATA}/plugins"
-  fi
-
+  for plugin in ${SCM_REQUIRED_PLUGINS}; do
+    if { ! [ -d "${SCM_DATA}/plugins/${plugin}" ] || [ -f "${SCM_DATA}/plugins/${plugin}/uninstall" ] ; } && ! [ -f "${SCM_DATA}/plugins/${plugin}.smp" ] ;  then
+      echo "Reinstalling ${plugin} from default plugin folder"
+      cp "${SCM_REQUIRED_PLUGINS_FOLDER}/${plugin}.smp" "${SCM_DATA}/plugins"
+    fi
+  done
   /opt/scm-server/bin/scm-server
 }
 
