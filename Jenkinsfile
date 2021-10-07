@@ -4,26 +4,28 @@ import com.cloudogu.ces.dogubuildlib.*
 
 def NAMESPACES = ["testing", "itz-bund", "next", "official"]
 def IGNORE_TAG = "ignore-tag"
-def CREATE_NEW_TAG = "create-new-tag"
 def BUILD_TAG = "build-existing-tag"
-def TAG_STRATEGIES = [IGNORE_TAG, CREATE_NEW_TAG, BUILD_TAG]
+def TAG_STRATEGIES = [IGNORE_TAG, BUILD_TAG]
 
 node('vagrant') {
 
+    String cronTrigger = BRANCH_NAME == "develop" ? "@daily" : ""
+
     timestamps {
         def props = [];
-        props.add(string(defaultValue: '', description: 'SCM Version', name: 'ScmVersion', trim: true))
-        props.add(string(defaultValue: '1', description: 'Dogu Version Counter', name: 'DoguVersionCounter', trim: true))
+        props.add(string(defaultValue: getScmReleaseVersion(), description: 'SCM Version', name: 'ScmVersion', trim: true))
+        props.add(string(defaultValue: getDoguReleaseCounter(), description: 'Dogu Version Counter', name: 'DoguVersionCounter', trim: true))
         props.add(choice(name: 'Tag_Strategy', choices: TAG_STRATEGIES))
         for (namespace in NAMESPACES) {
-            props.add(booleanParam(defaultValue: false, description: "Push new dogu into registry with namespace '${namespace}'", name: "Push_${namespace}"))
+            props.add(booleanParam(defaultValue: isReleaseBuild(), description: "Push new dogu into registry with namespace '${namespace}'", name: "Push_${namespace}"))
         }
         properties([
                 // Keep only the last x builds to preserve space
                 buildDiscarder(logRotator(numToKeepStr: '10')),
                 // Don't run concurrent builds for a branch, because they use the same workspace directory
                 disableConcurrentBuilds(),
-                parameters(props)
+                parameters(props),
+                pipelineTriggers([cron(cronTrigger)]),
         ])
 
         catchError {
@@ -35,7 +37,7 @@ node('vagrant') {
                         $class                           : 'GitSCM',
                         branches                         : scm.branches,
                         doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-                        extensions                       : scm.extensions + [[$class: 'CleanBeforeCheckout']],
+                        extensions                       : scm.extensions + [[$class: 'CleanBeforeCheckout'], [$class: 'LocalBranch']],
                         userRemoteConfigs                : scm.userRemoteConfigs
                 ])
             }
@@ -49,22 +51,47 @@ node('vagrant') {
                             error("Git tag ${version} does not exist.")
                         }
                         sh "git checkout 'refs/tags/${version}'"
-                    } else if (params.Tag_Strategy == CREATE_NEW_TAG && tags.contains(version)) {
+                    } else if (isReleaseBuild() && tags.contains(version)) {
                         error("Git tag ${version} already exists.")
                     }
                 }
-            }
-
-            stage('Lint') {
-//             we cannot use the Dockerfile Linter because it fails without the labels `name` and `version` which we don't use
-//             lintDockerfile()
-                shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
             }
 
             stage('Apply Parameters') {
                 if (version != null) {
                     ecoSystem.setVersion(version)
                 }
+                if (isNightly()) {
+                    echo 'use snapshot dependencies for nightly build'
+                    docker.image('groovy:3.0.9-jdk11').inside {
+                        sh 'groovy build/latestsnapshot.groovy'
+                    }
+                } else if (isReleaseBuild()) {
+                    echo 'update dependencies for release build'
+                    docker.image('groovy:3.0.9-jdk11').inside {
+                        sh "groovy build/release.groovy ${releaseVersion}"
+                    }
+
+                    sh 'git add Dockerfile dogu.json'
+                    commit "Release version ${releaseVersion}"
+
+                    // fetch all remotes from origin
+                    sh 'git config --replace-all "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"'
+                    sh 'git fetch --all'
+
+                    // checkout, reset and merge
+                    sh 'git checkout master'
+                    sh 'git reset --hard origin/master'
+                    sh "git merge --ff-only ${env.BRANCH_NAME}"
+
+                    tag getVersion()
+                }
+            }
+
+            stage('Lint') {
+                // we cannot use the Dockerfile Linter because it fails without the labels `name` and `version` which we don't use
+                // lintDockerfile()
+                shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
             }
 
             try {
@@ -94,7 +121,6 @@ node('vagrant') {
                 }
 
                 stage('e2e Tests') {
-
                     String externalIP = ecoSystem.externalIP
                     timeout(time: 15, unit: 'MINUTES') {
                         try {
@@ -114,20 +140,20 @@ node('vagrant') {
                 }
 
                 stage('Push changes to remote repository') {
-                    if (params.Tag_Strategy == CREATE_NEW_TAG) {
-                        // create new tag
-                        sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' tag -m '${version}' ${version}"
+                    if (isReleaseBuild()) {
+                        sh returnStatus: true, script: "git branch -D develop"
+                        sh "git checkout develop"
+                        sh "git -c user.name='CES Marvin' -c user.email='cesmarvin@cloudogu.com' merge master"
 
-                        // push changes back to remote repository
-                        withCredentials([usernamePassword(credentialsId: 'cesmarvin', usernameVariable: 'GIT_AUTH_USR', passwordVariable: 'GIT_AUTH_PSW')]) {
-                            sh "git -c credential.helper=\"!f() { echo username='\$GIT_AUTH_USR'; echo password='\$GIT_AUTH_PSW'; }; f\" push origin ${version}"
-                        }
+                        authGit 'cesmarvin-github', 'push origin master --tags'
+                        authGit 'cesmarvin-github', 'push origin develop --tags'
+                        authGit 'cesmarvin-github', "push origin :${env.BRANCH_NAME}"
                     }
                 }
 
                 stage('Push') {
                     // No dogu release without tag allowed
-                    if (params.Tag_Strategy != IGNORE_TAG) {
+                    if (params.Tag_Strategy != IGNORE_TAG || isReleaseBuild()) {
                         for (namespace in NAMESPACES) {
                             if (params."Push_${namespace}" != null && params."Push_${namespace}") {
                                 ecoSystem.purge("scm")
@@ -154,7 +180,6 @@ node('vagrant') {
                                 sh "git add ${releaseFile}"
                                 sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' commit -m 'Add ces package to release ${params.ScmVersion}' ${releaseFile}"
                                 authGit 'cesmarvin', 'push origin master'
-
                             } else {
                                 echo "release ${params.ScmVersion} contains ces package already"
                             }
@@ -197,10 +222,52 @@ boolean containsReleasePackage(release, packageType) {
     return exists
 }
 
+boolean isNightly() {
+    return currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause').size() > 0
+}
+
+boolean isReleaseBuild() {
+    return env.BRANCH_NAME.startsWith("release/")
+}
+
+String getReleaseVersion() {
+    if (isReleaseBuild()) {
+        return env.BRANCH_NAME.substring("release/".length())
+    }
+    return ""
+}
+
+String getScmReleaseVersion() {
+    String doguVersion = getReleaseVersion()
+    int separator = doguVersion.lastIndexOf('-')
+    if (separator > 0) {
+        return doguVersion.substring(0, separator)
+    }
+    return ""
+}
+
+String getDoguReleaseCounter() {
+    String doguVersion = getReleaseVersion()
+    int separator = doguVersion.lastIndexOf('-')
+    if (separator > 0) {
+        return doguVersion.substring(separator + 1)
+    }
+    return '1'
+}
+
 void authGit(String credentials, String command) {
   withCredentials([
     usernamePassword(credentialsId: credentials, usernameVariable: 'AUTH_USR', passwordVariable: 'AUTH_PSW')
   ]) {
     sh "git -c credential.helper=\"!f() { echo username='\$AUTH_USR'; echo password='\$AUTH_PSW'; }; f\" ${command}"
   }
+}
+
+void commit(String message) {
+  sh "git -c user.name='CES Marvin' -c user.email='cesmarvin@cloudogu.com' commit -m '${message}'"
+}
+
+void tag(String version) {
+  String message = "Release version ${version}"
+  sh "git -c user.name='CES Marvin' -c user.email='cesmarvin@cloudogu.com' tag -m '${message}' ${version}"
 }
