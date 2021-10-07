@@ -10,6 +10,7 @@ When(/^the user clicks the dogu logout button$/, () => {
     Cypress.on('uncaught:exception', () => { return false; });
     cy.get('button[class=navbar-burger]').click();
     cy.get('[data-testid=primary-navigation-logout]').click();
+    cy.wait(2000)
 });
 
 Then(/^the user has administrator privileges in the dogu$/, () => {
