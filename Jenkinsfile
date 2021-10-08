@@ -145,9 +145,9 @@ node('vagrant') {
                         sh "git checkout develop"
                         sh "git -c user.name='CES Marvin' -c user.email='cesmarvin@cloudogu.com' merge master"
 
-                        authGit 'cesmarvin-github', 'push origin master --tags'
-                        authGit 'cesmarvin-github', 'push origin develop --tags'
-                        authGit 'cesmarvin-github', "push origin :${env.BRANCH_NAME}"
+                        authGit 'cesmarvin', 'push origin master --tags'
+                        authGit 'cesmarvin', 'push origin develop --tags'
+                        authGit 'cesmarvin', "push origin :${env.BRANCH_NAME}"
                     }
                 }
 
