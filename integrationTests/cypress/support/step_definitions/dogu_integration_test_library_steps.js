@@ -7,20 +7,27 @@ When(/^the burger menu is open$/, () => {
 });
 
 When(/^the user clicks the dogu logout button$/, () => {
-    Cypress.on('uncaught:exception', () => { return false; });
+    Cypress.on('uncaught:exception', () => {
+        return false;
+    });
     cy.get('button[class=navbar-burger]').click();
     cy.get('[data-testid=primary-navigation-logout]').click();
-    cy.wait(2000)
+    cy.url().should('contain', 'cas/logout');
+    cy.get('h2[class=banner-heading]').should('be.visible');
 });
 
 Then(/^the user has administrator privileges in the dogu$/, () => {
-    Cypress.on('uncaught:exception', () => { return false; });
+    Cypress.on('uncaught:exception', () => {
+        return false;
+    });
     cy.get('button[class=navbar-burger]').click();
     cy.get('[data-testid="primary-navigation-admin"]').should('be.visible')
 });
 
 Then(/^the user has no administrator privileges in the dogu$/, () => {
-    Cypress.on('uncaught:exception', () => { return false; });
+    Cypress.on('uncaught:exception', () => {
+        return false;
+    });
     cy.get('button[class=navbar-burger]').click();
     cy.get('[data-testid="primary-navigation-admin"]').should('not.exist')
 });
