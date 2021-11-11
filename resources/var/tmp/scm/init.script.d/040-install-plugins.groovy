@@ -126,6 +126,10 @@ if (isDoguInstalled("cockpit")) {
     plugins.add("scm-cockpit-legacy-plugin")
 }
 
+if (isDoguInstalled("gotenberg")) {
+    plugins.add("scm-gotenberg-plugin")
+}
+
 if (isFirstStart()) {
     System.out.println("First start detected; installing default plugins.");
     plugins.addAll(defaultPlugins)
