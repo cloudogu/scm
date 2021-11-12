@@ -1,4 +1,5 @@
 import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 
 def updateLine(env, line) {
   int index = line.indexOf('=')
@@ -43,6 +44,8 @@ def updateDoguJson(String newVersion) {
   def doguJson = jsonSlurper.parseText(content)
 
   def oldVersion = doguJson.Version
+
+  content = content.replace("\"${oldVersion}\"", "\"${newVersion}\"")
   
-  file.write content.replace("\"${oldVersion}\"", "\"${newVersion}\"")
+  file.write JsonOutput.prettyPrint(content)
 }
