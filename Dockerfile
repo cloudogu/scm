@@ -1,8 +1,8 @@
 FROM registry.cloudogu.com/official/java:11.0.11-2
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
-ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.26.0/unix-2.26.0.tar.gz
-ARG SCM_PKG_SHA256=f212c97e047575c3a669c501d572d24284ab9ea6c6ff3ca3612d382654bad24d
+ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.27.0/unix-2.27.0.tar.gz
+ARG SCM_PKG_SHA256=325c9d1c9459a6df0364e1e791f6cfa5b68b74e981c2312a1f32f49f03561a2e
 ARG SCM_CODE_EDITOR_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/1.0.0/scm-code-editor-plugin-1.0.0.smp
 ARG SCM_CODE_EDITOR_PLUGIN_SHA256=c5d80fa7ab9723fd3d41b8422ec83433bc3376f59850d97a589fe093f5ca8989
 ARG SCM_SCRIPT_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.3.1/scm-script-plugin-2.3.1.smp
