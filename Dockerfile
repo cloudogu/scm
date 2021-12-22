@@ -1,12 +1,12 @@
 FROM registry.cloudogu.com/official/java:11.0.11-2
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
-ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.27.4/unix-2.27.4.tar.gz
-ARG SCM_PKG_SHA256=f3ca91a4281202daae421ec5269f7e425e67ef8b70d36f539c4538e9e4001950
+ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.28.0/unix-2.28.0.tar.gz
+ARG SCM_PKG_SHA256=c4108d671304e916003391ac81f74f04c699e5c24587539c86107c9b813ed1f6
 ARG SCM_CODE_EDITOR_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/1.0.0/scm-code-editor-plugin-1.0.0.smp
 ARG SCM_CODE_EDITOR_PLUGIN_SHA256=c5d80fa7ab9723fd3d41b8422ec83433bc3376f59850d97a589fe093f5ca8989
-ARG SCM_SCRIPT_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.3.1/scm-script-plugin-2.3.1.smp
-ARG SCM_SCRIPT_PLUGIN_SHA256=681c0759135a447cdee37c0af3d354986d38feea03f1fc0bda98355077f358cd
+ARG SCM_SCRIPT_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.3.2/scm-script-plugin-2.3.2.smp
+ARG SCM_SCRIPT_PLUGIN_SHA256=4e52dc010b0682c9321f22573f698a59f0b667e3ef2a3a6885ffa57feeebfb5e
 ARG SCM_CAS_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/2.4.0/scm-cas-plugin-2.4.0.smp
 ARG SCM_CAS_PLUGIN_SHA256=bd9a0e0794fb1be40f357cbbde7396889055bd1af2c42b4f2cdb34763c5fb372
 ARG SCM_CES_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-ces-plugin/1.0.1/scm-ces-plugin-1.0.1.smp
