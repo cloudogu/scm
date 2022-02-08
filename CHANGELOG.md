@@ -85,6 +85,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Integration-Tests for SCM-Manager UI for new header
 
+## [2.20.1-2]
+### Changed
+- Update to new Alpine base image to update Expat library
+
+## [2.20.1-1]
+### Changed
+- Upgrade SCM-Manager to version 2.20.0 ([Changelog](https://scm-manager.org/download/2.20.1/#changelog))
+
 ## [2.20.0-1]
 ### Changed
 - Upgrade SCM-Manager to version 2.20.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.20.0/CHANGELOG.md))
