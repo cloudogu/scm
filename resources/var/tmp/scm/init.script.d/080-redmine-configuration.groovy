@@ -14,6 +14,12 @@ def findClass(clazzAsString) {
   return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
 }
 
+def isDoguInstalled(name){
+    String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
+    URL url = new URL("http://${ip}:4001/v2/keys/dogu/${name}/current");
+    return url.openConnection().getResponseCode() == 200;
+}
+
 try {
     def storeClass = findClass("sonia.scm.redmine.config.RedmineConfigStore")
     def store = injector.getInstance(storeClass);
@@ -27,7 +33,11 @@ try {
       config.setUpdateIssues(false)
       config.setAutoClose(false)
     }
-    config.setUrl("https://${fqdn}/redmine")
+    if (isDoguInstalled("easyredmine")) {
+        config.setUrl("https://${fqdn}/easyredmine")
+    } else {
+        config.setUrl("https://${fqdn}/redmine")
+    }
 
     def formattingClass = findClass("sonia.scm.redmine.config.TextFormatting")
     def formatting = Enum.valueOf(formattingClass, "MARKDOWN")

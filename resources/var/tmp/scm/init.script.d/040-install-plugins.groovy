@@ -107,7 +107,7 @@ def installPlugin(pluginManager, pluginName) {
 
 // action
 
-if (isDoguInstalled("redmine")) {
+if (isDoguInstalled("redmine") || isDoguInstalled("easyredmine")) {
 	plugins.add("scm-redmine-plugin")
 }
 
