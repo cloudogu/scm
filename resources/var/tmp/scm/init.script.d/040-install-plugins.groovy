@@ -5,7 +5,6 @@ import groovy.json.JsonSlurper;
 
 // configuration
 def defaultPlugins = [
-    "scm-gravatar-plugin",
     "scm-mail-plugin",
     "scm-review-plugin",
     "scm-tagprotection-plugin",
