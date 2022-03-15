@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade SCM-Manager to version 2.32.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.32.0/CHANGELOG.md))
 
+## [2.31.0-2]
+### Changed
+- Removed gravatar plugin from default plugins list
+
 ## [2.31.0-1]
 ### Changed
 - Upgrade SCM-Manager to version 2.31.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.31.0/CHANGELOG.md))
@@ -97,6 +101,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Integration-Tests for SCM-Manager UI for new header
+
+## [2.20.1-3]
+### Changed
+- Removed gravatar plugin from default plugins list
 
 ## [2.20.1-2]
 ### Changed
