@@ -36,7 +36,13 @@ try {
     def formattingClass = findClass("sonia.scm.redmine.config.TextFormatting")
 
     if (isDoguInstalled("easyredmine")) {
-        def formatting = Enum.valueOf(formattingClass, "HTML")
+        def formatting
+        try {
+            formatting = Enum.valueOf(formattingClass, "HTML")
+        } catch (IllegalArgumentException ex) {
+            println "Could not resolve HTML formatting. Set MARKDOWN instead."
+            formatting = Enum.valueOf(formattingClass, "MARKDOWN")
+        }
         config.setTextFormatting(formatting)
         config.setUrl("https://${fqdn}/easyredmine")
     } else {
