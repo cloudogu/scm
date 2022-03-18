@@ -28,20 +28,22 @@ try {
 
     def config = store.getConfiguration()
     if (config.getUrl() == null) {
-      // do not enabled commenting and state changes, 
+      // do not enabled commenting and state changes,
       // because we need a technical account on redmine before
       config.setUpdateIssues(false)
       config.setAutoClose(false)
     }
+    def formattingClass = findClass("sonia.scm.redmine.config.TextFormatting")
+
     if (isDoguInstalled("easyredmine")) {
+        def formatting = Enum.valueOf(formattingClass, "HTML")
+        config.setTextFormatting(formatting)
         config.setUrl("https://${fqdn}/easyredmine")
     } else {
+        def formatting = Enum.valueOf(formattingClass, "MARKDOWN")
+        config.setTextFormatting(formatting)
         config.setUrl("https://${fqdn}/redmine")
     }
-
-    def formattingClass = findClass("sonia.scm.redmine.config.TextFormatting")
-    def formatting = Enum.valueOf(formattingClass, "MARKDOWN")
-    config.setTextFormatting(formatting)
 
     store.storeConfiguration(config)
 } catch( ClassNotFoundException e ) {
