@@ -1,4 +1,4 @@
-FROM registry.cloudogu.com/official/java:11.0.14-1
+FROM registry.cloudogu.com/official/java:11.0.14-3
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.31.0/unix-2.31.0.tar.gz
@@ -23,7 +23,9 @@ ENV SCM_HOME=/var/lib/scm \
     SERVICE_8080_NAME="scm"
 
 ## install scm-server
-RUN set -x \
+RUN set -x -o errexit -o nounset -o pipefail \
+    && apk update \
+    && apk upgrade \
     && apk add --no-cache graphviz ttf-dejavu mercurial jq unzip \
     && curl --fail  -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
     && echo "${SCM_PKG_SHA256} */tmp/scm-server.tar.gz" | sha256sum -c - \
