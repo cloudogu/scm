@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+##[unreleased]
+### Changed
+- Upgrade java base image to 11.0.14-3; #56
+
+### Fixed
+- Upgrade zlib to fix CVE-2018-25032; #56
+
 ## [2.32.2-1]
 ### Changed
 - Set explicit configuration for EasyRedmine
