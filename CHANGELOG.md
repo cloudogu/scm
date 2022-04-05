@@ -21,6 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade SCM-Manager to version 2.32.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.32.0/CHANGELOG.md))
 
+## [2.31.0-4]
+### Changed
+- Upgrade java base image to 11.0.14-3; #56
+
+### Fixed
+- Upgrade zlib to fix CVE-2018-25032; #56
+
 ## [2.31.0-3]
 ### Added
 - Configuration of plugin center authentication url via cesapp ([#53](https://github.com/cloudogu/scm/pull/53))
