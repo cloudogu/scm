@@ -46,6 +46,16 @@
             "Optional": true
         },
         {
+            "Name": "login_info_url",
+            "Description": "URL for the login info. To delete the URL and hence disable the login info feature, set this to 'none'",
+            "Optional": true
+        },
+        {
+            "Name": "alerts_url",
+            "Description:": "URL for alerts in SCM-Manager. To delete the URL and hence disable the alerts feature, set this to 'none'",
+            "Optional": true
+        },
+        {
             "Name": "disable_release_feed",
             "Description": "If set to 'true', SCM-Manager will not query for new releases",
             "Optional": true
