@@ -1,6 +1,6 @@
 {
-    "Name": "official/scm",
-    "Version": "2.31.0-4",
+    "Name": "itz-bund/scm",
+    "Version": "2.31.0-5",
     "DisplayName": "SCM-Manager",
     "Description": "The easiest way to share and manage your Git, Mercurial and Subversion repositories over http.",
     "Category": "Development Apps",
@@ -14,7 +14,7 @@
     ],
     "Logo": "https://cloudogu.com/images/dogus/scm-manager.png",
     "Url": "https://www.scm-manager.org",
-    "Image": "registry.cloudogu.com/official/scm",
+    "Image": "registry.cloudogu.com/itz-bund/scm",
     "Dependencies": [
         {
             "type": "dogu",
