@@ -63,11 +63,31 @@ if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
 String pluginCenterAuthenticationUrl = getValueFromEtcd("plugin_center_authentication_url");
 if (pluginCenterAuthenticationUrl != null) {
   if ("none".equalsIgnoreCase(pluginCenterAuthenticationUrl)) {
-    println("deactivating plugin center authentication")
+    println("deactivating plugin center authentication");
     config.setPluginAuthUrl("");
   } else if (!pluginCenterAuthenticationUrl.isEmpty()) {
     config.setPluginAuthUrl(pluginCenterAuthenticationUrl);
   }
+}
+
+String loginInfoUrl = getValueFromEtcd("login_info_url");
+if (loginInfoUrl != null) {
+    if ("none".equalsIgnoreCase(loginInfoUrl)) {
+        println("deactivating login info");
+        config.setLoginInfoUrl("");
+    } else if (!loginInfoUrl.isEmpty()) {
+        config.setLoginInfoUrl(loginInfoUrl);
+    }
+}
+
+String alertsUrl = getValueFromEtcd("alerts_url");
+if (alertsUrl != null) {
+    if ("none".equalsIgnoreCase(alertsUrl)) {
+        println("deactivating alerts");
+        config.setAlertsUrl("");
+    } else if (!alertsUrl.isEmpty()) {
+        config.setAlertsUrl(alertsUrl);
+    }
 }
 
 // set release feed  url
