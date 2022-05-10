@@ -52,7 +52,7 @@
         },
         {
             "Name": "alerts_url",
-            "Description:": "URL for alerts in SCM-Manager. To delete the URL and hence disable the alerts feature, set this to 'none'",
+            "Description": "URL for alerts in SCM-Manager. To delete the URL and hence disable the alerts feature, set this to 'none'",
             "Optional": true
         },
         {
