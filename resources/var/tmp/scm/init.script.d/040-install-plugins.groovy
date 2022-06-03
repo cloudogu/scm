@@ -106,6 +106,14 @@ def installPlugin(pluginManager, pluginName) {
 
 // action
 
+// disable plugin wizard
+def pluginSetConfigStore = injector.getInstance(sonia.scm.plugin.PluginSetConfigStore.class)
+if (pluginSetConfigStore.getPluginSets().isEmpty()) {
+    pluginSetConfigStore.setPluginSets(new sonia.scm.plugin.PluginSetsConfig())
+}
+
+// install plugins depending on other dogus
+
 if (isDoguInstalled("redmine") || isDoguInstalled("easyredmine")) {
 	plugins.add("scm-redmine-plugin")
 }
@@ -129,6 +137,7 @@ if (isDoguInstalled("gotenberg")) {
     plugins.add("scm-gotenberg-plugin")
 }
 
+// install default plugins
 if (isFirstStart()) {
     System.out.println("First start detected; installing default plugins.");
     plugins.addAll(defaultPlugins)
