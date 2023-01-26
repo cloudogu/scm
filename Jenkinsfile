@@ -154,7 +154,7 @@ node('vagrant') {
                     echo "update website for ${version}"
                     if (params.Push_official) {
                         dir('website') {
-                            git branch: 'master', changelog: false, credentialsId: 'cesmarvin', poll: false, url: 'https://github.com/scm-manager/website.git'
+                            git branch: 'master', changelog: false, credentialsId: 'SCM-Manager', poll: false, url: 'https://ecosystem.cloudogu.com/scm/repo/scm-manager/website'
 
                             String releaseFile = "content/releases/${params.ScmVersion.replace('.', '-')}.yml"
 
