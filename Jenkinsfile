@@ -164,7 +164,7 @@ node('vagrant') {
                                 writeYaml file: releaseFile, data: release, overwrite: true
                                 sh "git add ${releaseFile}"
                                 sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' commit -m 'Add ces package to release ${params.ScmVersion}' ${releaseFile}"
-                                authGit 'cesmarvin', 'push origin master'
+                                authGit 'SCM-Manager', 'push origin master'
                             } else {
                                 echo "release ${params.ScmVersion} contains ces package already"
                             }
