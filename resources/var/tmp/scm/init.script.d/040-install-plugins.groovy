@@ -4,33 +4,6 @@ import sonia.scm.plugin.PluginManager;
 import groovy.json.JsonSlurper;
 
 // configuration
-def defaultPlugins = [
-    "scm-mail-plugin",
-    "scm-review-plugin",
-    "scm-tagprotection-plugin",
-    "scm-jira-plugin",
-    "scm-activity-plugin",
-    "scm-statistic-plugin",
-    "scm-pathwp-plugin",
-    "scm-branchwp-plugin",
-    "scm-notify-plugin",
-    "scm-authormapping-plugin",
-    "scm-groupmanager-plugin",
-    "scm-pushlog-plugin",
-    "scm-support-plugin",
-    "scm-directfilelink-plugin",
-    "scm-readme-plugin",
-    "scm-editor-plugin",
-    "scm-landingpage-plugin",
-    "scm-repository-template-plugin",
-    "scm-commit-message-checker-plugin",
-    "scm-trace-monitor-plugin",
-    "scm-markdown-plantuml-plugin",
-    "scm-repository-avatar-plugin",
-    "scm-ssl-context-plugin",
-    "scm-repository-mirror-plugin"
-];
-
 def plugins = []
 def pluginsFromOldInstallation = []
 
@@ -135,12 +108,6 @@ if (isDoguInstalled("cockpit")) {
 
 if (isDoguInstalled("gotenberg")) {
     plugins.add("scm-gotenberg-plugin")
-}
-
-// install default plugins
-if (isFirstStart()) {
-    System.out.println("First start detected; installing default plugins.");
-    plugins.addAll(defaultPlugins)
 }
 
 addMissingDefaultPluginsFromEtcd(plugins)
