@@ -2,7 +2,7 @@
 // ecosystem.
 
 import sonia.scm.config.ScmConfiguration;
-import sonia.scm.util.ScmConfigurationUtil;
+import sonia.scm.admin.ScmConfigurationStore;
 import sonia.scm.group.Group;
 import sonia.scm.group.GroupManager;
 import sonia.scm.security.PermissionAssigner;
@@ -114,7 +114,7 @@ if (disableReleaseFeed != null && disableReleaseFeed.equalsIgnoreCase("true")) {
 config.setEnabledUserConverter(true)
 
 // store configuration
-ScmConfigurationUtil.getInstance().store(config);
+injector.getInstance(ScmConfigurationStore.class).store(config);
 
 // set admin group
 String adminGroup = getGlobalValueFromEtcd("admin_group");

@@ -1,7 +1,7 @@
 // This script configures proxy settings from etcd
 
 import sonia.scm.config.ScmConfiguration;
-import sonia.scm.util.ScmConfigurationUtil;
+import sonia.scm.admin.ScmConfigurationStore;
 import groovy.json.JsonSlurper;
 
 def getValueFromEtcd(String key){
@@ -64,4 +64,4 @@ def setProxyExcludes(configuration){
 }
 
 // store configuration
-ScmConfigurationUtil.getInstance().store(configuration);
+injector.getInstance(ScmConfigurationStore.class).store(configuration);
