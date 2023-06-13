@@ -38,3 +38,15 @@ Want to talk to the Cloudogu team? Need help or support? There are several ways 
 
 ---
 &copy; 2020 Cloudogu GmbH - MADE WITH :heart:&nbsp;FOR DEV ADDICTS. [Legal notice / Impressum](https://cloudogu.com/imprint.html)
+
+
+### Release
+To release a new version of the SCM-Manager Dogu you need to:
+- Adjust the changelog file and commit the changes
+- Create a new branch with the prefix `release/{{new_version_number}}-{{counter}}` and push it
+
+Afterwards the automatic release flow will:
+- Update the scm-manager package and related sha256 hash in the `Dockerfile`
+- Update the versions in the `dogu.json`
+- Deploy the new dogu to the namespaces `official` and `next` after the build and test steps are successful
+- Add the new release to the [SCM-Manager website](https://scm-manager.org/download/#ces)
