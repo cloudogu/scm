@@ -182,6 +182,12 @@
             "Validation": {
                 "Type": "BINARY_MEASUREMENT"
             }
+        },
+        {
+            "Name": "caching/stores/enabled",
+            "Description": "To enable store caches, set this to 'true'.",
+            "Optional": true,
+            "Default": "false"
         }
     ],
     "ExposedPorts": [
