@@ -31,3 +31,7 @@ fi
 if [ "$(doguctl config 'caching/stores/enabled' -d 'false')" == "true" ];  then
   EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.storeCache.enabled=true"
 fi
+if [ "$(doguctl config 'caching/dataFiles/size' -d '0')" > 0 ];  then
+  DATA_FILE_CACHE_SIZE=$(doguctl config 'caching/dataFiles/size')
+  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.dataFileCache.size=${DATA_FILE_CACHE_SIZE}"
+fi
