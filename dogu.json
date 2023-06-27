@@ -177,11 +177,12 @@
         },
         {
             "Name": "container_config/storage_request",
-            "Description":"Requests the container's minimal ephemeral storage requirement. Use a positive integer value followed by one of these units [b,k,m,g] (byte, kibibyte, mebibyte, gibibyte).",
+            "Description": "Requests the container's minimal ephemeral storage requirement. Use a positive integer value followed by one of these units [b,k,m,g] (byte, kibibyte, mebibyte, gibibyte).",
             "Optional": true,
             "Validation": {
                 "Type": "BINARY_MEASUREMENT"
-            },
+            }
+        }
     ],
     "ExposedPorts": [
         {
