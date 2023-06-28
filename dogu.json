@@ -146,7 +146,7 @@
             "Validation": {
                 "Type": "BINARY_MEASUREMENT"
             },
-            "Default": "5g"
+            "Default": "700m"
         },
         {
             "Name": "container_config/swap_limit",
