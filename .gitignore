@@ -154,3 +154,4 @@ typings/
 # End of https://www.gitignore.io/api/node,linux,visualstudiocode,intellij
 
 .idea
+/target/
