@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#72] Configuration options for resource requirements
 - [#72] Defaults for CPU and memory requests
 ### Removed
-- Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70/files))
+- Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70))
 
 
 ## [2.44.2-1]
