@@ -4,12 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Changed
+- Use Java 17 base image ([#77](https://github.com/cloudogu/scm/pull/77))
+
 ## [2.44.2-2]
 ### Added
 - [#72] Configuration options for resource requirements
 - [#72] Defaults for CPU and memory requests
 ### Removed
-- Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70/files))
+- Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70))
 
 
 ## [2.44.2-1]
