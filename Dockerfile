@@ -1,4 +1,4 @@
-FROM registry.cloudogu.com/official/java:11.0.14-3
+FROM registry.cloudogu.com/official/java:17.0.6-2
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/2.44.2/unix-2.44.2.tar.gz
@@ -26,7 +26,7 @@ ENV SCM_HOME=/var/lib/scm \
 RUN set -x -o errexit -o nounset -o pipefail \
     && apk update \
     && apk upgrade \
-    && apk add --no-cache graphviz ttf-dejavu mercurial jq unzip \
+    && apk add --no-cache graphviz ttf-dejavu mercurial jq unzip curl \
     && curl --fail  -Lks ${SCM_PKG_URL} -o /tmp/scm-server.tar.gz \
     && echo "${SCM_PKG_SHA256} */tmp/scm-server.tar.gz" | sha256sum -c - \
     && addgroup -S -g 1000 scm \
