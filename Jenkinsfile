@@ -1,5 +1,5 @@
 #!groovy
-@Library(['github.com/cloudogu/dogu-build-lib@v1.4.1', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
+@Library(['github.com/cloudogu/dogu-build-lib@v2.2.0', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
 import com.cloudogu.ces.dogubuildlib.*
 
 def NAMESPACES = ["testing", "itz-bund", "next", "official"]
@@ -121,7 +121,7 @@ node('vagrant') {
                 }
 
                 stage('e2e Tests') {
-                    ecoSystem.runCypressIntegrationTests([cypressImage: "cypress/included:8.6.0", enableVideo: true, enableScreenshots: true])
+                    ecoSystem.runCypressIntegrationTests([cypressImage: "cypress/included:12.17.1", enableVideo: true, enableScreenshots: true])
                 }
 
                 stage('Push changes to remote repository') {
