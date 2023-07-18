@@ -27,3 +27,11 @@ if [ "$(doguctl config 'caching/workdir/size' -d 'empty')" != "empty" ];  then
   SCM_WORKDIR_CACHE=$(doguctl config "caching/workdir/size")
   EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.workingCopyPoolSize=${SCM_WORKDIR_CACHE} -Dscm.workingCopyPoolStrategy=sonia.scm.repository.work.SimpleCachingWorkingCopyPool"
 fi
+
+if [ "$(doguctl config 'caching/stores/enabled' -d 'false')" == "true" ];  then
+  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.storeCache.enabled=true"
+fi
+if [ "$(doguctl config 'caching/dataFiles/size' -d '0')" > 0 ];  then
+  DATA_FILE_CACHE_SIZE=$(doguctl config 'caching/dataFiles/size')
+  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.cache.dataFile.maximumSize=${DATA_FILE_CACHE_SIZE} -Dscm.cache.dataFileCache.enabled=true"
+fi
