@@ -48,5 +48,5 @@ To release a new version of the SCM-Manager Dogu you need to:
 Afterwards the automatic release flow will:
 - Update the scm-manager package and related sha256 hash in the `Dockerfile`
 - Update the versions in the `dogu.json`
-- Deploy the new dogu to the namespaces `official` and `next` after the build and test steps are successful
+- Deploy the new dogu to the namespaces `official` after the build and test steps are successful
 - Add the new release to the [SCM-Manager website](https://scm-manager.org/download/#ces)

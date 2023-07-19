@@ -2,7 +2,7 @@
 @Library(['github.com/cloudogu/dogu-build-lib@v1.4.1', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
 import com.cloudogu.ces.dogubuildlib.*
 
-def NAMESPACES = ["testing", "itz-bund", "next", "official"]
+def NAMESPACES = ["testing", "official"]
 def IGNORE_TAG = "ignore-tag"
 def BUILD_TAG = "build-existing-tag"
 def TAG_STRATEGIES = [IGNORE_TAG, BUILD_TAG]
