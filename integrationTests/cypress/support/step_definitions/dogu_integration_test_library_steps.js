@@ -20,6 +20,10 @@ When("the user clicks the dogu logout button", () => {
     cy.get('h2[class=banner-heading]').should('be.visible');
 });
 
+When("the user waits until the page is fully loaded", () => {
+    cy.get('img[src="/scm/images/loading.svg"]').should('not.exist')
+});
+
 Then("the user has administrator privileges in the dogu", () => {
     Cypress.on('uncaught:exception', () => {
         return false;
