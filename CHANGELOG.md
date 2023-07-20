@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Fixed
-- [#78] Integration tests after upgrading CAS
+- Integration tests after upgrading CAS ([#78](htts://github.com/cloudogu/scm/pull/78))
+- Volume for temporary folder ([#82](https://github.com/cloudogu/scm/pull/82))
 
 ## [2.44.2-2]
 ### Added
