@@ -10,9 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - [#78] Integration tests after upgrading CAS
 
-### Fixed
-- [#78] Integration tests after upgrading CAS
-
 ## [2.44.2-2]
 ### Added
 - [#72] Configuration options for resource requirements
