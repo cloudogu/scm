@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Changed
 - Use Java 17 base image ([#77](https://github.com/cloudogu/scm/pull/77))
+### Fixed
+- [#78] Integration tests after upgrading CAS
 
 ### Fixed
 - [#78] Integration tests after upgrading CAS
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [#72] Configuration options for resource requirements
 - [#72] Defaults for CPU and memory requests
+- Configuration options for store caches ([#75](https://github.com/cloudogu/scm/pull/75))
 ### Removed
 - Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70))
 

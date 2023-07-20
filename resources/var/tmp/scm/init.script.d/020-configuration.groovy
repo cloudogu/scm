@@ -55,9 +55,6 @@ def context = injector.getInstance(SCMContextProvider.class);
 String pluginCenterUrl = getValueFromEtcd("plugin_center_url");
 if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl(pluginCenterUrl);
-} else if (context.version.contains("SNAPSHOT")) {
-  config.setPluginUrl("https://oss.cloudogu.com/jenkins/job/scm-manager-github/job/ci-plugin-snapshot/job/master/lastSuccessfulBuild/artifact/plugins/plugin-center.json");
-  config.setPluginAuthUrl("");
 }
 
 String pluginCenterAuthenticationUrl = getValueFromEtcd("plugin_center_authentication_url");
