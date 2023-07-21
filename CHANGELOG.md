@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Changed
 - Use Java 17 base image ([#77](https://github.com/cloudogu/scm/pull/77))
+### Removed
+- Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70))
 
 ## [2.44.2-3]
 ### Fixed
