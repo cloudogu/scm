@@ -2,8 +2,6 @@ const {
     When, Then
 } = require("@badeball/cypress-cucumber-preprocessor");
 
-const env = require('../environment_variables.js')
-
 // Loads all steps from the dogu integration library into this project
 const doguTestLibrary = require('@cloudogu/dogu-integration-test-library')
 doguTestLibrary.registerSteps()
@@ -27,7 +25,7 @@ When("the user waits until the page is fully loaded", () => {
     cy.intercept('/scm/api/v2/landingpage/mydata').as('mydata')
     cy.intercept('/scm/api/v2/landingpage/myevents').as('myevents')
 
-    cy.visit("/" + env.GetDoguName(), {failOnStatusCode: false})
+    cy.visit("/" + Cypress.env("DoguName"), {failOnStatusCode: false})
 
     cy.wait(['@mytasks', '@mydata', '@myevents'], { timeout: 60000 })
 
