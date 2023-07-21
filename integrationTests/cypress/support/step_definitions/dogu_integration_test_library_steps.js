@@ -21,6 +21,12 @@ When("the user clicks the dogu logout button", () => {
 });
 
 When("the user waits until the page is fully loaded", () => {
+    cy.intercept('/scm/api/v2/landingpage/mytasks').as('mytasks')
+    cy.intercept('/scm/api/v2/landingpage/mydata').as('mydata')
+    cy.intercept('/scm/api/v2/landingpage/myevents').as('myevents')
+
+    cy.wait(['@mytasks', '@mydata', '@myevents'])
+
     cy.get('img[src="/scm/images/loading.svg"]').should('not.exist')
 });
 
