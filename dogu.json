@@ -239,8 +239,15 @@
             "NeedsBackup": true
         },
         {
-            "Name": "temp",
+            "Name": "cache",
             "Path": "/var/cache",
+            "Owner": "1000",
+            "Group": "1000",
+            "NeedsBackup": false
+        },
+        {
+            "Name": "temp",
+            "Path": "/tmp",
             "Owner": "1000",
             "Group": "1000",
             "NeedsBackup": false
