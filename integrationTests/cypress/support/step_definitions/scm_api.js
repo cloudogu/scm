@@ -1,4 +1,4 @@
-const { Then } = require("cypress-cucumber-preprocessor/steps");
+const { Then } = require("@badeball/cypress-cucumber-preprocessor");
 
 Then("the user can access the index", () => {
   cy.getIndex().then((response) => {

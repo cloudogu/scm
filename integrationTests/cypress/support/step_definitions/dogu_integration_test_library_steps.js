@@ -1,3 +1,7 @@
+const {
+    When, Then
+} = require("@badeball/cypress-cucumber-preprocessor");
+
 // Loads all steps from the dogu integration library into this project
 const doguTestLibrary = require('@cloudogu/dogu-integration-test-library')
 doguTestLibrary.registerSteps()
@@ -14,6 +18,10 @@ When("the user clicks the dogu logout button", () => {
     cy.get('[data-testid=primary-navigation-logout]').click();
     cy.url().should('contain', 'cas/logout');
     cy.get('h2[class=banner-heading]').should('be.visible');
+});
+
+When("the user waits until the page is fully loaded", () => {
+    cy.get('img[src="/scm/images/loading.svg"]').should('not.exist')
 });
 
 Then("the user has administrator privileges in the dogu", () => {
