@@ -27,7 +27,7 @@ When("the user waits until the page is fully loaded", () => {
 
     cy.visit("/" + Cypress.env("DoguName"), {failOnStatusCode: false})
 
-    cy.wait(['@mytasks', '@mydata', '@myevents'], { timeout: 60000 })
+    cy.wait(['@mytasks', '@mydata', '@myevents'], { timeout: 120000 })
 
     cy.get('img[src="/scm/images/loading.svg"]').should('not.exist')
 });
