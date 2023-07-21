@@ -7,7 +7,7 @@ const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esb
 async function setupNodeEvents(on, config) {
     // This is required for the preprocessor to be able to generate JSON reports after each run, and more,
     await preprocessor.addCucumberPreprocessorPlugin(on, config);
-    
+
     on(
         "file:preprocessor",
         createBundler({
@@ -33,5 +33,7 @@ module.exports = defineConfig({
         videoCompression: false,
         specPattern: ["cypress/e2e/**/*.feature"],
         setupNodeEvents,
+        defaultTimeout: 10000,
+        defaultCommandTimeout: 10000,
     },
 });
