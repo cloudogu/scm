@@ -5,12 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [2.45.1-1]
-### Added
-- Configuration options for store caches ([#75](https://github.com/cloudogu/scm/pull/75))
 ### Changed
 - Use Java 17 base image ([#77](https://github.com/cloudogu/scm/pull/77))
-### Removed
-- Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70))
 
 ## [2.44.2-3]
 ### Fixed
@@ -21,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [#72] Configuration options for resource requirements
 - [#72] Defaults for CPU and memory requests
+- Configuration options for store caches ([#75](https://github.com/cloudogu/scm/pull/75))
+### Removed
+- Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70))
+
 
 ## [2.44.2-1]
 ### Changed
