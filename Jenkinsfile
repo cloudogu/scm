@@ -121,7 +121,7 @@ node('vagrant') {
                 }
 
                 stage('e2e Tests') {
-                    ecoSystem.runCypressIntegrationTests([cypressImage: "cypress/included:12.17.1", enableVideo: true, enableScreenshots: true])
+                    ecoSystem.runCypressIntegrationTests([cypressImage: "cypress/included:12.17.1", enableVideo: true, enableScreenshots: true, additionalCypressArgs: "--browser chrome"])
                 }
 
                 stage('Push changes to remote repository') {
