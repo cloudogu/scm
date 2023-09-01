@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use Java 17 base image ([#77](https://github.com/cloudogu/scm/pull/77))
 
+## [2.44.3-1]
+### Changed
+- Upgrade SCM-Manager to version 2.44.3 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.44.3/CHANGELOG.md))
+
 ## [2.44.2-3]
 ### Fixed
 - Integration tests after upgrading CAS ([#78](htts://github.com/cloudogu/scm/pull/78))
