@@ -78,8 +78,6 @@ try {
   } else if (isRedmineInstalled) {
     configureRedmine(config, fqdn, formattingClass)
   } else {
-    config.setTextFormatting(null)
-    config.setUrl(null)
     println "no redmine dogu is installed"
   }
 
