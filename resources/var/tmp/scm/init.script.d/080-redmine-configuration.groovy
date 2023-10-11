@@ -12,8 +12,8 @@ def getValueFromEtcd(String key){
 
 def getPreferredRedmine() {
   try {
-    String preferedRedmine = getValueFromEtcd("/config/scm/redmine_type")
-    return preferedRedmine
+    String preferredRedmine = getValueFromEtcd("/config/scm/redmine_type")
+    return preferredRedmine
   } catch (FileNotFoundException ex) {
     return "EASY_REDMINE"
   }
@@ -69,11 +69,11 @@ try {
   isEasyRedmineInstalled = isDoguInstalled("easyredmine")
   isRedmineInstalled = isDoguInstalled("redmine")
 
-  if (isEasyRedmineInstalled && isRedmineInstalled && preferedRedmine.equals("EASY_REDMINE")) {
-    println "both dogus installed and easy redmine is prefered"
+  if (isEasyRedmineInstalled && isRedmineInstalled && preferredRedmine.equals("EASY_REDMINE")) {
+    println "both dogus installed and easy redmine is preferred"
     configureEasyRedmine(config, fqdn, formattingClass)
-  } else if (isEasyRedmineInstalled && isRedmineInstalled && preferedRedmine.equals("REDMINE")) {
-    println "both dogus installed and redmine is prefered"
+  } else if (isEasyRedmineInstalled && isRedmineInstalled && preferredRedmine.equals("REDMINE")) {
+    println "both dogus installed and redmine is preferred"
     configureRedmine(config, fqdn, formattingClass)
   } else if (isEasyRedmineInstalled) {
     println "only easy redmine is installed"
