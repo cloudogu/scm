@@ -70,12 +70,16 @@ try {
   isRedmineInstalled = isDoguInstalled("redmine")
 
   if (isEasyRedmineInstalled && isRedmineInstalled && preferedRedmine.equals("EASY_REDMINE")) {
+    println "both dogus installed and easy redmine is prefered"
     configureEasyRedmine(config, fqdn, formattingClass)
   } else if (isEasyRedmineInstalled && isRedmineInstalled && preferedRedmine.equals("REDMINE")) {
+    println "both dogus installed and redmine is prefered"
     configureRedmine(config, fqdn, formattingClass)
   } else if (isEasyRedmineInstalled) {
+    println "only easy redmine is installed"
     configureEasyRedmine(config, fqdn, formattingClass)
   } else if (isRedmineInstalled) {
+    println "only redmine is installed"
     configureRedmine(config, fqdn, formattingClass)
   } else {
     println "no redmine dogu is installed"
