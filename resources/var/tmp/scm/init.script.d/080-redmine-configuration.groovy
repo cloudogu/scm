@@ -10,7 +10,7 @@ def getValueFromEtcd(String key){
 	return json.node.value
 }
 
-def getPreferedRedmine() {
+def getPreferredRedmine() {
   try {
     String preferedRedmine = getValueFromEtcd("/config/scm/redmine_type")
     return preferedRedmine
@@ -65,7 +65,7 @@ try {
 
   def formattingClass = findClass("sonia.scm.redmine.config.TextFormatting")
 
-  String preferedRedmine = getPreferedRedmine()
+  String preferredRedmine = getPreferredRedmine()
   isEasyRedmineInstalled = isDoguInstalled("easyredmine")
   isRedmineInstalled = isDoguInstalled("redmine")
 
