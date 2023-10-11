@@ -49,6 +49,36 @@ def configureRedmine(config, fqdn, formattingClass) {
   config.setUrl("https://${fqdn}/redmine")
 }
 
+def shouldEasyRedmineBeInstalled(isEasyRedmineInstalled, isRedmineInstalled, preferredRedmine) {
+  if (!isEasyRedmineInstalled) {
+    println "easy redmine dogu is not installed"
+    return false
+  }
+
+  if (isRedmineInstalled && preferredRedmine.equals("REDMINE")) {
+    println "redmine is preferred"
+    return false 
+  }
+
+  println "easy redmine configured"
+  return true
+}
+
+def shouldRedmineBeInstalled(isEasyRedmineInstalled, isRedmineInstalled, preferredRedmine) {
+  if (!isRedmineInstalled) {
+    println "redmine dogu is not installed"
+    return false
+  }
+
+  if (isEasyRedmineInstalled && preferredRedmine.equals("EASY_REDMINE")) {
+    println "easy redmine is preferred"
+    return false 
+  }
+
+  println "redmine configured"
+  return true
+}
+
 try {
   def storeClass = findClass("sonia.scm.redmine.config.RedmineConfigStore")
   def store = injector.getInstance(storeClass);
@@ -69,17 +99,9 @@ try {
   isEasyRedmineInstalled = isDoguInstalled("easyredmine")
   isRedmineInstalled = isDoguInstalled("redmine")
 
-  if (isEasyRedmineInstalled && isRedmineInstalled && preferredRedmine.equals("EASY_REDMINE")) {
-    println "both dogus installed and easy redmine is preferred"
+  if (shouldEasyRedmineBeInstalled(isEasyRedmineInstalled, isRedmineInstalled, preferredRedmine)) {
     configureEasyRedmine(config, fqdn, formattingClass)
-  } else if (isEasyRedmineInstalled && isRedmineInstalled && preferredRedmine.equals("REDMINE")) {
-    println "both dogus installed and redmine is preferred"
-    configureRedmine(config, fqdn, formattingClass)
-  } else if (isEasyRedmineInstalled) {
-    println "only easy redmine is installed"
-    configureEasyRedmine(config, fqdn, formattingClass)
-  } else if (isRedmineInstalled) {
-    println "only redmine is installed"
+  } else if (shouldRedmineBeInstalled(isEasyRedmineInstalled, isRedmineInstalled, preferredRedmine)) {
     configureRedmine(config, fqdn, formattingClass)
   } else {
     println "no redmine dogu is installed"
