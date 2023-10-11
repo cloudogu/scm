@@ -111,7 +111,7 @@
         },
         {
             "Name": "redmine_type",
-            "Description": "Sets which type of redmine is prefered, if both dogus are installed",
+            "Description": "If both, Redmine and EasyRedmine are installed, this sets which instance should be configured",
             "Optional": true,
             "Default": "EASY_REDMINE",
             "Validation": {
