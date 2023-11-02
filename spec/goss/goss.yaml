@@ -28,7 +28,7 @@ file:
     contains: []
   /opt/scm-server/conf:
     exists: true
-    size: 132
+    size: 122
     owner: scm
     group: scm
     filetype: directory
@@ -47,19 +47,6 @@ file:
     contains: []
   /opt/scm-server/conf/server-config.xml:
     exists: true
-    owner: scm
-    group: scm
-    filetype: file
-    contains: []
-  /opt/scm-server/conf/sonia/scm/ces:
-    exists: true
-    owner: scm
-    group: scm
-    filetype: directory
-    contains: []
-  /opt/scm-server/conf/sonia/scm/ces/WebAppRestartHook.class:
-    exists: true
-    size: 1039
     owner: scm
     group: scm
     filetype: file
