@@ -45,24 +45,16 @@ fi
 API_TOKEN=$(doguctl random)
 doguctl config --encrypted "${CES_TOKEN_CONFIGURATION_KEY}" "${API_TOKEN}"
 
-start_scm_server () {
-  # install required plugins
-  if ! [ -d "${SCM_DATA}/plugins" ];  then
-    mkdir "${SCM_DATA}/plugins"
+# install required plugins
+if ! [ -d "${SCM_DATA}/plugins" ];  then
+  mkdir "${SCM_DATA}/plugins"
+fi
+for plugin in ${SCM_REQUIRED_PLUGINS}; do
+  if { ! [ -d "${SCM_DATA}/plugins/${plugin}" ] || [ -f "${SCM_DATA}/plugins/${plugin}/uninstall" ] ; } && ! [ -f "${SCM_DATA}/plugins/${plugin}.smp" ] ;  then
+    echo "Reinstalling ${plugin} from default plugin folder"
+    cp "${SCM_REQUIRED_PLUGINS_FOLDER}/${plugin}.smp" "${SCM_DATA}/plugins"
   fi
-  for plugin in ${SCM_REQUIRED_PLUGINS}; do
-    if { ! [ -d "${SCM_DATA}/plugins/${plugin}" ] || [ -f "${SCM_DATA}/plugins/${plugin}/uninstall" ] ; } && ! [ -f "${SCM_DATA}/plugins/${plugin}.smp" ] ;  then
-      echo "Reinstalling ${plugin} from default plugin folder"
-      cp "${SCM_REQUIRED_PLUGINS_FOLDER}/${plugin}.smp" "${SCM_DATA}/plugins"
-    fi
-  done
-  /opt/scm-server/bin/scm-server
-}
-
-# Final startup and restart on exit code 42 (restart event)
-
-while start_scm_server ; scm_exit_code=$? ; [ $scm_exit_code -eq 42 ] ; do
-  echo Got exit code $scm_exit_code -- restarting SCM-Manager
 done
 
-exit $scm_exit_code
+# Start server
+/opt/scm-server/bin/scm-server
