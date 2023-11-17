@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [2.48.1-1]
 ### Changed
+- Upgrade SCM-Manager to version 2.48.1 (Changelog for [2.48.0](https://github.com/scm-manager/scm-manager/blob/2.48.0/CHANGELOG.md) and [2.48.1](https://github.com/scm-manager/scm-manager/blob/2.48.1/CHANGELOG.md))
 - Remove restart strategy exit code 42
 
 ## [2.47.0-1]
