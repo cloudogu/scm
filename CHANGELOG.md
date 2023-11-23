@@ -4,35 +4,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.48.1-1]
+## [2.48.1-1] 2023-11-17
 ### Changed
 - Upgrade SCM-Manager to version 2.48.1 (Changelog for [2.48.0](https://github.com/scm-manager/scm-manager/blob/2.48.0/CHANGELOG.md) and [2.48.1](https://github.com/scm-manager/scm-manager/blob/2.48.1/CHANGELOG.md))
 - Remove restart strategy exit code 42
 
-## [2.47.0-1]
+## [2.47.0-1] 2023-10-12
 ### Added
 - Configuration option to configure either Redmine or EasyRedmine if both dogus are installed ([#83](https://github.com/cloudogu/scm/pull/83))
 ### Changed
 - Upgrade SCM-Manager to version 2.47.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.47.0/CHANGELOG.md))
 
-## [2.46.0-1]
+## [2.46.0-1] 2023-08-25
 ### Changed
 - Upgrade SCM-Manager to version 2.46.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.46.0/CHANGELOG.md))
 
-## [2.45.1-1]
+## [2.45.1-1] 2023-07-24
 ### Changed
 - Use Java 17 base image ([#77](https://github.com/cloudogu/scm/pull/77))
 
-## [2.44.3-1]
+## [2.44.3-1] 2023-08-31
 ### Changed
 - Upgrade SCM-Manager to version 2.44.3 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.44.3/CHANGELOG.md))
 
-## [2.44.2-3]
+## [2.44.2-3] 2023-07-21
 ### Fixed
 - Integration tests after upgrading CAS ([#78](htts://github.com/cloudogu/scm/pull/78))
 - Volume for temporary folder ([#82](https://github.com/cloudogu/scm/pull/82))
 
-## [2.44.2-2]
+## [2.44.2-2] 2023-06-28
 ### Added
 - [#72] Configuration options for resource requirements
 - [#72] Defaults for CPU and memory requests
@@ -41,195 +41,195 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default Plugins ([#70](https://github.com/cloudogu/scm/pull/70))
 
 
-## [2.44.2-1]
+## [2.44.2-1] 2023-06-23
 ### Changed
 - Upgrade SCM-Manager to version 2.44.2 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.44.2/CHANGELOG.md))
 
-## [2.44.1-1]
+## [2.44.1-1] 2023-06-13
 ### Changed
 - Upgrade SCM-Manager to version 2.44.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.44.1/CHANGELOG.md))
 
-## [2.44.0-1]
+## [2.44.0-1] 2023-06-09
 ### Changed
 - Upgrade SCM-Manager to version 2.44.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.44.0/CHANGELOG.md))
 
-## [2.43.1-1]
+## [2.43.1-1] 2023-05-12
 ### Changed
 - Upgrade SCM-Manager to version 2.43.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.43.1/CHANGELOG.md))
 
-## [2.43.0-1]
+## [2.43.0-1] 2023-04-13
 ### Changed
 - Upgrade SCM-Manager to version 2.43.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.43.0/CHANGELOG.md))
 
-## [2.42.3-1]
+## [2.42.3-1] 2023-03-13
 ### Changed
 - Upgrade SCM-Manager to version 2.42.3 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.42.3/CHANGELOG.md))
 
-## [2.42.2-1]
+## [2.42.2-1] 2023-03-03
 ### Changed
 - Upgrade SCM-Manager to version 2.42.2 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.42.2/CHANGELOG.md))
 
-## [2.42.1-1]
+## [2.42.1-1] 2023-02-16
 ### Changed
 - Upgrade SCM-Manager to version 2.42.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.42.1/CHANGELOG.md))
 
-## [2.41.1-1]
+## [2.41.1-1] 2023-02-16
 ### Changed
 - Upgrade SCM-Manager to version 2.41.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.41.1/CHANGELOG.md))
 
-## [2.41.0-1]
+## [2.41.0-1] 2023-01-18
 ### Changed
 - Upgrade SCM-Manager to version 2.41.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.41.0/CHANGELOG.md))
 
-## [2.40.0-1]
+## [2.40.0-1] 2022-11-23
 ### Changed
 - Upgrade SCM-Manager to version 2.40.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.40.0/CHANGELOG.md))
 
-## [2.39.1-1]
+## [2.39.1-1] 2022-10-12
 ### Changed
 - Upgrade SCM-Manager to version 2.39.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.39.1/CHANGELOG.md))
 
-## [2.39.0-1]
+## [2.39.0-1] 2022-09-16
 ### Changed
 - Upgrade SCM-Manager to version 2.39.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.39.0/CHANGELOG.md))
 
-## [2.38.1-1]
+## [2.38.1-1] 2022-08-09
 ### Changed
 - Upgrade SCM-Manager to version 2.38.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.38.1/CHANGELOG.md))
 
-## [2.37.0-1]
+## [2.37.0-1] 2022-06-29
 ### Changed
 - Upgrade SCM-Manager to version 2.37.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.37.0/CHANGELOG.md))
 
-## [2.36.0-1]
+## [2.36.0-1] 2022-06-16
 ### Changed
 - Upgrade SCM-Manager to version 2.36.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.36.0/CHANGELOG.md))
 
-## [2.35.0-1]
+## [2.35.0-1] 2022-06-03
 ### Changed
 - Upgrade SCM-Manager to version 2.35.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.35.0/CHANGELOG.md))
 
-## [2.34.0-1]
+## [2.34.0-1] 2022-05-13
 ### Added
 - Configuration of login info and alerts url via cesapp ([#57](https://github.com/cloudogu/scm/pull/57))
 ### Changed
 - Upgrade SCM-Manager to version 2.34.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.34.0/CHANGELOG.md))
 
-## [2.33.0-1]
+## [2.33.0-1] 2022-05-10
 ### Added
 - Configuration of feedback url via cesapp ([#54](https://github.com/cloudogu/scm/pull/54))
 ### Changed
 - Upgrade SCM-Manager to version 2.33.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.33.0/CHANGELOG.md))
 
-## [2.32.2-1]
+## [2.32.2-1] 2022-03-23
 ### Changed
 - Set explicit configuration for EasyRedmine
 - Upgrade SCM-Manager to version 2.32.2 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.32.2/CHANGELOG.md))
 
-## [2.32.1-1]
+## [2.32.1-1] 2022-03-10
 ### Changed
 - Upgrade SCM-Manager to version 2.32.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.32.1/CHANGELOG.md))
 
-## [2.32.0-1]
+## [2.32.0-1] 2022-03-10
 ### Changed
 - Upgrade SCM-Manager to version 2.32.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.32.0/CHANGELOG.md))
 
-## [2.31.0-5]
+## [2.31.0-5] 2022-05-10
 ### Added
 - Configuration of login info and alerts url via cesapp ([#57](https://github.com/cloudogu/scm/pull/57)
 
-## [2.31.0-4]
+## [2.31.0-4] 2022-04-05
 ### Changed
 - Upgrade java base image to 11.0.14-3; #56
 
 ### Fixed
 - Upgrade zlib to fix CVE-2018-25032; #56
 
-## [2.31.0-3]
+## [2.31.0-3] 2022-03-30
 ### Added
 - Configuration of plugin center authentication url via cesapp ([#53](https://github.com/cloudogu/scm/pull/53))
 
-## [2.31.0-2]
+## [2.31.0-2] 2022-03-14
 ### Changed
 - Removed gravatar plugin from default plugins list
 
-## [2.31.0-1]
+## [2.31.0-1] 2022-02-18
 ### Changed
 - Upgrade SCM-Manager to version 2.31.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.31.0/CHANGELOG.md))
 
-## [2.30.1-1]
+## [2.30.1-1] 2022-02-08
 ### Changed
 - Updated to latest base image ([#50](https://github.com/cloudogu/scm/pull/50))
 - Upgrade SCM-Manager to version 2.30.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.30.1/CHANGELOG.md))
 
-## [2.30.0-1]
+## [2.30.0-1] 2022-01-24
 ### Changed
 - Upgrade SCM-Manager to version 2.30.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.30.0/CHANGELOG.md))
 
-## [2.29.1-2]
+## [2.29.1-2] 2022-01-18
 ### Re-Release of SCM-Manager version 2.29.1 without further changes
 
-## [2.29.1-1]
+## [2.29.1-1] 2022-01-17
 ### Changed
 - Upgrade SCM-Manager to version 2.29.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.29.1/CHANGELOG.md))
 
-## [2.29.0-1]
+## [2.29.0-1] 2022-01-12
 ### Changed
 - Upgrade SCM-Manager to version 2.29.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.29.0/CHANGELOG.md))
 
-## [2.28.0-1]
+## [2.28.0-1] 2021-12-22
 ### Changed
 - Upgrade SCM-Manager to version 2.28.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.28.0/CHANGELOG.md))
 
-## [2.27.4-1]
+## [2.27.4-1] 2021-12-20
 ### Changed
 - Upgrade SCM-Manager to version 2.27.4 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.27.4/CHANGELOG.md))
 
-## [2.27.3-1]
+## [2.27.3-1] 2021-12-15
 ### Changed
 - Upgrade SCM-Manager to version 2.27.3 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.27.3/CHANGELOG.md))
 
-## [2.27.2-1]
+## [2.27.2-1] 2021-11-19
 ### Changed
 - Upgrade SCM-Manager to version 2.27.2 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.27.2/CHANGELOG.md))
 
-## [2.27.1-1]
+## [2.27.1-1] 2021-11-18
 ### Changed
 - Upgrade SCM-Manager to version 2.27.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.27.1/CHANGELOG.md))
 
-## [2.27.0-1]
+## [2.27.0-1] 2021-11-16
 ### Added
 - Configuration of Gotenberg plugin ([#48](https://github.com/cloudogu/scm/pull/48))
 ### Changed
 - Upgrade SCM-Manager to version 2.27.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.27.0/CHANGELOG.md))
 
-## [2.26.0-1]
+## [2.26.0-1] 2021-11-04
 ### Changed
 - Upgrade SCM-Manager to version 2.26.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.26.0/CHANGELOG.md))
 
-## [2.25.0-1]
+## [2.25.0-1] 2021-10-21
 ### Changed
 - Upgrade SCM-Manager to version 2.25.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.25.0/CHANGELOG.md))
 
-## [2.24.0-1]
+## [2.24.0-1] 2021-10-08
 ### Added
 - Scripts to create and remove service accounts ([#43](https://github.com/cloudogu/scm/pull/43))
 ### Changed
 - Upgrade SCM-Manager to version 2.24.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.24.0/CHANGELOG.md))
 - Update CAS plugin to version 2.4.0 ([Changelog](https://github.com/scm-manager/scm-cas-plugin/blob/2.4.0/CHANGELOG.md))
 
-## [2.23.0-1]
+## [2.23.0-1] 2021-09-10
 ### Changed
 - Upgrade SCM-Manager to version 2.23.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.23.0/CHANGELOG.md))
 
-## [2.22.0-1]
+## [2.22.0-1] 2021-07-30
 ### Changed
 - Upgrade SCM-Manager to version 2.22.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.22.0/CHANGELOG.md))
 
 ### Added
 - Configuration option for workdir cache ([#41](https://github.com/cloudogu/scm/pull/41))
 
-## [2.21.0-1]
+## [2.21.0-1] 2021-07-21
 ### Changed
 - Configure CAS proxy chains to allow all dogus within fqdn range ([#39](https://github.com/cloudogu/scm/pull/39))
 - Expose temporary directory for server ([#40](https://github.com/cloudogu/scm/pull/40))
@@ -239,7 +239,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Integration-Tests for SCM-Manager UI for new header
 
-## [2.20.1-3]
+## [2.20.1-3] 2021-06-16
 ### Changed
 - Removed gravatar plugin from default plugins list
 
@@ -251,16 +251,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade SCM-Manager to version 2.20.0 ([Changelog](https://scm-manager.org/download/2.20.1/#changelog))
 
-## [2.20.0-1]
+## [2.20.0-1] 2021-06-16
 ### Changed
 - Upgrade SCM-Manager to version 2.20.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.20.0/CHANGELOG.md))
 - Upgrade CAS-Plugin to version 2.3.0 ([Changelog](https://github.com/scm-manager/scm-cas-plugin/blob/2.3.0/CHANGELOG.md))
 
-## [2.19.1-1]
+## [2.19.1-1] 2021-06-10
 ### Changed
 - Upgrade SCM-Manager to version 2.19.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.19.1/CHANGELOG.md))
 
-## [2.19.0-1]
+## [2.19.0-1] 2021-06-04
 ### Added
 - Add scm-ssl-context-plugin to default plugins
 - Add scm-repository-mirror-plugin to default plugins
@@ -269,15 +269,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade SCM-Manager to version 2.19.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.19.0/CHANGELOG.md))
 
 
-## [2.18.0-1]
+## [2.18.0-1] 2021-05-05
 ### Changed
 - Upgrade SCM-Manager to version 2.18.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.18.0/CHANGELOG.md))
 
-## [2.17.1-1]
+## [2.17.1-1] 2021-04-26
 ### Changed
 - Upgrade SCM-Manager to version 2.17.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.17.1/CHANGELOG.md))
 
-## [2.17.0-1]
+## [2.17.0-1] 2021-04-22
 ### Added
 - Old admin group will be deleted if value is changed in etcd ([#35](https://github.com/cloudogu/scm/pull/35))
 
@@ -287,33 +287,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Missing graphiz for PlantUML plugin ([#36](https://github.com/cloudogu/scm/pull/36))
 
-## [2.16.0-1]
+## [2.16.0-1] 2021-03-26
 ### Changed
 - Upgrade SCM-Manager to version 2.16.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.16.0/CHANGELOG.md))
 
-## [2.15.1-1]
+## [2.15.1-1] 2021-03-17
 ### Added
 - Install and configure Smeagol plugin ([#34](https://github.com/cloudogu/scm/pull/34))
 
 ### Changed
 - Upgrade SCM-Manager to version 2.15.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.15.1/CHANGELOG.md))
 
-## [2.15.0-1]
+## [2.15.0-1] 2021-03-15
 ### Changed
 - Upgrade SCM-Manager to version 2.15.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.15.0/CHANGELOG.md))
 
-## [2.14.1-1]
+## [2.14.1-1] 2021-03-03
 ### Changed
 - Upgrade SCM-Manager to version 2.14.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.14.1/CHANGELOG.md))
 
-## [2.14.0-1]
+## [2.14.0-1] 2021-02-11
 ### Added
 - Configuration for loglevel of SCM-Manager core classes ([#33](https://github.com/cloudogu/scm/pull/33))
 
 ### Changed
 - Upgrade SCM-Manager version to 2.14.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.14.0/CHANGELOG.md))
 
-## [2.13.0-1]
+## [2.13.0-1] 2021-01-29
 ### Added
 - Add font ttf-dejavu ([#32](https://github.com/cloudogu/scm/pull/32))
 - Add SCM-MarkDown-PlantUML-Plugin as default plugin
@@ -321,7 +321,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade SCM-Manager version to 2.13.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.13.0/CHANGELOG.md))
 
-## [2.12.0-1]
+## [2.12.0-1] 2020-12-18
 ### Changed
 
 - Added the ability to configure the memory limits with `cesapp edit-config`
