@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.48.3-1] 2023-12-08
+### Changed
+- Upgrade SCM-Manager to version 2.48.3 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.48.3/CHANGELOG.md))
+
+## [2.48.2-1] 2023-12-08
+### Changed
+- Upgrade SCM-Manager to version 2.48.2 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.48.2/CHANGELOG.md))
+
 ## [2.48.1-1] 2023-11-17
 ### Changed
 - Upgrade SCM-Manager to version 2.48.1 (Changelog for [2.48.0](https://github.com/scm-manager/scm-manager/blob/2.48.0/CHANGELOG.md) and [2.48.1](https://github.com/scm-manager/scm-manager/blob/2.48.1/CHANGELOG.md))
