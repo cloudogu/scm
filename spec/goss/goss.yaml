@@ -1,7 +1,7 @@
 file:
   /etc/default/scm-server:
     exists: true
-    size: 2443
+    size: 2320
     owner: root
     group: root
     filetype: file
@@ -28,7 +28,6 @@ file:
     contains: []
   /opt/scm-server/conf:
     exists: true
-    size: 122
     owner: scm
     group: scm
     filetype: directory
@@ -39,13 +38,7 @@ file:
     group: scm
     filetype: file
     contains: []
-  /opt/scm-server/conf/logging.xml:
-    exists: true
-    owner: scm
-    group: scm
-    filetype: file
-    contains: []
-  /opt/scm-server/conf/server-config.xml:
+  /opt/scm-server/conf/config.yml:
     exists: true
     owner: scm
     group: scm

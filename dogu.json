@@ -1,6 +1,6 @@
 {
     "Name": "official/scm",
-    "Version": "2.48.3-2",
+    "Version": "3.0.0-1",
     "DisplayName": "SCM-Manager",
     "Description": "The easiest way to share and manage your Git, Mercurial and Subversion repositories over http.",
     "Category": "Development Apps",
@@ -38,11 +38,6 @@
         {
             "Name": "plugin_center_authentication_url",
             "Description": "URL of SCM-Manager Plugin Center authentication service. To delete the URL and hence disable plugin center authentication, set this to 'none'.",
-            "Optional": true
-        },
-        {
-            "Name": "feedback_url",
-            "Description": "URL of the feedback service. To delete the URL and hence disable the feedback feature, set this to 'none'.",
             "Optional": true
         },
         {
