@@ -3,11 +3,7 @@ EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Djava.net.preferIPv4Stack=true"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Djavax.net.ssl.trustStore=/opt/scm-server/conf/truststore.jks"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Djavax.net.ssl.trustStorePassword=changeit"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.init.script.d=/opt/scm-server/init.script.d"
-EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.skipAdminCreation=true"
-EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.lifecycle.restart-strategy=exit"
-EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.restart.exit-code=42"
 EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.restart-migration.wait=1000"
-EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dsonia.scm.disableFeedback=true"
 if [ "$(doguctl config "container_config/memory_limit" -d "empty")" != "empty" ];  then
   # Retrieve configurable java limits from etcd, valid default values exist
   MEMORY_LIMIT_MAX_PERCENTAGE=$(doguctl config "container_config/java_max_ram_percentage")
@@ -18,20 +14,26 @@ if [ "$(doguctl config "container_config/memory_limit" -d "empty")" != "empty" ]
   EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -XX:MinRAMPercentage=${MEMORY_LIMIT_MIN_PERCENTAGE}"
 fi
 
-if [ "$(doguctl config 'logging/root' -d 'empty')" != "empty" ];  then
-  SCM_CORE_LOG_LEVEL=$(doguctl config "logging/root")
-  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.logging.core.level=${SCM_CORE_LOG_LEVEL}"
-fi
-
 if [ "$(doguctl config 'caching/workdir/size' -d 'empty')" != "empty" ];  then
-  SCM_WORKDIR_CACHE=$(doguctl config "caching/workdir/size")
-  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.workingCopyPoolSize=${SCM_WORKDIR_CACHE} -Dscm.workingCopyPoolStrategy=sonia.scm.repository.work.SimpleCachingWorkingCopyPool"
+  SCM_WORKINGCOPYPOOLSIZE=$(doguctl config "caching/workdir/size")
+  export SCM_WORKINGCOPYPOOLSIZE
+  export SCM_WORKINGCOPYPOOLSTRATEGY=sonia.scm.repository.work.SimpleCachingWorkingCopyPool
 fi
 
 if [ "$(doguctl config 'caching/stores/enabled' -d 'false')" == "true" ];  then
-  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.storeCache.enabled=true"
+  export SCM_CACHE_STORE_ENABLED="true"
+else
+  export SCM_CACHE_STORE_ENABLED="false"
 fi
 if [ "$(doguctl config 'caching/dataFiles/size' -d '0')" > 0 ];  then
   DATA_FILE_CACHE_SIZE=$(doguctl config 'caching/dataFiles/size')
-  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.cache.dataFile.maximumSize=${DATA_FILE_CACHE_SIZE} -Dscm.cache.dataFileCache.enabled=true"
+  export SCM_CACHE_DATAFILE_ENABLED=true
+  EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.cache.dataFile.maximumSize=${DATA_FILE_CACHE_SIZE}"
 fi
+
+if [ "$(doguctl config 'logging/root' -d 'empty')" != "empty" ];  then
+  SCM_CORE_LOG_LEVEL=$(doguctl config "logging/root")
+  echo "Setting log level to ${SCM_CORE_LOG_LEVEL}..."
+  export SCM_LOG_LOGGER="sonia.scm:${SCM_CORE_LOG_LEVEL},com.cloudogu.scm:${SCM_CORE_LOG_LEVEL},sonia.scm.filter.GZipFilter:WARN,sonia.scm.filter.GZipResponseStream:WARN,sonia.scm.util.ServiceUtil:WARN,sonia.scm.script:WARN"
+fi
+export SCM_WEBAPP_DISABLEFEEDBACK=true

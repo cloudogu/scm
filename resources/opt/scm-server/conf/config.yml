@@ -1,0 +1,38 @@
+# base server config
+##  Address to listen 0.0.0.0 means on every interface
+addressBinding: 0.0.0.0
+port: 8080
+contextPath: /scm
+
+## Evaluates headers set by a reverse proxy like X-Forwarded-For, X-Forwarded-Proto and X-Forwarded-Host
+forwardHeadersEnabled: true
+
+## increase http header size for mercurial
+httpHeaderSize: 16384
+
+tempDir: /var/cache/scm
+
+# logging
+log:
+  ## Destination of logging files
+  rootLevel: WARN
+  consoleAppenderEnabled: true
+  fileAppenderEnabled: false
+  # Log levels are defined by environment variables in scm-server startup script
+
+# webapp config
+webapp:
+  skipAdminCreation: true
+  ## Sets explicit working directory for internal processes, empty means default java temp dir
+  workDir:
+  ## Home directory "scm-home" which is also set for classpath
+  homeDir: /var/lib/scm
+  cache:
+    dataFile:
+      enabled: false
+    store:
+      enabled: false
+  ## Number of async threads
+  asyncThreads: 4
+  ## Max seconds to abort async execution
+  maxAsyncAbortSeconds: 60

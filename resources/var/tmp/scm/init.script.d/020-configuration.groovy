@@ -87,16 +87,6 @@ if (alertsUrl != null) {
     }
 }
 
-String feedbackUrl = getValueFromEtcd("feedback_url");
-if (feedbackUrl != null) {
-  if ("none".equalsIgnoreCase(feedbackUrl)) {
-    println("deactivating feedback")
-    config.setFeedbackUrl("");
-  } else if (!feedbackUrl.isEmpty()) {
-    config.setFeedbackUrl(feedbackUrl);
-  }
-}
-
 // set release feed  url
 String disableReleaseFeed = getValueFromEtcd("disable_release_feed");
 String releaseFeedUrl = getValueFromEtcd("release_feed_url");
