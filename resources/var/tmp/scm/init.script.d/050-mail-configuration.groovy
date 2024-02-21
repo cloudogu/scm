@@ -31,6 +31,17 @@ def findInstance(clazzAsString) {
   return injector.getInstance( findClass(clazzAsString) );
 }
 
+def findSmtpStrategy() {
+  try {
+    strategyClass = findClass("org.codemonkey.simplejavamail.TransportStrategy");
+    return Enum.valueOf(strategyClass, "SMTP_PLAIN");
+  } catch (ClassNotFoundException ignored) {
+  }
+
+  strategyClass = findClass("sonia.scm.mail.api.ScmTransportStrategy");
+  return Enum.valueOf(strategyClass, "SMTP");
+}
+
 try {
   def mailContext = findInstance("sonia.scm.mail.api.MailContext");
 
@@ -43,11 +54,10 @@ try {
 
   // TODO unable to resolve class sonia.scm.mail.api.MailConfiguration
   def configClass = findClass("sonia.scm.mail.api.MailConfiguration");
-  def strategyClass = findClass("org.codemonkey.simplejavamail.TransportStrategy");
   def configuration = configClass.newInstance([
       host: "postfix", // hostname
       port: 25, // port
-      transportStrategy: Enum.valueOf(strategyClass, "SMTP_PLAIN"),
+      transportStrategy: findSmtpStrategy(),
       from: from,
       subjectPrefix: old.getSubjectPrefix()
   ]);
