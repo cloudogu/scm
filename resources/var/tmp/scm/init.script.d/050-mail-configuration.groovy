@@ -14,7 +14,7 @@ def getEmailAddress(){
     try {
       configuredMailAddress = getValueFromEtcd("config/_global/mail_address");
     } catch (FileNotFoundException ex) {
-      println "could not find mail_address configuration in registry"
+      System.out.println "could not find mail_address configuration in registry"
     }
     if (configuredMailAddress != null && configuredMailAddress.length() > 0) {
       return configuredMailAddress;
@@ -34,8 +34,10 @@ def findInstance(clazzAsString) {
 def findSmtpStrategy() {
   try {
     strategyClass = findClass("org.codemonkey.simplejavamail.TransportStrategy");
+    System.out.println "using old SMTP strategy for version 2.x mail plugin configuration";
     return Enum.valueOf(strategyClass, "SMTP_PLAIN");
   } catch (ClassNotFoundException ignored) {
+    System.out.println "could not find configuration for version 2.x mail plugin, using 3.x SMTP strategy";
   }
 
   strategyClass = findClass("sonia.scm.mail.api.ScmTransportStrategy");
@@ -64,5 +66,5 @@ try {
 
   mailContext.store(configuration);
 } catch( ClassNotFoundException e ) {
-  println "mail plugin seems not to be installed"
+  System.out.println "mail plugin seems not to be installed"
 }
