@@ -17,7 +17,7 @@ node('vagrant') {
         props.add(string(defaultValue: getDoguReleaseCounter(), description: 'Dogu Version Counter', name: 'DoguVersionCounter', trim: true))
         props.add(choice(name: 'Tag_Strategy', choices: TAG_STRATEGIES))
         for (namespace in NAMESPACES) {
-            props.add(booleanParam(defaultValue: isReleaseBuild(), description: "Push new dogu into registry with namespace '${namespace}'", name: "Push_${namespace}"))
+            props.add(booleanParam(defaultValue: isReleaseBuild() || isHotfixBuild(), description: "Push new dogu into registry with namespace '${namespace}'", name: "Push_${namespace}"))
         }
         properties([
                 // Keep only the last x builds to preserve space
@@ -85,6 +85,20 @@ node('vagrant') {
                     sh "git merge --ff-only ${env.BRANCH_NAME}"
 
                     tag getVersion()
+                } else if (isHotfixBuild()) {
+                    echo 'update dependencies for hotfix build'
+                    docker.image('groovy:3.0.9-jdk11').inside {
+                        sh "groovy build/release.groovy ${releaseVersion}"
+                    }
+
+                    sh 'git add Dockerfile dogu.json'
+                    commit "Release version ${releaseVersion}"
+
+                    // fetch all remotes from origin
+                    sh 'git config --replace-all "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"'
+                    sh 'git fetch --all'
+
+                    tag getVersion()
                 }
             }
 
@@ -133,12 +147,14 @@ node('vagrant') {
                         authGit 'cesmarvin', 'push origin master --tags'
                         authGit 'cesmarvin', 'push origin develop --tags'
                         authGit 'cesmarvin', "push origin :${env.BRANCH_NAME}"
+                    } else if (isHotfixBuild()) {
+                        authGit 'cesmarvin', 'push origin --tags'
                     }
                 }
 
                 stage('Push') {
                     // No dogu release without tag allowed
-                    if (params.Tag_Strategy != IGNORE_TAG || isReleaseBuild()) {
+                    if (params.Tag_Strategy != IGNORE_TAG || isReleaseBuild() || isHotfixBuild()) {
                         for (namespace in NAMESPACES) {
                             if (params."Push_${namespace}" != null && params."Push_${namespace}") {
                                 ecoSystem.purge("scm")
@@ -215,9 +231,15 @@ boolean isReleaseBuild() {
     return env.BRANCH_NAME.startsWith("release/")
 }
 
+boolean isHotfixBuild() {
+    return env.BRANCH_NAME.startsWith("hotfix/")
+}
+
 String getReleaseVersion() {
     if (isReleaseBuild()) {
         return env.BRANCH_NAME.substring("release/".length())
+    } else if (isHotfixBuild()) {
+        return env.BRANCH_NAME.substring("hotfix/".length())
     }
     return ""
 }
@@ -256,3 +278,4 @@ void tag(String version) {
   String message = "Release version ${version}"
   sh "git -c user.name='CES Marvin' -c user.email='cesmarvin@cloudogu.com' tag -m '${message}' ${version}"
 }
+
