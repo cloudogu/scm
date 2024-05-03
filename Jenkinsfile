@@ -124,6 +124,7 @@ node('vagrant') {
                 stage('Clean') {
                     ecoSystem.destroy()
                     if(isReleaseBuild()) {
+                        //test123
                         sh "git tag -d ${getVersion()}"
                     }
                 }
