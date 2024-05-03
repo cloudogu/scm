@@ -96,6 +96,7 @@ node('vagrant') {
                 }
 
             } finally {
+            // test
                 stage('Clean') {
                     ecoSystem.destroy()
                     if(isReleaseBuild()) {
