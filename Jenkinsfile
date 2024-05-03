@@ -58,6 +58,31 @@ node('vagrant') {
             }
 
             stage('Apply Parameters') {
+                if (version != null) {
+                    ecoSystem.setVersion(version)
+                }
+                if (isNightly()) {
+                    echo 'use snapshot dependencies for nightly build'
+                    docker.image('groovy:3.0.9-jdk11').inside {
+                        sh 'groovy build/latestsnapshot.groovy'
+                    }
+                } else if (isReleaseBuild()) {
+                    echo 'update dependencies for release build'
+                    docker.image('groovy:3.0.9-jdk11').inside {
+                        sh "groovy build/release.groovy ${releaseVersion}"
+                    }
+
+                    sh 'git add Dockerfile dogu.json'
+                    commit "Release version ${releaseVersion}"
+
+                    // fetch all remotes from origin
+                    sh 'git config --replace-all "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"'
+                    sh 'git fetch --all'
+
+                    // checkout, reset and merge
+                    sh 'git checkout master'
+                    sh 'git reset --hard origin/master'
+                    sh "git merge --ff-only ${env.BRANCH_NAME}"
 
                     tag getVersion()
                 }
@@ -99,7 +124,7 @@ node('vagrant') {
                 stage('Clean') {
                     ecoSystem.destroy()
                     if(isReleaseBuild()) {
-                        sh "git tag -d" + getVersion()
+                        sh "git tag -d ${getVersion()}"
                     }
                 }
             }
