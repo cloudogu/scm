@@ -96,11 +96,10 @@ node('vagrant') {
                 }
 
             } finally {
-            // test
                 stage('Clean') {
                     ecoSystem.destroy()
                     if(isReleaseBuild()) {
-                        sh "git tag -d ${getVersion()}"
+                        sh "git tag -d" + getVersion()
                     }
                 }
             }
