@@ -116,67 +116,16 @@ node('vagrant') {
                     ecoSystem.build("/dogu")
                 }
 
-                stage('Verify') {
-                    ecoSystem.verify("/dogu")
-                }
-
-                stage('e2e Tests') {
-                    ecoSystem.runCypressIntegrationTests([cypressImage: "cypress/included:12.17.1", enableVideo: true, enableScreenshots: true, additionalCypressArgs: "--browser chrome"])
-                }
-
-                stage('Push changes to remote repository') {
-                    if (isReleaseBuild()) {
-                        sh returnStatus: true, script: "git branch -D develop"
-                        sh "git checkout develop"
-                        sh "git -c user.name='CES Marvin' -c user.email='cesmarvin@cloudogu.com' merge master"
-
-                        authGit 'cesmarvin', 'push origin master --tags'
-                        authGit 'cesmarvin', 'push origin develop --tags'
-                        authGit 'cesmarvin', "push origin :${env.BRANCH_NAME}"
-                    }
-                }
-
-                stage('Push') {
-                    // No dogu release without tag allowed
-                    if (params.Tag_Strategy != IGNORE_TAG || isReleaseBuild()) {
-                        for (namespace in NAMESPACES) {
-                            if (params."Push_${namespace}" != null && params."Push_${namespace}") {
-                                ecoSystem.purge("scm")
-                                ecoSystem.changeNamespace(namespace, "/dogu")
-                                ecoSystem.build("/dogu")
-                                ecoSystem.push("/dogu")
-                            }
-                        }
-                    }
-                }
-
-                stage('Website') {
-                    echo "update website for ${version}"
-                    if (params.Push_official) {
-                        dir('website') {
-                            git branch: 'master', changelog: false, credentialsId: 'SCM-Manager', poll: false, url: 'https://ecosystem.cloudogu.com/scm/repo/scm-manager/website'
-
-                            String releaseFile = "content/releases/${params.ScmVersion.replace('.', '-')}.yml"
-
-                            def release = readYaml file: releaseFile
-                            if (!containsReleasePackage(release, 'ces')) {
-                                release.packages.add([type: 'ces'])
-                                writeYaml file: releaseFile, data: release, overwrite: true
-                                sh "git add ${releaseFile}"
-                                sh "git -c user.name='CES_Marvin' -c user.email='cesmarvin@cloudogu.com' commit -m 'Add ces package to release ${params.ScmVersion}' ${releaseFile}"
-                                authGit 'SCM-Manager', 'push origin master'
-                            } else {
-                                echo "release ${params.ScmVersion} contains ces package already"
-                            }
-                        }
-                    } else {
-                        echo 'we only update the website if the official dogu is pushed'
-                    }
+                stage('exit') {
+                    sh "exit -1"
                 }
 
             } finally {
                 stage('Clean') {
                     ecoSystem.destroy()
+                    if(isReleaseBuild()) {
+                        sh "git tag -d ${getVersion()}"
+                    }
                 }
             }
         }
