@@ -177,6 +177,9 @@ node('vagrant') {
             } finally {
                 stage('Clean') {
                     ecoSystem.destroy()
+                    if (isReleaseBuild()) {
+                        sh "git tag -d ${getVersion()} || true"
+                    }
                 }
             }
         }
