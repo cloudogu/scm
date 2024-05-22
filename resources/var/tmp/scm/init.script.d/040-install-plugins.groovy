@@ -110,6 +110,10 @@ if (isDoguInstalled("gotenberg")) {
     plugins.add("scm-gotenberg-plugin")
 }
 
+if (isDoguInstalled("jira")) {
+    plugins.add("scm-jira-plugin")
+}
+
 addMissingDefaultPluginsFromEtcd(plugins)
 
 File pluginListFile = new File(sonia.scm.SCMContext.getContext().getBaseDirectory(), "installed_plugins_before_update.lst")
