@@ -52,11 +52,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade SCM-Manager to version 2.47.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.47.0/CHANGELOG.md))
 
-## [2.46.3-1]
+## [2.46.4-1] 2024-06-24
+### Changed
+- Upgrade SCM-Manager to version 2.46.4 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.46.4/CHANGELOG.md))
+
+## [2.46.3-1] 2024-05-29
 ### Changed
 - Upgrade SCM-Manager to version 2.46.3 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.46.3/CHANGELOG.md))
 
-## [2.46.2-1]
+## [2.46.2-1] 2024-04-03
 ### Changed
 - Upgrade SCM-Manager to version 2.46.2 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.46.2/CHANGELOG.md))
 
