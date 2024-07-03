@@ -1,11 +1,16 @@
 #!groovy
-@Library(['github.com/cloudogu/dogu-build-lib@v1.4.1', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
+@Library(['github.com/cloudogu/ces-build-lib@1.62.0', 'github.com/cloudogu/dogu-build-lib@v1.4.1', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
+import com.cloudogu.ces.cesbuildlib.*
 import com.cloudogu.ces.dogubuildlib.*
 
 def NAMESPACES = ["testing", "official"]
 def IGNORE_TAG = "ignore-tag"
 def BUILD_TAG = "build-existing-tag"
 def TAG_STRATEGIES = [IGNORE_TAG, BUILD_TAG]
+
+Git git = new Git(this, "cesmarvin")
+GitHub github = new GitHub(this, git)
+Changelog changelog = new Changelog(this)
 
 node('vagrant') {
 
@@ -190,6 +195,11 @@ node('vagrant') {
                     }
                 }
 
+                stage('Add Github-Release') {
+                    if (isReleaseBuild()) {
+                        github.createReleaseWithChangelog(version, changelog)
+                    }
+                }
             } finally {
                 stage('Clean') {
                     ecoSystem.destroy()
