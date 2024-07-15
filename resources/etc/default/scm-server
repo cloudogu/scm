@@ -14,7 +14,7 @@ if [ "$(doguctl config "container_config/memory_limit" -d "empty")" != "empty" ]
   EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -XX:MinRAMPercentage=${MEMORY_LIMIT_MIN_PERCENTAGE}"
 fi
 
-if [ "$(doguctl config 'caching/workdir/size' -d '5')" > 0 ];  then
+if [ "$(doguctl config 'caching/workdir/size' -d '5')" -gt 0 ];  then
   SCM_WEBAPP_WORKINGCOPYPOOLSIZE=$(doguctl config "caching/workdir/size")
   export SCM_WEBAPP_WORKINGCOPYPOOLSIZE
   export SCM_WEBAPP_WORKINGCOPYPOOLSTRATEGY=sonia.scm.repository.work.SimpleCachingWorkingCopyPool
@@ -25,7 +25,7 @@ if [ "$(doguctl config 'caching/stores/enabled' -d 'false')" == "true" ];  then
 else
   export SCM_WEBAPP_CACHE_STORE_ENABLED="false"
 fi
-if [ "$(doguctl config 'caching/dataFiles/size' -d '0')" > 0 ];  then
+if [ "$(doguctl config 'caching/dataFiles/size' -d '0')" -gt 0 ];  then
   DATA_FILE_CACHE_SIZE=$(doguctl config 'caching/dataFiles/size')
   export SCM_WEBAPP_CACHE_DATAFILE_ENABLED=true
   EXTRA_JVM_ARGUMENTS="$EXTRA_JVM_ARGUMENTS -Dscm.cache.dataFile.maximumSize=${DATA_FILE_CACHE_SIZE}"
