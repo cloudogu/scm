@@ -1,23 +1,23 @@
 # Dokumentation
 
-Der SCM-Manager ist ein Repository Management Tool, in dem Repositories vom Typ Git, Mercurial und Subversion über eine Weboberfläche verwaltet werden können. Über Plugins kann die Anwendung vielseitig erweitert werden.
+Der SCM-Manager ist ein Source Code Management Tool, in dem Repositories vom Typ Git, Mercurial und Subversion über eine Weboberfläche verwaltet werden können. Über Plugins kann die Anwendung vielseitig erweitert werden.
 
-Die offizielle Dokumentation der Applikation findet sich hier: https://scm-manager.org/docs/latest/de/
+Die offizielle Dokumentation der Applikation befindet sich hier: https://scm-manager.org/docs/latest/de/
 
 ## Administrationshinweise: Nutzer und Gruppen im SCM-Manager
 Im SCM-Manager existieren Nutzer und Gruppen. Die Gruppen im SCM-Manager entsprechen dabei den Gruppen eines Nutzers im User Management.
 Sobald sich ein Nutzer im SCM-Manager anmeldet, wird der Nutzer ebenfalls im SCM-Manager angelegt.
 
 ### Standardzustand
-Ein normaler Benutzer kann weder eigene Repositories erstellen, noch vorhandene Repositories sehen. Allerdings kann ein Administrator oder der Ersteller eines Repositories, einen Nutzer oder eine Gruppe berechtigen, ein Repository zu sehen bzw. zu bearbeiten.
+Ein normaler Benutzer kann weder eigene Repositories erstellen, noch vorhandene Repositories sehen. Allerdings kann ein Administrator oder der Ersteller eines Repositories, einen Nutzer oder eine Gruppe dazu berechtigen.
 
 Mitglieder der Gruppe "cesAdmin" sind automatisch Administratoren des SCM-Managers. Sie können alle Repositories sehen und bearbeiten, sowie alle Funktionen des SCM-Managers vollumfänglich nutzen.
 
 ### Berechtigung und Synchronisierung
-Nutzer, welche sich zuvor noch nie im SCM-Manager eingeloggt haben, sind im SCM-Manager nicht vorhanden.
+Nutzer, welche sich zuvor noch nie im SCM-Manager angemeldet haben, sind im SCM-Manager nicht vorhanden.
 
-Da die Nutzer erst bei ihrem Login angelegt werden, können diese nicht ohne weiteres vorher berechtigt werden.
-Ist aber der Name eines Nutzers aber bekannt, so kann ein Nutzer mit diesem Namen angelegt werden. Dieser muss als externer Nutzer markiert werden. Anschließend kann dieser berechtigt werden. Dasselbe gilt für Gruppen.
+Da die Nutzer erst bei der ersten Anmeldung angelegt werden, können diese nicht ohne weiteres vorher berechtigt werden.
+Ist aber der Name eines Nutzers bekannt, so kann ein Nutzer mit diesem Namen angelegt werden. Dieser muss als externer Nutzer markiert werden. Anschließend kann dieser berechtigt werden. Dasselbe gilt für Gruppen.
 
 Sollte sich ein Nutzer, welcher aktuell noch nicht im SCM-Manager existiert, über CAS einloggen, so wird dieser im SCM-Manager angelegt.
 Das gilt allerdings nicht für Gruppen. Wenn Gruppen berechtigt werden sollen, so müssen diese als externe Gruppen manuell angelegt und berechtigt werden.
@@ -26,7 +26,7 @@ Werden die Daten eines Nutzers verändert und der Nutzer loggt sich erneut ein, 
 Sollen die Daten eines Nutzers verändert werden, so muss dies über das User Management geschehen.
 
 ### Beispiel: Rechtevergabe
-Für dieses Beispiel wurde im Vorraus der Benutzer "newuser6" mit der Gruppe "user6role" im User Management angelegt.
+Für dieses Beispiel wurde im Voraus der Benutzer "newuser6" mit der Gruppe "user6role" im User Management angelegt.
 
 #### Optional: Legen Sie einen neuen Nutzer an
 Dieser Schritt kann übersprungen werden, wenn der zu berechtigende Nutzer sich bereits eingeloggt hat.
@@ -38,7 +38,7 @@ Klicken Sie auf den Reiter "Benutzer" und klicken Sie anschließend auf "Benutze
 In das Formular geben Sie nun den Namen des Nutzers ein und aktivieren Sie die Checkbox "Extern".
 Wichtig: Der Benutzername des Nutzers muss exakt dem Benutzernamen des Nutzers im User Management entsprechen.
 
-Klicken Sie dann auf "Speichern", um den Nutzer anzulegen.
+Klicken Sie auf "Speichern", um den Nutzer anzulegen.
 
 ![SCM: Nutzer_Erstellen](figures/scm_createUser.png)
 
@@ -54,7 +54,7 @@ Klicken Sie dafür auf den Reiter "Gruppen" und anschließend auf "Gruppe erstel
 In das Formular geben Sie nun den Namen der Gruppe sowie eine Beschreibung ein und aktivieren Sie die Checkbox "Extern".
 Wichtig: Der Name der Gruppe muss exakt dem Namen der Gruppe im User Management entsprechen.
 
-Klicken Sie dann auf "Speichern", um die Gruppe anzulegen.
+Klicken Sie auf "Speichern", um die Gruppe anzulegen.
 
 ![SCM: Gruppe_Erstellen](figures/scm_createGroup.png)
 
@@ -92,13 +92,13 @@ In das Feld "Benutzer" bzw. "Gruppe" schreiben Sie nun den Namen des zu berechti
 
 ![SCM: Berechtigung Repository](figures/scm_repositoryPrivileges.png)
 
-Nun haben Sie die Möglichkeit, dem eine eine vorgefertigte Rolle zuzuweisen, bei dem dieser ein vordefiniertes Set an Berechtigungen bekommt.
+Nun haben Sie die Möglichkeit, eine vorgefertigte Rolle zuzuweisen, die ein vordefiniertes Set an Berechtigungen umfasst.
 Wählen Sie dafür einen Eintrag aus der Liste "Rolle" aus.
 
 ![SCM: Berechtigung Repository: Vordefinierte Rollen](figures/scm_predefinedRoles.png)
 
 Alternativ können Sie jede Berechtigung selbst bestimmen. Klicken Sie dafür auf die Schaltfläche "Erweitert". Es öffnet sich ein Dialog.
-Dort wählen Sie die Berechtigungen aus, welche der Nutzer erhalten soll und klicken auf "Speichern".
+Dort wählen Sie die Berechtigungen aus, welche der Nutzer erhalten soll und klicken Sie auf "Speichern".
 
 ![SCM: Berechtigung Repository: Benutzerdefinierte Rollen](figures/scm_rolesCustom.png)
 

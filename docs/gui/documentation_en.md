@@ -1,6 +1,6 @@
 # Documentation
 
-The SCM Manager is a repository management tool in which Git, Mercurial and Subversion type repositories can be managed via a web interface. The application can be extended in many ways via plugins.
+The SCM Manager is a source code management tool in which Git, Mercurial and Subversion type repositories can be managed via a web interface. The application can be extended in many ways via plugins.
 
 The official documentation of the application can be found here: https://scm-manager.org/docs/latest/en/
 
@@ -9,7 +9,7 @@ In the SCM-Manager there are users and groups. The groups in the SCM-Manager cor
 As soon as a user logs in to the SCM Manager, the user is also created in the SCM Manager.
 
 ### Default state
-A normal user cannot create their own repositories, nor can they see existing repositories. However, an administrator or the creator of a repository can authorize a user or group to view or edit a repository.
+A normal user cannot create their own repositories, nor can they see existing repositories. However, an administrator or the owner of a repository can authorize a user or group to do so.
 
 Members of the "cesAdmin" group are automatically administrators of the SCM Manager. They can see and edit all repositories and fully use all functions of the SCM Manager.
 
@@ -17,7 +17,7 @@ Members of the "cesAdmin" group are automatically administrators of the SCM Mana
 Users who have never logged into the SCM Manager before do not exist in the SCM Manager.
 
 Since users are not created until they log in, they cannot easily be authorized beforehand.
-However, if the name of a user is known, a user with this name can be created. This user must be marked as an external user. Afterwards this user can be authorized. The same applies to groups.
+However, if the name of a user is known, a user with this name can be created. This user must be marked as an external user. Afterward this user can be authorized. The same applies to groups.
 
 If a user who does not currently exist in the SCM Manager logs in via CAS, this user will be created in the SCM Manager.
 However, this does not apply to groups. If groups are to be authorized, they must be created and authorized manually as external groups.
@@ -32,7 +32,6 @@ For this example, the user "newuser6" with the group "user6role" was created in 
 This step can be skipped if the user to be authorized has already logged in.
 
 Click on the "Users" tab and then click on "Create user".
-
 
 ![SCM:_User_List](figures/scm_createUserList.png)
 
@@ -82,7 +81,6 @@ Then click on "Settings", then on "Permissions". There select the permissions yo
 ![SCM: Authorization Group: Permissions](figures/scm_rolePrivileges.png)
 
 The permissions are now effective for the user.
-
 
 #### Permission of a user or group for a specific repository.
 
