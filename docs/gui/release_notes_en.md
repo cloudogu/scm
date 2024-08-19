@@ -4,6 +4,10 @@ Below you will find the release notes for the SCM-Manager Dogu.
 
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
+## Release 3.3.0-3
+
+* Upgrade base image to version 17.0.12-1
+
 ## Release 3.3.0-2
 
 * This version fixes a bug in Dogu. You can find the release notes [here](https://github.com/cloudogu/scm/releases/tag/3.3.0-2).
