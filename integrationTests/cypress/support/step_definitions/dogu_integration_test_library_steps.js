@@ -17,7 +17,7 @@ When("the user clicks the dogu logout button", () => {
     cy.get('button[class=navbar-burger]').click();
     cy.get('[data-testid=primary-navigation-logout]').click();
     cy.url().should('contain', 'cas/logout');
-    cy.get('h2[class=banner-heading]').should('be.visible');
+    cy.get('h1[data-testid=logout-header]').should('be.visible');
 });
 
 When("the user waits until the page is fully loaded", () => {
