@@ -1,7 +1,7 @@
 // this script installs required plugins for scm-manager
 
 import sonia.scm.plugin.PluginManager;
-import groovy.json.JsonSlurper;
+import lib.EcoSystem.DoguConfig;
 
 // configuration
 def plugins = []
@@ -9,10 +9,10 @@ def pluginsFromOldInstallation = []
 
 // methods
 
-def addMissingDefaultPluginsFromEtcd(plugins){
-    def etcdValue = getValueFromEtcd("/config/scm/additional_plugins");
-    if (etcdValue != null) {
-        def additionalPlugins = etcdValue.split(",");
+def addMissingDefaultPluginsFromDoguConfig(plugins){
+    def doguConfigValue = DoguConfig.get("additional_plugins");
+    if (doguConfigValue != null) {
+        def additionalPlugins = doguConfigValue.split(",");
         System.out.println("Following plugins must be installed: ${additionalPlugins}");
 
         for (def p : additionalPlugins) {
@@ -47,17 +47,6 @@ def getAvailablePlugin(available, name){
        }
    }
    return null;
-}
-
-def getValueFromEtcd(String key){
-    try {
-        String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
-        URL url = new URL("http://${ip}:4001/v2/keys/${key}");
-        def json = new JsonSlurper().parseText(url.text)
-        return json.node.value
-    } catch (FileNotFoundException e) {
-        return null;
-    }
 }
 
 def isFirstStart() {
@@ -114,7 +103,7 @@ if (isDoguInstalled("jira")) {
     plugins.add("scm-jira-plugin")
 }
 
-addMissingDefaultPluginsFromEtcd(plugins)
+addMissingDefaultPluginsFromDoguConfig(plugins)
 
 File pluginListFile = new File(sonia.scm.SCMContext.getContext().getBaseDirectory(), "installed_plugins_before_update.lst")
 if (pluginListFile.exists()) {
@@ -148,7 +137,7 @@ for (def name : plugins) {
     }
 }
 
-if (Boolean.valueOf(getValueFromEtcd("/config/scm/update_plugins").toString())) {
+if (Boolean.valueOf(DoguConfig.get("update_plugins").toString())) {
     System.out.println("checking for updates of plugins");
     def update = false
     for (def plugin : pluginManager.updatable) {

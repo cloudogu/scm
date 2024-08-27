@@ -1,22 +1,15 @@
 // this script configures the redmine plugin
 
-import groovy.json.JsonSlurper;
+import lib.EcoSystem.DoguConfig;
+import lib.EcoSystem.GlobalConfig;
 
-// TODO sharing ?
-def getValueFromEtcd(String key){
-  String ip = new File("/etc/ces/node_master").getText("UTF-8").trim()
-	URL url = new URL("http://${ip}:4001/v2/keys/${key}")
-	def json = new JsonSlurper().parseText(url.text)
-	return json.node.value
-}
+static def getPreferredRedmine() {
+    String preferredRedmine = DoguConfig.get("redmine_type")
+    if (preferredRedmine == null) {
+      return "EASY_REDMINE"
+    }
 
-def getPreferredRedmine() {
-  try {
-    String preferredRedmine = getValueFromEtcd("/config/scm/redmine_type")
     return preferredRedmine
-  } catch (FileNotFoundException ex) {
-    return "EASY_REDMINE"
-  }
 }
 
 def findClass(clazzAsString) {
@@ -53,7 +46,7 @@ try {
   def storeClass = findClass("sonia.scm.redmine.config.RedmineConfigStore")
   def store = injector.getInstance(storeClass);
 
-	String fqdn = getValueFromEtcd("config/_global/fqdn")
+	String fqdn = GlobalConfig.get("fqdn")
 
   def config = store.getConfiguration()
   if (config.getUrl() == null) {

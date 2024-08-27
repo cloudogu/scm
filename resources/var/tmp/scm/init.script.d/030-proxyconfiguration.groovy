@@ -1,26 +1,20 @@
-// This script configures proxy settings from etcd
+// This script configures proxy settings from ecosystem config
 
+
+import lib.EcoSystem.GlobalConfig
 import sonia.scm.config.ScmConfiguration;
-import sonia.scm.admin.ScmConfigurationStore;
-import groovy.json.JsonSlurper;
-
-def getValueFromEtcd(String key){
-	String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
-	URL url = new URL("http://${ip}:4001/v2/keys/${key}");
-	def json = new JsonSlurper().parseText(url.text)
-	return json.node.value
-}
+import sonia.scm.admin.ScmConfigurationStore
 
 def configuration = injector.getInstance(ScmConfiguration.class);
-boolean isProxyEnabledInEtcd = false;
+boolean isProxyEnabledInEcoSystemConfig = false;
 
 try{
-	isProxyEnabledInEtcd = "true".equals(getValueFromEtcd("config/_global/proxy/enabled"));
+	isProxyEnabledInEcoSystemConfig = "true".equals(GlobalConfig.get("proxy/enabled"));
 } catch (FileNotFoundException e){
-	System.out.println("Etcd proxy configuration does not exist.");
+	System.out.println("EcoSystem proxy configuration does not exist.");
 }
 
-if (isProxyEnabledInEtcd){
+if (isProxyEnabledInEcoSystemConfig){
 	enableProxy(configuration);
 	setProxyServerSettings(configuration);
 	setProxyAuthenticationSettings(configuration);
@@ -37,10 +31,10 @@ def disableProxy(configuration){
 
 def setProxyServerSettings(configuration){
 	try{
-		configuration.setProxyServer(getValueFromEtcd("config/_global/proxy/server"));
-		configuration.setProxyPort(Integer.parseInt(getValueFromEtcd("config/_global/proxy/port")));
+		configuration.setProxyServer(GlobalConfig.get("proxy/server"));
+		configuration.setProxyPort(Integer.parseInt(GlobalConfig.get("proxy/port")));
 	} catch (FileNotFoundException e){
-		System.out.println("Etcd proxy configuration is incomplete (server or port not found).");
+		System.out.println("EcoSystem proxy configuration is incomplete (server or port not found).");
 		disableProxy(configuration);
 	}
 }
@@ -48,18 +42,18 @@ def setProxyServerSettings(configuration){
 def setProxyAuthenticationSettings(configuration){
 	// Authentication credentials are optional
 	try{
-		String proxyUser = getValueFromEtcd("config/_global/proxy/username");
-		String proxyPassword = getValueFromEtcd("config/_global/proxy/password");
+		String proxyUser = GlobalConfig.get("proxy/username");
+		String proxyPassword = GlobalConfig.get("proxy/password");
 		configuration.setProxyUser(proxyUser);
 		configuration.setProxyPassword(proxyPassword);
 	} catch (FileNotFoundException e){
-		System.out.println("Etcd proxy authentication configuration is incomplete or not existent.");
+		System.out.println("EcoSystem proxy authentication configuration is incomplete or not existent.");
 	}
 }
 
 def setProxyExcludes(configuration){
 	Set<String> excludes = new HashSet<String>();
-	excludes.add(getValueFromEtcd("config/_global/fqdn"));
+	excludes.add(GlobalConfig.get("fqdn"));
 	configuration.setProxyExcludes(excludes);
 }
 
