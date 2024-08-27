@@ -1,6 +1,8 @@
 // this script installs required plugins for scm-manager
 
+
 import sonia.scm.plugin.PluginManager;
+import lib.EcoSystem.DoguRegistry;
 import lib.EcoSystem.DoguConfig;
 
 // configuration
@@ -23,12 +25,6 @@ def addMissingDefaultPluginsFromDoguConfig(plugins){
             }
         }
     }
-}
-
-def isDoguInstalled(name){
-	String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
-	URL url = new URL("http://${ip}:4001/v2/keys/dogu/${name}/current");
-	return url.openConnection().getResponseCode() == 200;
 }
 
 def isInstalled(installed, name){
@@ -76,30 +72,30 @@ if (pluginSetConfigStore.getPluginSets().isEmpty()) {
 
 // install plugins depending on other dogus
 
-if (isDoguInstalled("redmine") || isDoguInstalled("easyredmine")) {
+if (DoguRegistry.isInstalled("redmine") || DoguRegistry.isInstalled("easyredmine")) {
 	plugins.add("scm-redmine-plugin")
 }
 
-if (isDoguInstalled("jenkins")) {
+if (DoguRegistry.isInstalled("jenkins")) {
 	plugins.add("scm-jenkins-plugin")
 	plugins.add("scm-ci-plugin")
 }
 
-if (isDoguInstalled("smeagol")) {
+if (DoguRegistry.isInstalled("smeagol")) {
 	plugins.add("scm-webhook-plugin")
 	plugins.add("scm-rest-legacy-plugin")
 	plugins.add("scm-smeagol-plugin")
 }
 
-if (isDoguInstalled("cockpit")) {
+if (DoguRegistry.isInstalled("cockpit")) {
     plugins.add("scm-cockpit-legacy-plugin")
 }
 
-if (isDoguInstalled("gotenberg")) {
+if (DoguRegistry.isInstalled("gotenberg")) {
     plugins.add("scm-gotenberg-plugin")
 }
 
-if (isDoguInstalled("jira")) {
+if (DoguRegistry.isInstalled("jira")) {
     plugins.add("scm-jira-plugin")
 }
 

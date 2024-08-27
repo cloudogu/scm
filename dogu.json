@@ -29,6 +29,36 @@
             "name": "postfix"
         }
     ],
+    "OptionalDependencies": [
+        {
+            "type": "dogu",
+            "name": "redmine"
+        },
+        {
+            "type": "dogu",
+            "name": "easyredmine"
+        },
+        {
+            "type": "dogu",
+            "name": "jenkins"
+        },
+        {
+            "type": "dogu",
+            "name": "smeagol"
+        },
+        {
+            "type": "dogu",
+            "name": "cockpit"
+        },
+        {
+            "type": "dogu",
+            "name": "jira"
+        },
+        {
+            "type": "dogu",
+            "name": "gotenberg"
+        }
+    ],
     "Configuration": [
         {
             "Name": "plugin_center_url",

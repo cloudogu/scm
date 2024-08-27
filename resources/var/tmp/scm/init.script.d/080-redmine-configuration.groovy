@@ -1,5 +1,7 @@
 // this script configures the redmine plugin
 
+
+import lib.EcoSystem.DoguRegistry;
 import lib.EcoSystem.DoguConfig;
 import lib.EcoSystem.GlobalConfig;
 
@@ -14,12 +16,6 @@ static def getPreferredRedmine() {
 
 def findClass(clazzAsString) {
   return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
-}
-
-def isDoguInstalled(name){
-  String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
-  URL url = new URL("http://${ip}:4001/v2/keys/dogu/${name}/current");
-  return url.openConnection().getResponseCode() == 200;
 }
 
 def configureEasyRedmine(config, fqdn, formattingClass) {
@@ -59,8 +55,8 @@ try {
   def formattingClass = findClass("sonia.scm.redmine.config.TextFormatting")
 
   String preferredRedmine = getPreferredRedmine()
-  isEasyRedmineInstalled = isDoguInstalled("easyredmine")
-  isRedmineInstalled = isDoguInstalled("redmine")
+  isEasyRedmineInstalled = DoguRegistry.isInstalled("easyredmine")
+  isRedmineInstalled = DoguRegistry.isInstalled("redmine")
 
   if (isEasyRedmineInstalled && isRedmineInstalled && preferredRedmine.equals("EASY_REDMINE")) {
     println "both dogus installed and easy redmine is preferred"
