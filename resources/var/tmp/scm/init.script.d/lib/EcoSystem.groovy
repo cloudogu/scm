@@ -20,7 +20,7 @@ class EcoSystem {
         static void set(String key, String value) {
             try {
                 println "setting dogu config value '${key}' to '${value}'"
-                sh("doguctl config  ${ key} ${value}")
+                sh("doguctl config ${key} ${value}")
                 println "value set successfully"
             } catch (Exception e) {
                 e.printStackTrace()
