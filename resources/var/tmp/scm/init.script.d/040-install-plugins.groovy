@@ -81,10 +81,10 @@ if (DoguRegistry.isInstalled("jenkins")) {
 	plugins.add("scm-ci-plugin")
 }
 
-if (DoguRegistry.isInstalled("smeagol")) {
-	plugins.add("scm-webhook-plugin")
-	plugins.add("scm-rest-legacy-plugin")
-	plugins.add("scm-smeagol-plugin")
+if (DoguConfig.get("install_smeagol_plugin") == "true") {
+    plugins.add("scm-webhook-plugin")
+    plugins.add("scm-rest-legacy-plugin")
+    plugins.add("scm-smeagol-plugin")
 }
 
 if (DoguRegistry.isInstalled("cockpit")) {

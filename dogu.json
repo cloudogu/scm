@@ -45,10 +45,6 @@
         },
         {
             "type": "dogu",
-            "name": "smeagol"
-        },
-        {
-            "type": "dogu",
             "name": "cockpit"
         },
         {
@@ -239,6 +235,19 @@
             "Description": "To enable data file caches, set this to an integer value > 0.",
             "Optional": true,
             "Default": "0"
+        },
+        {
+          "Name": "install_smeagol_plugin",
+          "Description": "",
+          "Optional": false,
+          "Validation": {
+            "Type": "ONE_OF",
+            "Values": [
+              "true",
+              "false"
+            ]
+          },
+          "Default": "false"
         }
     ],
     "ExposedPorts": [
