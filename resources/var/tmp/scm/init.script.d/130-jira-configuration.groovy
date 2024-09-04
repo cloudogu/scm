@@ -1,8 +1,9 @@
 // this script configures the jira plugin
 
-
-import lib.EcoSystem.DoguRegistry;
-import lib.EcoSystem.GlobalConfig;
+// Load EcoSystem library
+File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy");
+Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
+ecoSystem = (GroovyObject) groovyClass.newInstance();
 
 def findClass(clazzAsString) {
     return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
@@ -17,12 +18,12 @@ def configureJira(config, fqdn) {
     config.setUrl("https://${fqdn}/jira")
 }
 
-if (DoguRegistry.isInstalled("jira")) {
+if (ecoSystem.isInstalled("jira")) {
     try {
         def storeClass = findClass("sonia.scm.jira.config.JiraConfigurationStore")
         def store = injector.getInstance(storeClass);
 
-        String fqdn = GlobalConfig.get("fqdn")
+        String fqdn = ecoSystem.getGlobalConfig("fqdn")
         def config = store.getGlobalConfiguration()
         configureJira(config, fqdn)
 

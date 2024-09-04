@@ -1,9 +1,6 @@
 // this script configures some basic settings for scm-manager to work with the
 // ecosystem.
 
-
-import lib.EcoSystem.DoguConfig;
-import lib.EcoSystem.GlobalConfig;
 import sonia.scm.config.ScmConfiguration;
 import sonia.scm.admin.ScmConfigurationStore;
 import sonia.scm.group.Group;
@@ -12,21 +9,27 @@ import sonia.scm.security.PermissionAssigner;
 import sonia.scm.security.PermissionDescriptor;
 import sonia.scm.SCMContextProvider;
 
+// Load EcoSystem library
+File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy");
+Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
+ecoSystem = (GroovyObject) groovyClass.newInstance();
+
+
 def config = injector.getInstance(ScmConfiguration.class);
 config.setNamespaceStrategy("CustomNamespaceStrategy");
 // set base url
-String fqdn = GlobalConfig.get("fqdn");
+String fqdn = ecoSystem.getGlobalConfig("fqdn");
 config.setBaseUrl("https://${fqdn}/scm");
 
 def context = injector.getInstance(SCMContextProvider.class);
 
 // set plugin center url
-String pluginCenterUrl = DoguConfig.get("plugin_center_url");
+String pluginCenterUrl = ecoSystem.getGlobalConfig("plugin_center_url");
 if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl(pluginCenterUrl);
 }
 
-String pluginCenterAuthenticationUrl = DoguConfig.get("plugin_center_authentication_url");
+String pluginCenterAuthenticationUrl = ecoSystem.getGlobalConfig("plugin_center_authentication_url");
 if (pluginCenterAuthenticationUrl != null) {
   if ("none".equalsIgnoreCase(pluginCenterAuthenticationUrl)) {
     println("deactivating plugin center authentication");
@@ -36,7 +39,7 @@ if (pluginCenterAuthenticationUrl != null) {
   }
 }
 
-String loginInfoUrl = DoguConfig.get("login_info_url");
+String loginInfoUrl = ecoSystem.getGlobalConfig("login_info_url");
 if (loginInfoUrl != null) {
     if ("none".equalsIgnoreCase(loginInfoUrl)) {
         println("deactivating login info");
@@ -46,7 +49,7 @@ if (loginInfoUrl != null) {
     }
 }
 
-String alertsUrl = DoguConfig.get("alerts_url");
+String alertsUrl = ecoSystem.getGlobalConfig("alerts_url");
 if (alertsUrl != null) {
     if ("none".equalsIgnoreCase(alertsUrl)) {
         println("deactivating alerts");
@@ -57,8 +60,8 @@ if (alertsUrl != null) {
 }
 
 // set release feed  url
-String disableReleaseFeed = DoguConfig.get("disable_release_feed");
-String releaseFeedUrl = DoguConfig.get("release_feed_url");
+String disableReleaseFeed = ecoSystem.getGlobalConfig("disable_release_feed");
+String releaseFeedUrl = ecoSystem.getGlobalConfig("release_feed_url");
 
 if (disableReleaseFeed != null && disableReleaseFeed.equalsIgnoreCase("true")) {
   config.setReleaseFeedUrl("");
@@ -73,8 +76,8 @@ config.setEnabledUserConverter(true)
 injector.getInstance(ScmConfigurationStore.class).store(config);
 
 // set admin group
-String adminGroup = GlobalConfig.get("admin_group");
-String currentAdminGroup = DoguConfig.get("admin_group");
+String adminGroup = ecoSystem.getGlobalConfig("admin_group");
+String currentAdminGroup = ecoSystem.getDoguConfig("admin_group");
 
 GroupManager groupManager = injector.getInstance(GroupManager.class);
 if (adminGroup != currentAdminGroup) {
@@ -104,4 +107,4 @@ PermissionAssigner permissionAssigner = injector.getInstance(PermissionAssigner.
 PermissionDescriptor descriptor = new PermissionDescriptor("*");
 permissionAssigner.setPermissionsForGroup(adminGroup, Collections.singleton(descriptor));
 
-DoguConfig.set("admin_group", adminGroup)
+ecoSystem.setDoguConfig("admin_group", adminGroup)

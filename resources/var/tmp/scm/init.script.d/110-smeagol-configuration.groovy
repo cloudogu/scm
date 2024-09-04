@@ -1,25 +1,30 @@
 // this script configures the smeagol plugin
-
-import lib.EcoSystem.GlobalConfig;
 import sonia.scm.*;
 
+// Load EcoSystem library
+File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy");
+Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
+ecoSystem = (GroovyObject) groovyClass.newInstance();
+
 def findClass(clazzAsString) {
-  return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
+    return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
 }
 
-def setSmeagolConfig(){
-  String fqdn = GlobalConfig.get("fqdn")
-  String smeagolUrl = "https://${fqdn}/smeagol"
+def setSmeagolConfig() {
+    String fqdn = ecoSystem.getGlobalConfig("fqdn")
+    String smeagolUrl = "https://${fqdn}/smeagol"
 
-  def smeagolConfiguration = injector.getInstance(findClass("com.cloudogu.smeagol.SmeagolConfiguration"))
-  def currentConfig = smeagolConfiguration.get()
-  currentConfig.setSmeagolUrl(smeagolUrl)
-  currentConfig.setEnabled(true)
-  smeagolConfiguration.set(currentConfig)
+    def smeagolConfiguration = injector.getInstance(findClass("com.cloudogu.smeagol.SmeagolConfiguration"))
+    def currentConfig = smeagolConfiguration.get()
+    currentConfig.setSmeagolUrl(smeagolUrl)
+    currentConfig.setEnabled(true)
+    smeagolConfiguration.set(currentConfig)
 }
 
 try {
-    setSmeagolConfig()
-} catch( ClassNotFoundException e ) {
+    if (ecoSystem.isInstalled("smeagol")) {
+        setSmeagolConfig()
+    }
+} catch (ClassNotFoundException e) {
     println "Smeagol plugin seems not to be installed"
 }

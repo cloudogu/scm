@@ -1,15 +1,17 @@
 // This script configures proxy settings from ecosystem config
-
-
-import lib.EcoSystem.GlobalConfig
 import sonia.scm.config.ScmConfiguration;
 import sonia.scm.admin.ScmConfigurationStore
+
+// Load EcoSystem library
+File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy");
+Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
+ecoSystem = (GroovyObject) groovyClass.newInstance();
 
 def configuration = injector.getInstance(ScmConfiguration.class);
 boolean isProxyEnabledInEcoSystemConfig = false;
 
 try{
-	isProxyEnabledInEcoSystemConfig = "true".equals(GlobalConfig.get("proxy/enabled"));
+	isProxyEnabledInEcoSystemConfig = "true".equals(ecoSystem.getGlobalConfig("proxy/enabled"));
 } catch (FileNotFoundException e){
 	System.out.println("EcoSystem proxy configuration does not exist.");
 }
@@ -31,8 +33,8 @@ def disableProxy(configuration){
 
 def setProxyServerSettings(configuration){
 	try{
-		configuration.setProxyServer(GlobalConfig.get("proxy/server"));
-		configuration.setProxyPort(Integer.parseInt(GlobalConfig.get("proxy/port")));
+		configuration.setProxyServer(ecoSystem.getGlobalConfig("proxy/server"));
+		configuration.setProxyPort(Integer.parseInt(ecoSystem.getGlobalConfig("proxy/port")));
 	} catch (FileNotFoundException e){
 		System.out.println("EcoSystem proxy configuration is incomplete (server or port not found).");
 		disableProxy(configuration);
@@ -42,8 +44,8 @@ def setProxyServerSettings(configuration){
 def setProxyAuthenticationSettings(configuration){
 	// Authentication credentials are optional
 	try{
-		String proxyUser = GlobalConfig.get("proxy/username");
-		String proxyPassword = GlobalConfig.get("proxy/password");
+		String proxyUser = ecoSystem.getGlobalConfig("proxy/username");
+		String proxyPassword = ecoSystem.getGlobalConfig("proxy/password");
 		configuration.setProxyUser(proxyUser);
 		configuration.setProxyPassword(proxyPassword);
 	} catch (FileNotFoundException e){
@@ -53,7 +55,7 @@ def setProxyAuthenticationSettings(configuration){
 
 def setProxyExcludes(configuration){
 	Set<String> excludes = new HashSet<String>();
-	excludes.add(GlobalConfig.get("fqdn"));
+	excludes.add(ecoSystem.getGlobalConfig("fqdn"));
 	configuration.setProxyExcludes(excludes);
 }
 

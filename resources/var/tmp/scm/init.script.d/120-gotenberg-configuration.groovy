@@ -3,10 +3,10 @@
 import sonia.scm.*;
 
 def findClass(clazzAsString) {
-  return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
+    return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
 }
 
-def setGotenbergConfig(){
+def setGotenbergConfig() {
     def gotenbergConfigurationStore = injector.getInstance(findClass("com.cloudogu.scm.gotenberg.GotenbergConfigurationStore"))
 
     def gotenbergConfiguration = gotenbergConfigurationStore.get()
@@ -18,7 +18,9 @@ def setGotenbergConfig(){
 }
 
 try {
-    setGotenbergConfig()
+    if (ecoSystem.isInstalled("gotenberg")) {
+        setGotenbergConfig()
+    }
 } catch (ClassNotFoundException e) {
     println "Gotenberg plugin seems not to be installed"
 }

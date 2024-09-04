@@ -1,9 +1,10 @@
 // this script installs required plugins for scm-manager
-
-
 import sonia.scm.plugin.PluginManager;
-import lib.EcoSystem.DoguRegistry;
-import lib.EcoSystem.DoguConfig;
+
+// Load EcoSystem library
+File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy");
+Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
+ecoSystem = (GroovyObject) groovyClass.newInstance();
 
 // configuration
 def plugins = []
@@ -12,7 +13,7 @@ def pluginsFromOldInstallation = []
 // methods
 
 def addMissingDefaultPluginsFromDoguConfig(plugins){
-    def doguConfigValue = DoguConfig.get("additional_plugins");
+    def doguConfigValue = ecoSystem.getDoguConfig("additional_plugins");
     if (doguConfigValue != null) {
         def additionalPlugins = doguConfigValue.split(",");
         System.out.println("Following plugins must be installed: ${additionalPlugins}");
@@ -72,30 +73,30 @@ if (pluginSetConfigStore.getPluginSets().isEmpty()) {
 
 // install plugins depending on other dogus
 
-if (DoguRegistry.isInstalled("redmine") || DoguRegistry.isInstalled("easyredmine")) {
+if (ecoSystem.isInstalled("redmine") || ecoSystem.isInstalled("easyredmine")) {
 	plugins.add("scm-redmine-plugin")
 }
 
-if (DoguRegistry.isInstalled("jenkins")) {
+if (ecoSystem.isInstalled("jenkins")) {
 	plugins.add("scm-jenkins-plugin")
 	plugins.add("scm-ci-plugin")
 }
 
-if (DoguConfig.get("install_smeagol_plugin") == "true") {
+if (ecoSystem.getDoguConfig("install_smeagol_plugin") == "true") {
     plugins.add("scm-webhook-plugin")
     plugins.add("scm-rest-legacy-plugin")
     plugins.add("scm-smeagol-plugin")
 }
 
-if (DoguRegistry.isInstalled("cockpit")) {
+if (ecoSystem.isInstalled("cockpit")) {
     plugins.add("scm-cockpit-legacy-plugin")
 }
 
-if (DoguRegistry.isInstalled("gotenberg")) {
+if (ecoSystem.isInstalled("gotenberg")) {
     plugins.add("scm-gotenberg-plugin")
 }
 
-if (DoguRegistry.isInstalled("jira")) {
+if (ecoSystem.isInstalled("jira")) {
     plugins.add("scm-jira-plugin")
 }
 
@@ -133,7 +134,10 @@ for (def name : plugins) {
     }
 }
 
-if (Boolean.valueOf(DoguConfig.get("update_plugins").toString())) {
+updatePluginValue = ecoSystem.getDoguConfig("update_plugins")
+String updatePlugins = updatePluginValue == null ? "false" : updatePluginValue
+
+if (Boolean.valueOf(updatePlugins)) {
     System.out.println("checking for updates of plugins");
     def update = false
     for (def plugin : pluginManager.updatable) {

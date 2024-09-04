@@ -1,17 +1,21 @@
 // this script configures the mail plugin of scm-manager
-import lib.EcoSystem.GlobalConfig;
+
+// Load EcoSystem library
+File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy");
+Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
+ecoSystem = (GroovyObject) groovyClass.newInstance();
 
 def getEmailAddress(){
     def configuredMailAddress;
     try {
-      configuredMailAddress = GlobalConfig.get("mail_address");
+      configuredMailAddress = ecoSystem.getGlobalConfig("mail_address");
     } catch (FileNotFoundException ex) {
       System.out.println "could not find mail_address configuration in registry"
     }
     if (configuredMailAddress != null && configuredMailAddress.length() > 0) {
       return configuredMailAddress;
     } else {
-      return "scm@" + GlobalConfig.get("domain");
+      return "scm@" + ecoSystem.getGlobalConfig("domain");
     }
 }
 
