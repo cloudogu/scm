@@ -239,7 +239,7 @@
         {
           "Name": "install_smeagol_plugin",
           "Description": "",
-          "Optional": false,
+          "Optional": true,
           "Validation": {
             "Type": "ONE_OF",
             "Values": [
