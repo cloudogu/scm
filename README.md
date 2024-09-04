@@ -42,8 +42,9 @@ Want to talk to the Cloudogu team? Need help or support? There are several ways 
 
 ## Release
 To release a new version of the SCM-Manager Dogu you need to:
+- Create a new branch with the prefix `release/{{new_version_number}}-{{counter}}`
 - Adjust the changelog file and commit the changes
-- Create a new branch with the prefix `release/{{new_version_number}}-{{counter}}` and push it
+- Push the changed release branch to the server
 
 Afterwards the automatic release flow will:
 - Update the scm-manager package and related sha256 hash in the `Dockerfile`

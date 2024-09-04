@@ -13,8 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Explicit service account for CAS, which is necessary for CAS to work in multinode [#95]
 - Version constraint on CAS, as a specific version is required for explicit service accounts to work [#95]
 - Optional dependencies for dogus SCM provides automatic integration for [#95]
-  - This is necessary for multinode EcoSystems to mount the required dogu registries in SCM
+    - This is necessary for multinode EcoSystems to mount the required dogu registries in SCM
 - Add configuration `install_smeagol_plugin` to determine the plugin installation at startup and omit smeagol as optional dependency because this would be a dependency cycle.
+
+## [3.4.1-1] 2024-08-29
+### Changed
+- Upgrade SCM-Manager to version 3.4.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.4.1/CHANGELOG.md)) 
 
 ## [3.4.0-1] 2024-08-20
 ### Changed
