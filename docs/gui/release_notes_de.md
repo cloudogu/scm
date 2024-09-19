@@ -4,6 +4,10 @@ Im Folgenden finden Sie die Release Notes für das SCM-Manager-Dogu.
 
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://scm-manager.org/download/archive).
 
+## Release 3.4.0-2
+
+- Die Cloudogu-eigenen Quellen werden von der MIT-Lizenz auf die AGPL-3.0-only relizensiert.
+
 ## Release 3.4.0-1
 
 * Das Dogu bietet nun die SCM-Manager-Version 3.4.0 an. Die Release Notes vom SCM-Manager finden Sie [hier (englisch)](https://scm-manager.org/blog/posts/2024-08-21-scm-manager-3-4-0/).
