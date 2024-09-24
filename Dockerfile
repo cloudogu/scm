@@ -3,14 +3,14 @@ LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/3.4.1/unix-3.4.1.tar.gz
 ARG SCM_PKG_SHA256=0951d1492f37acd9636e00d873a19814774ea13b09209b5bc2a972415b6df177
-ARG SCM_CODE_EDITOR_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/2.1.0/scm-code-editor-plugin-2.1.0.smp
-ARG SCM_CODE_EDITOR_PLUGIN_SHA256=97b2ea672873b644abc60f6b531d9baa868b84604f974adbee3852ec1becba6f
-ARG SCM_SCRIPT_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/2.5.1/scm-script-plugin-2.5.1.smp
-ARG SCM_SCRIPT_PLUGIN_SHA256=ab1011a57f5455ec3a184eb42c900e58ad6dc829e7ca30c1ab519a0706d36cd0
-ARG SCM_CAS_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/3.1.0/scm-cas-plugin-3.1.0.smp
-ARG SCM_CAS_PLUGIN_SHA256=6b541ea8cd5d9b1fc1847ebe22f095e6bb17da194f1e5fd2a83c1547b7f3765a
-ARG SCM_CES_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-ces-plugin/1.0.1/scm-ces-plugin-1.0.1.smp
-ARG SCM_CES_PLUGIN_SHA256=da3b73f8eca4dced6471edcbad53545a8d0e13441e729bac641d337b2fcf1f06
+ARG SCM_CODE_EDITOR_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/3.0.0/scm-code-editor-plugin-3.0.0.smp
+ARG SCM_CODE_EDITOR_PLUGIN_SHA256=2d4821f1930bd19407a0bfc386edebc26f2cd03ef6a855e4bb7abaf8bb0a4220
+ARG SCM_SCRIPT_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/3.0.0/scm-script-plugin-3.0.0.smp
+ARG SCM_SCRIPT_PLUGIN_SHA256=249eaa3bafc8347d940dff1431d353a05e1a14c5c795f58ad2e10e785a73c657
+ARG SCM_CAS_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/3.2.0/scm-cas-plugin-3.2.0.smp
+ARG SCM_CAS_PLUGIN_SHA256=516621680507121c7feccb28d9bbf837be31e8223fc672b87147b4f2142ded54
+ARG SCM_CES_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-ces-plugin/3.0.0/scm-ces-plugin-3.0.0.smp
+ARG SCM_CES_PLUGIN_SHA256=860e71fc1c2120ba1c515d15dcbbc696c2101d044641f852d38657638fea85f2
 
 # scm-server environment
 ENV SCM_HOME=/var/lib/scm \

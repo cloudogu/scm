@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [Unreleased]
 ### Changed
 - Use doguctl for accessing dogu and global EcoSystem config [#95]
 - Check if dogus are installed from mounted dogu registry in multinode EcoSystems [#95]
@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optional dependencies for dogus SCM provides automatic integration for [#95]
     - This is necessary for multinode EcoSystems to mount the required dogu registries in SCM
 - Add configuration `install_smeagol_plugin` to determine the plugin installation at startup and omit smeagol as optional dependency because this would be a dependency cycle.
+
+## [3.4.1-2] 2024-09-19
+### Changed
+- Relicense to AGPL-3.0-only
 
 ## [3.4.1-1] 2024-08-29
 ### Changed
