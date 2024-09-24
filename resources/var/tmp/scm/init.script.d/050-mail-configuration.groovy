@@ -1,25 +1,21 @@
 // this script configures the mail plugin of scm-manager
-import groovy.json.JsonSlurper;
 
-// TODO sharing ?
-def getValueFromEtcd(String key){
-  String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
-	URL url = new URL("http://${ip}:4001/v2/keys/${key}");
-	def json = new JsonSlurper().parseText(url.text)
-	return json.node.value
-}
+// Load EcoSystem library
+File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy");
+Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
+ecoSystem = (GroovyObject) groovyClass.newInstance();
 
 def getEmailAddress(){
     def configuredMailAddress;
     try {
-      configuredMailAddress = getValueFromEtcd("config/_global/mail_address");
+      configuredMailAddress = ecoSystem.getGlobalConfig("mail_address");
     } catch (FileNotFoundException ex) {
       System.out.println "could not find mail_address configuration in registry"
     }
     if (configuredMailAddress != null && configuredMailAddress.length() > 0) {
       return configuredMailAddress;
     } else {
-      return "scm@" + getValueFromEtcd("config/_global/domain");
+      return "scm@" + ecoSystem.getGlobalConfig("domain");
     }
 }
 

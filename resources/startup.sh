@@ -4,7 +4,9 @@ set -o nounset
 set -o pipefail
 
 INIT_SCRIPT_FOLDER="/opt/scm-server/init.script.d"
+INIT_SCRIPT_LIBRARY_FOLDER="/opt/scm-server/init.script.d/lib"
 MAIN_INIT_SCRIPTS_FOLDER="/var/tmp/scm/init.script.d"
+MAIN_INIT_SCRIPTS_LIBRARY_FOLDER="/var/tmp/scm/init.script.d/lib"
 CUSTOM_INIT_SCRIPTS_FOLDER="/var/lib/custom.init.script.d"
 SCM_DATA="/var/lib/scm"
 SCM_REQUIRED_PLUGINS_FOLDER="/opt/scm-server/required-plugins"
@@ -19,6 +21,8 @@ fi
 # copy fresh main init scripts
 mkdir -p "${INIT_SCRIPT_FOLDER}"
 cp -rf "${MAIN_INIT_SCRIPTS_FOLDER}"/*.groovy "${INIT_SCRIPT_FOLDER}/"
+mkdir -p "${INIT_SCRIPT_LIBRARY_FOLDER}"
+cp -rf "${MAIN_INIT_SCRIPTS_LIBRARY_FOLDER}"/*.groovy "${INIT_SCRIPT_LIBRARY_FOLDER}/"
 
 # merge custom init scripts, if the volume is not empty
 if [ "$(ls -A ${CUSTOM_INIT_SCRIPTS_FOLDER}/*.groovy)" ]; then
