@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.1-3] 2024-09-24
+### Changed
+- Use doguctl for accessing dogu and global EcoSystem config [#95]
+- Check if dogus are installed from mounted dogu registry in multinode EcoSystems [#95]
+- Extract config and dogu registry calls into shared lib package for init scripts
+### Added
+- Explicit service account for CAS, which is necessary for CAS to work in multinode [#95]
+- Version constraint on CAS, as a specific version is required for explicit service accounts to work [#95]
+- Optional dependencies for dogus SCM provides automatic integration for [#95]
+    - This is necessary for multinode EcoSystems to mount the required dogu registries in SCM
+- Add configuration `install_smeagol_plugin` to determine the plugin installation at startup and omit smeagol as optional dependency because this would be a dependency cycle.
+
+## [3.4.1-2] 2024-09-19
+### Changed
+- Relicense to AGPL-3.0-only
+
 ## [3.4.1-1] 2024-08-29
 ### Changed
 - Upgrade SCM-Manager to version 3.4.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.4.1/CHANGELOG.md)) 
