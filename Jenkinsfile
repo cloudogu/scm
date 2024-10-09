@@ -115,6 +115,26 @@ node('vagrant') {
 
             try {
 
+                stage('Check for Changelog and Release Notes') {
+                    if (isReleaseBuild() || isHotfixBuild()) {
+                        // If exit code of git diff is 0, then no changes were detected
+                        def changelogDiffResult = sh script: 'git diff --exit-code develop -- CHANGELOG.md', returnStatus: true
+                        if (changelogDiffResult == 0) {
+                            error 'No changes in CHANGELOG.md detected'
+                        }
+
+                        def deReleaseNotesDiffResult = sh script: 'git diff --exit-code develop -- docs/gui/release_notes_de.md', returnStatus: true
+                        if (deReleaseNotesDiffResult == 0) {
+                            error 'No changes in docs/gui/release_notes_de.md detected'
+                        }
+
+                        def enReleaseNotesDiffResult = sh script: 'git diff --exit-code develop -- docs/gui/release_notes_en.md', returnStatus: true
+                        if (enReleaseNotesDiffResult == 0) {
+                            error 'No changes in docs/gui/release_notes_en.md detected'
+                        }
+                    }
+                }
+
                 stage('Provision') {
                     ecoSystem.provision("/dogu");
                 }
