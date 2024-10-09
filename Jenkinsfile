@@ -53,17 +53,17 @@ node('vagrant') {
                     sh 'git fetch --all'
 
                     // If exit code of git diff is 0, then no changes were detected
-                    def changelogDiffResult = sh script: 'git diff --exit-code develop -- CHANGELOG.md', returnStatus: true
+                    def changelogDiffResult = sh script: 'git diff --exit-code origin/develop -- CHANGELOG.md', returnStatus: true
                     if (changelogDiffResult != 1) {
                         error 'No changes in CHANGELOG.md detected'
                     }
 
-                    def deReleaseNotesDiffResult = sh script: 'git diff --exit-code develop -- docs/gui/release_notes_de.md', returnStatus: true
+                    def deReleaseNotesDiffResult = sh script: 'git diff --exit-code origin/develop -- docs/gui/release_notes_de.md', returnStatus: true
                     if (deReleaseNotesDiffResult != 1) {
                         error 'No changes in docs/gui/release_notes_de.md detected'
                     }
 
-                    def enReleaseNotesDiffResult = sh script: 'git diff --exit-code develop -- docs/gui/release_notes_en.md', returnStatus: true
+                    def enReleaseNotesDiffResult = sh script: 'git diff --exit-code origin/develop -- docs/gui/release_notes_en.md', returnStatus: true
                     if (enReleaseNotesDiffResult != 1) {
                         error 'No changes in docs/gui/release_notes_en.md detected'
                     }
