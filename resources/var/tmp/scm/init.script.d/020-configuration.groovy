@@ -24,12 +24,12 @@ config.setBaseUrl("https://${fqdn}/scm");
 def context = injector.getInstance(SCMContextProvider.class);
 
 // set plugin center url
-String pluginCenterUrl = ecoSystem.getGlobalConfig("plugin_center_url");
+String pluginCenterUrl = ecoSystem.getDoguConfig("plugin_center_url");
 if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl(pluginCenterUrl);
 }
 
-String pluginCenterAuthenticationUrl = ecoSystem.getGlobalConfig("plugin_center_authentication_url");
+String pluginCenterAuthenticationUrl = ecoSystem.getDoguConfig("plugin_center_authentication_url");
 if (pluginCenterAuthenticationUrl != null) {
   if ("none".equalsIgnoreCase(pluginCenterAuthenticationUrl)) {
     println("deactivating plugin center authentication");
@@ -39,7 +39,7 @@ if (pluginCenterAuthenticationUrl != null) {
   }
 }
 
-String loginInfoUrl = ecoSystem.getGlobalConfig("login_info_url");
+String loginInfoUrl = ecoSystem.getDoguConfig("login_info_url");
 if (loginInfoUrl != null) {
     if ("none".equalsIgnoreCase(loginInfoUrl)) {
         println("deactivating login info");
@@ -49,7 +49,7 @@ if (loginInfoUrl != null) {
     }
 }
 
-String alertsUrl = ecoSystem.getGlobalConfig("alerts_url");
+String alertsUrl = ecoSystem.getDoguConfig("alerts_url");
 if (alertsUrl != null) {
     if ("none".equalsIgnoreCase(alertsUrl)) {
         println("deactivating alerts");
@@ -60,8 +60,8 @@ if (alertsUrl != null) {
 }
 
 // set release feed  url
-String disableReleaseFeed = ecoSystem.getGlobalConfig("disable_release_feed");
-String releaseFeedUrl = ecoSystem.getGlobalConfig("release_feed_url");
+String disableReleaseFeed = ecoSystem.getDoguConfig("disable_release_feed");
+String releaseFeedUrl = ecoSystem.getDoguConfig("release_feed_url");
 
 if (disableReleaseFeed != null && disableReleaseFeed.equalsIgnoreCase("true")) {
   config.setReleaseFeedUrl("");
