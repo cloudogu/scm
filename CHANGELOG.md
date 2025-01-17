@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.1-1] 2025-01-17
+### Changed
+- Upgrade SCM-Manager to version 3.6.1 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.6.1/CHANGELOG.md))
+
 ## [3.6.0-1] 2024-12-06
 ### Changed
 - Upgrade SCM-Manager to version 3.6.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.6.0/CHANGELOG.md))
@@ -103,6 +107,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configuration option to configure either Redmine or EasyRedmine if both dogus are installed ([#83](https://github.com/cloudogu/scm/pull/83))
 ### Changed
 - Upgrade SCM-Manager to version 2.47.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.47.0/CHANGELOG.md))
+
+## [2.46.5-1] 2025-01-17
+### Changed
+- Upgrade SCM-Manager to version 2.46.5 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.46.5/CHANGELOG.md))
 
 ## [2.46.4-1] 2024-06-24
 ### Changed
