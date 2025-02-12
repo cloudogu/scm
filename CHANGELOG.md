@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.7.1-2] 2025-02-12
 ### Removed
-- uplicate configuration keys from dogu.json [#104] 
+- Duplicate configuration keys from dogu.json [#104] 
 
 ## [3.7.1-1] 2025-01-28
 ### Changed
