@@ -4,6 +4,10 @@ Below you will find the release notes for the SCM-Manager Dogu.
 
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
+## Release 3.7.4-1
+
+* The Dogu now offers the SCM-Manager version 3.7.4.
+
 ## Release 3.7.3-1
 
 * The Dogu now offers the SCM-Manager version 3.7.3.
