@@ -24,7 +24,7 @@ API_TOKEN=$(doguctl config --encrypted ${CES_TOKEN_CONFIGURATION_KEY})
 # Perform health check against scm endpoint
 HTTP_STATUS=$(curl --write-out "%{http_code}" --silent --output /dev/null --max-time 10 http://localhost:8080/scm/api/v2 -H "${CES_TOKEN_HEADER}: ${API_TOKEN}") || HTTP_STATUS=0
 if [[ "$HTTP_STATUS" -ne 200 ]]; then
-  echo "scm is unhealthy"
+  echo "scm is unhealthy, received http status code ${HTTP_STATUS}"
   HEALTH_STATUS=1
 fi
 
