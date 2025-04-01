@@ -4,6 +4,10 @@ Below you will find the release notes for the SCM-Manager Dogu.
 
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
+## [Unreleased]
+* Healthcheck has been adjusted so that the Dogu is only available when the SCM Manager is fully loaded.
+* This fixes a bug in the creation of service accounts for the baseline dogu.
+
 ## Release 3.7.4-1
 
 * The Dogu now offers the SCM-Manager version 3.7.4.
