@@ -18,6 +18,8 @@ node('vagrant') {
 
     timestamps {
         def props = [];
+        props.add(booleanParam(name: 'EnableVideoRecording', defaultValue: true, description: 'Enables cypress to record video of the integration tests.'))
+        props.add(booleanParam(name: 'EnableScreenshotRecording', defaultValue: true, description: 'Enables cypress to take screenshots of failing integration tests.'))
         props.add(string(defaultValue: getScmReleaseVersion(), description: 'SCM Version', name: 'ScmVersion', trim: true))
         props.add(string(defaultValue: getDoguReleaseCounter(), description: 'Dogu Version Counter', name: 'DoguVersionCounter', trim: true))
         props.add(choice(name: 'Tag_Strategy', choices: TAG_STRATEGIES))
