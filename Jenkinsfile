@@ -1,5 +1,5 @@
 #!groovy
-@Library(['github.com/cloudogu/ces-build-lib@1.62.0', 'github.com/cloudogu/dogu-build-lib@v1.4.1', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
+@Library(['github.com/cloudogu/ces-build-lib@4.1.1', 'github.com/cloudogu/dogu-build-lib@v3.1.0', 'github.com/cloudogu/zalenium-build-lib@3092363']) _
 import com.cloudogu.ces.cesbuildlib.*
 import com.cloudogu.ces.dogubuildlib.*
 
@@ -133,10 +133,15 @@ node('vagrant') {
             stage('Lint') {
                 // we cannot use the Dockerfile Linter because it fails without the labels `name` and `version` which we don't use
                 // lintDockerfile()
-                shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh")
+                shellCheck("./resources/pre-upgrade.sh ./resources/startup.sh ./resources/upgrade-notification.sh ./resources/healthcheck.sh")
             }
 
             try {
+                stage('Bats Tests') {
+                  Bats bats = new Bats(this, docker)
+                  bats.checkAndExecuteTests()
+                }
+
                 stage('Provision') {
                     ecoSystem.provision("/dogu");
                 }
