@@ -28,6 +28,8 @@ if [[ "$HTTP_STATUS" -ne 200 ]]; then
   HEALTH_STATUS=1
 fi
 
+# Successful http check means tcp port is also available
+doguctl state "ready"
 
 # Perform health check using doguctl
 if [[ "$HEALTH_STATUS" -eq 0 ]]; then
