@@ -166,8 +166,15 @@ node('vagrant') {
                     ecoSystem.verify("/dogu")
                 }
 
-                stage('e2e Tests') {
-                    ecoSystem.runCypressIntegrationTests([cypressImage: "cypress/included:12.17.1", enableVideo: true, enableScreenshots: true, additionalCypressArgs: "--browser chrome"])
+                stage('Integration Tests') {
+                  echo "Run integration tests."
+
+                  ecoSystem.runCypressIntegrationTests([
+                    timeoutInMinutes : 15,
+                    cypressImage     : "cypress/included:13.13.0",
+                    enableVideo      : params.EnableVideoRecording,
+                    enableScreenshots: params.EnableScreenshotRecording,
+                  ])
                 }
 
                 stage('Push changes to remote repository') {
