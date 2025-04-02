@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Healthcheck script that performs http rest call to validate that scm is running [#106]
+- Makefile with corresponding makefiles in version 9.9.0
+
+### Changed
+- Dockerfile to use healthcheck script for HEALTHCHECK [#106]
+- Update build-libs in Jenkinsfile:
+  - ces-build-lib 4.1.1
+  - dogu-build-lib v3.1.0
+- Add Jenkins stage for bats tests
+- Update integration tests
+
 ## [3.7.4-1] 2025-03-19
 ### Changed
 - Upgrade SCM-Manager to version 3.7.4 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.7.4/CHANGELOG.md))

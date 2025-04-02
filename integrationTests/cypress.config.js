@@ -22,18 +22,16 @@ async function setupNodeEvents(on, config) {
 
 module.exports = defineConfig({
     e2e: {
-        baseUrl: 'https://192.168.56.2',
+        baseUrl: "https://192.168.56.2",
         env: {
             "DoguName": "scm",
             "MaxLoginRetries": 3,
             "AdminUsername": "ces-admin",
-            "AdminPassword": "ecosystem2016",
+            "AdminPassword": "Ecosystem2016!",
             "AdminGroup": "CesAdministrators"
         },
         videoCompression: false,
         specPattern: ["cypress/e2e/**/*.feature"],
         setupNodeEvents,
-        defaultTimeout: 10000,
-        defaultCommandTimeout: 10000,
     },
 });

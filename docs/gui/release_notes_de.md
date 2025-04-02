@@ -4,19 +4,25 @@ Im Folgenden finden Sie die Release Notes für das SCM-Manager-Dogu.
 
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://scm-manager.org/download/archive).
 
-# Release 3.7.4-1
-
-* Das Dogu bietet nun die SCM-Manager-Version 3.7.4 an.
-
-# Release 3.7.3-1
-
-* Das Dogu bietet nun die SCM-Manager-Version 3.7.3 an.
-
-# Release 3.7.1-2
+## [Unreleased]
+* Healthcheck wurde angepasst, sodass das Dogu erst verfügbar ist, wenn der SCM-Manager vollständig geladen ist.
+Dies behebt einen Bug bei der Erstellung von Serviceaccounts für das Baseline-Dogu.
 
 * Wir haben nur technische Änderungen vorgenommen. Näheres finden Sie in den Changelogs.
 
-# Release 3.7.1-1
+## Release 3.7.4-1
+
+* Das Dogu bietet nun die SCM-Manager-Version 3.7.4 an.
+
+## Release 3.7.3-1
+
+* Das Dogu bietet nun die SCM-Manager-Version 3.7.3 an.
+
+## Release 3.7.1-2
+
+* Wir haben nur technische Änderungen vorgenommen. Näheres finden Sie in den Changelogs.
+
+## Release 3.7.1-1
 
 * Das Dogu bietet nun die SCM-Manager-Version 3.7.1 an.
 
