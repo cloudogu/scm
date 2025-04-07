@@ -8,7 +8,6 @@ load '/workspace/target/bats_libs/bats-mock/load.bash'
 
 setup() {
   export CES_TOKEN_HEADER=TestHeader
-  export API_TOKEN=myApiToken
 
   doguctl="$(mock_create)"
   export doguctl
@@ -35,7 +34,7 @@ teardown() {
   mock_set_status "${curl}" 0
   mock_set_output "${curl}" "200"
 
-  run runHealthCheck
+  run runHealthCheck myApiToken
 
   assert_success
   assert_equal "$(mock_get_call_num "${curl}")" "1"
@@ -49,7 +48,7 @@ teardown() {
   mock_set_status "${curl}" 0
   mock_set_output "${curl}" "401"
 
-  run runHealthCheck
+  run runHealthCheck myApiToken
 
   assert_failure
   assert_equal "$(mock_get_call_num "${curl}")" "1"
