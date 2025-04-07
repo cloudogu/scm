@@ -7,8 +7,8 @@ load '/workspace/target/bats_libs/bats-assert/load.bash'
 load '/workspace/target/bats_libs/bats-mock/load.bash'
 
 setup() {
-  export CES_TOKEN_CONFIGURATION_KEY=TestConfig
   export CES_TOKEN_HEADER=TestHeader
+  export API_TOKEN=myApiToken
 
   doguctl="$(mock_create)"
   export doguctl
@@ -21,7 +21,8 @@ setup() {
 }
 
 teardown() {
-  unset CES_TOKEN_CONFIGURATION_KEY
+  unset CES_TOKEN_HEADER
+  unset API_TOKEN
 
   rm "${BATS_TMPDIR}/doguctl"
   rm "${BATS_TMPDIR}/curl"
@@ -30,32 +31,19 @@ teardown() {
 @test "health_check passes when everything is healthy" {
   source /workspace/resources/healthcheck.sh
 
-  # config --encrypted
-  mock_set_status "${doguctl}" 0 1
-  mock_set_output "${doguctl}" "fake_token" 1
-
   # curl
   mock_set_status "${curl}" 0
   mock_set_output "${curl}" "200"
-
-  mock_set_status "${doguctl}" 0 2            # doguctl state ready
-  mock_set_status "${doguctl}" 0 3            # doguctl healthy
-  mock_set_status "${doguctl}" 0 4            # doguctl state ready
 
   run runHealthCheck
 
   assert_success
   assert_equal "$(mock_get_call_num "${curl}")" "1"
-  assert_equal "$(mock_get_call_num "${doguctl}")" "4"
-  assert_equal "$(mock_get_call_args "${doguctl}" "4")" "state ready"
+  assert_equal "$(mock_get_call_num "${doguctl}")" "0"
 }
 
 @test "health_check fails when curl returns != 200" {
   source /workspace/resources/healthcheck.sh
-
-  # config --encrypted
-  mock_set_status "${doguctl}" 0 1
-  mock_set_output "${doguctl}" "fake_token" 1
 
   # curl
   mock_set_status "${curl}" 0
@@ -65,31 +53,7 @@ teardown() {
 
   assert_failure
   assert_equal "$(mock_get_call_num "${curl}")" "1"
-  assert_equal "$(mock_get_call_num "${doguctl}")" "2"
-  assert_equal "$(mock_get_call_args "${doguctl}" "2")" "state unhealthy"
-}
-
-@test "health_check fails when doguctl healthy returns failure (exit 1)" {
-   source /workspace/resources/healthcheck.sh
-
-    # config --encrypted
-    mock_set_status "${doguctl}" 0 1
-    mock_set_output "${doguctl}" "fake_token" 1
-
-    # curl
-    mock_set_status "${curl}" 0
-    mock_set_output "${curl}" "200"
-
-    mock_set_status "${doguctl}" 0 2            # doguctl state ready
-    mock_set_status "${doguctl}" 1 3            # doguctl healthy
-    mock_set_status "${doguctl}" 0 4            # doguctl state ready
-
-    run runHealthCheck
-
-    assert_failure
-    assert_equal "$(mock_get_call_num "${curl}")" "1"
-    assert_equal "$(mock_get_call_num "${doguctl}")" "4"
-    assert_equal "$(mock_get_call_args "${doguctl}" "4")" "state unhealthy"
+  assert_equal "$(mock_get_call_num "${doguctl}")" "0"
 }
 
 

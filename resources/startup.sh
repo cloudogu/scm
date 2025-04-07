@@ -60,6 +60,9 @@ start_scm_server () {
       cp "${SCM_REQUIRED_PLUGINS_FOLDER}/${plugin}.smp" "${SCM_DATA}/plugins"
     fi
   done
+
+  /healthcheck.sh 600 "${API_TOKEN}" &
+
   /opt/scm-server/bin/scm-server
 }
 
@@ -67,6 +70,7 @@ start_scm_server () {
 
 while start_scm_server ; scm_exit_code=$? ; [ $scm_exit_code -eq 42 ] ; do
   echo Got exit code $scm_exit_code -- restarting SCM-Manager
+  doguctl state restarting
 done
 
 exit $scm_exit_code
