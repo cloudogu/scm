@@ -6,6 +6,10 @@ Technical details on a release can be found in the corresponding [Changelog](htt
 
 ## [Unreleased]
 
+## Release 3.7.4-3
+
+* We have only made technical changes. You can find more details in the changelogs.
+
 ## Release 3.7.4-2
 * Healthcheck has been adjusted so that the Dogu is only available when the SCM Manager is fully loaded.
 * This fixes a bug in the creation of service accounts for the baseline dogu.
