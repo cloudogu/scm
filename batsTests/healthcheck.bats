@@ -21,7 +21,6 @@ setup() {
 
 teardown() {
   unset CES_TOKEN_HEADER
-  unset API_TOKEN
 
   rm "${BATS_TMPDIR}/doguctl"
   rm "${BATS_TMPDIR}/curl"
