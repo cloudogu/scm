@@ -68,7 +68,7 @@ EXPOSE 8080 2222
 
 USER scm
 
-HEALTHCHECK --start-period=30s --interval=20s CMD /healthcheck.sh
+HEALTHCHECK --interval=5s CMD doguctl healthy scm || exit 1
 
 # start scm
 CMD ["/startup.sh"]
