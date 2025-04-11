@@ -7,8 +7,8 @@ ARG SCM_CODE_EDITOR_PLUGIN_URL=https://packages.scm-manager.org/repository/plugi
 ARG SCM_CODE_EDITOR_PLUGIN_SHA256=2d4821f1930bd19407a0bfc386edebc26f2cd03ef6a855e4bb7abaf8bb0a4220
 ARG SCM_SCRIPT_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/3.0.0/scm-script-plugin-3.0.0.smp
 ARG SCM_SCRIPT_PLUGIN_SHA256=249eaa3bafc8347d940dff1431d353a05e1a14c5c795f58ad2e10e785a73c657
-ARG SCM_CAS_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/3.2.0/scm-cas-plugin-3.2.0.smp
-ARG SCM_CAS_PLUGIN_SHA256=516621680507121c7feccb28d9bbf837be31e8223fc672b87147b4f2142ded54
+ARG SCM_CAS_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-cas-plugin/3.3.0/scm-cas-plugin-3.3.0.smp
+ARG SCM_CAS_PLUGIN_SHA256=ce8f9ecae22cbaf0ad8784f8e9c4c24a5739a901f1bfb4b3c0df0839fd829ec2
 ARG SCM_CES_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-ces-plugin/3.0.0/scm-ces-plugin-3.0.0.smp
 ARG SCM_CES_PLUGIN_SHA256=860e71fc1c2120ba1c515d15dcbbc696c2101d044641f852d38657638fea85f2
 
