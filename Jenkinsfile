@@ -3,7 +3,7 @@
 import com.cloudogu.ces.cesbuildlib.*
 import com.cloudogu.ces.dogubuildlib.*
 
-def NAMESPACES = ["testing", "official"]
+def NAMESPACES = ["official"]
 def IGNORE_TAG = "ignore-tag"
 def BUILD_TAG = "build-existing-tag"
 def TAG_STRATEGIES = [IGNORE_TAG, BUILD_TAG]
