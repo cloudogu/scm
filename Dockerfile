@@ -1,8 +1,8 @@
 FROM registry.cloudogu.com/official/java:17.0.13-1
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
-ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/3.7.4/unix-3.7.4.tar.gz
-ARG SCM_PKG_SHA256=b6cb33eda1b1833325e36ec77c64313a8989c8d0b59f1121cbfd2d2ebadea4a4
+ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/3.8.0/unix-3.8.0.tar.gz
+ARG SCM_PKG_SHA256=35b73129262e925d8aef1a1760dbd7194dccc84aebd87e86cece2d6d88d38d78
 ARG SCM_CODE_EDITOR_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-code-editor-plugin/3.0.0/scm-code-editor-plugin-3.0.0.smp
 ARG SCM_CODE_EDITOR_PLUGIN_SHA256=2d4821f1930bd19407a0bfc386edebc26f2cd03ef6a855e4bb7abaf8bb0a4220
 ARG SCM_SCRIPT_PLUGIN_URL=https://packages.scm-manager.org/repository/plugin-releases/sonia/scm/plugins/scm-script-plugin/3.1.0/scm-script-plugin-3.1.0.smp
