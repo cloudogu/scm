@@ -6,6 +6,7 @@ Technical details on a release can be found in the corresponding [Changelog](htt
 
 ## [Unreleased]
 
+## [3.8.0-2] 2025-04-28
 ### Changed
 - Usage of memory and CPU was optimized for the Kubernetes Mutlinode environment.
 
