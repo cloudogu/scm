@@ -43,7 +43,7 @@ kubectl create configmap "${ARTIFACT_ID}-descriptor" --from-file="${DOGU_JSON_DE
 
 echo "create dogu resource"
 cat <<EOF > "$K8S_RESOURCE_TEMP_YAML"
-apiVersion: k8s.cloudogu.com/v1
+apiVersion: k8s.cloudogu.com/v2
 kind: Dogu
 metadata:
   name: $ARTIFACT_ID

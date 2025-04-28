@@ -4,6 +4,11 @@ Below you will find the release notes for the SCM-Manager Dogu.
 
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
+## [Unreleased]
+
+### Changed
+- Usage of memory and CPU was optimized for the Kubernetes Mutlinode environment.
+
 ## Release 3.8.0-1
 
 * The Dogu now offers the SCM-Manager version 3.8.0. The release notes of the SCM-Manager can be found [here](https://scm-manager.org/blog/posts/2025-04-17-scm-manager-3-8-0/).
