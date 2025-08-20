@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade SCM-Manager to version 3.8.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.8.0/CHANGELOG.md))
 
+## [3.7.6-1] 2025-08-20
+### Changed
+- Upgrade SCM-Manager to version 3.7.6 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.7.6/CHANGELOG.md))
+
 ## [3.7.4-3] 2025-04-11
 ### Fixed
 - Dogu state did not become `ready` in multinode [#108]
@@ -158,6 +162,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configuration option to configure either Redmine or EasyRedmine if both dogus are installed ([#83](https://github.com/cloudogu/scm/pull/83))
 ### Changed
 - Upgrade SCM-Manager to version 2.47.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.47.0/CHANGELOG.md))
+
+## [2.46.6-1] 2025-08-19
+### Changed
+- Upgrade SCM-Manager to version 2.46.6 ([Changelog](https://github.com/scm-manager/scm-manager/blob/2.46.6/CHANGELOG.md))
 
 ## [2.46.5-1] 2025-01-17
 ### Changed
