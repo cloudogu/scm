@@ -4,6 +4,10 @@ Im Folgenden finden Sie die Release Notes für das SCM-Manager-Dogu.
 
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://scm-manager.org/download/archive).
 
+## Release 3.11.0-1
+
+* Das Dogu bietet nun die SCM-Manager-Version 3.11.0 an.
+
 ## Release 3.10.2-1
 
 * Das Dogu bietet nun die SCM-Manager-Version 3.10.2 an.
