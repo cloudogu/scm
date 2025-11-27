@@ -93,12 +93,12 @@ node('vagrant') {
                 }
                 if (isNightly()) {
                     echo 'use snapshot dependencies for nightly build'
-                    docker.image('groovy:3.0.9-jdk11').inside {
+                    docker.image('groovy:3.0.14-jdk17').inside {
                         sh 'groovy build/latestsnapshot.groovy'
                     }
                 } else if (isReleaseBuild()) {
                     echo 'update dependencies for release build'
-                    docker.image('groovy:3.0.9-jdk11').inside {
+                    docker.image('groovy:3.0.14-jdk17').inside {
                         sh "groovy build/release.groovy ${releaseVersion}"
                     }
 
@@ -117,7 +117,7 @@ node('vagrant') {
                     tag getVersion()
                 } else if (isHotfixBuild()) {
                     echo 'update dependencies for hotfix build'
-                    docker.image('groovy:3.0.9-jdk11').inside {
+                    docker.image('groovy:3.0.14-jdk17').inside {
                         sh "groovy build/release.groovy ${releaseVersion}"
                     }
 
