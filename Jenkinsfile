@@ -53,6 +53,8 @@ node('vagrant') {
                 if (isReleaseBuild() || isHotfixBuild()) {
                     sh 'git config --replace-all "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"'
                     sh 'git fetch --all'
+                    sh "git checkout -f ${env.BRANCH_NAME}"
+                    sh "git reset --hard origin/${env.BRANCH_NAME}"
 
                     // If exit code of git diff is 0, then no changes were detected
                     def changelogDiffResult = sh script: 'git diff --exit-code origin/develop -- CHANGELOG.md', returnStatus: true
@@ -74,6 +76,7 @@ node('vagrant') {
 
             stage('Check for tag') {
                 if (params.Tag_Strategy != IGNORE_TAG) {
+                    sh "git tag -d ${version} || true"
                     sh "git fetch --tags"
                     def tags = sh(returnStdout: true, script: 'git tag -l').trim().readLines()
                     if (params.Tag_Strategy == BUILD_TAG) {
