@@ -6,6 +6,10 @@ Technical details on a release can be found in the corresponding [Changelog](htt
 
 ## [Unreleased]
 
+## Release 3.7.7-1
+
+* The Dogu now offers the SCM-Manager version 3.7.7.
+
 ## Release 3.7.6-1
 
 * The Dogu now offers the SCM-Manager version 3.7.6.
