@@ -37,6 +37,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade SCM-Manager to version 3.8.0 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.8.0/CHANGELOG.md))
 
+## [3.7.7-1] 2025-11-28
+### Changed
+- Upgrade SCM-Manager to version 3.7.7 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.7.7/CHANGELOG.md))
+
 ## [3.7.6-1] 2025-08-20
 ### Changed
 - Upgrade SCM-Manager to version 3.7.6 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.7.6/CHANGELOG.md))
