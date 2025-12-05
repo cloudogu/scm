@@ -4,6 +4,13 @@ Im Folgenden finden Sie die Release Notes für das SCM-Manager-Dogu.
 
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://scm-manager.org/download/archive).
 
+## Release 3.11.1-2
+
+* Fehler bei der Erstellung der Admin-Gruppe behoben, wenn 'plugin_center_authentication_url' konfiguriert ist.
+* Konfiguration des Gotenberg-Plugins korrigiert.
+* Anwendung des konfigurierten Log-Levels im Script Plugin.
+* Konfiguration 'plugin_center_authentication_url' entfernt.
+
 ## Release 3.11.1-1
 
 * Das Dogu bietet nun die SCM-Manager-Version 3.11.1 an.

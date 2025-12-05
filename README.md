@@ -27,7 +27,7 @@ cesapp start scm
 ## Release
 To release a new version of the SCM-Manager Dogu you need to:
 - Create a new branch with the prefix `release/{{new_version_number}}-{{counter}}`
-- Adjust the changelog file and commit the changes
+- Adjust the changelog file and the release notes (`docs/gui/release_notes_en.md` and `docs/gui/release_notes_de.md`) and commit the changes
 - Push the changed release branch to the server
 
 Afterwards the automatic release flow will:
