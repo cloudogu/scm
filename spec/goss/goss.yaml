@@ -1,7 +1,7 @@
 file:
   /etc/default/scm-server:
     exists: true
-    size: 2414
+    size: 2286
     owner: root
     group: root
     filetype: file

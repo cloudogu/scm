@@ -2,6 +2,11 @@
 
 import sonia.scm.*;
 
+// Load EcoSystem library
+File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy");
+Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
+ecoSystem = (GroovyObject) groovyClass.newInstance();
+
 def findClass(clazzAsString) {
     return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
 }

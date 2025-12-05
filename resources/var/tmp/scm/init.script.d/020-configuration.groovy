@@ -29,16 +29,6 @@ if (pluginCenterUrl != null && !pluginCenterUrl.isEmpty()) {
   config.setPluginUrl(pluginCenterUrl);
 }
 
-String pluginCenterAuthenticationUrl = ecoSystem.getDoguConfig("plugin_center_authentication_url");
-if (pluginCenterAuthenticationUrl != null) {
-  if ("none".equalsIgnoreCase(pluginCenterAuthenticationUrl)) {
-    println("deactivating plugin center authentication");
-    config.setPluginAuthUrl("");
-  } else if (!pluginCenterAuthenticationUrl.isEmpty()) {
-    config.setPluginAuthUrl(pluginCenterAuthenticationUrl);
-  }
-}
-
 String loginInfoUrl = ecoSystem.getDoguConfig("login_info_url");
 if (loginInfoUrl != null) {
     if ("none".equalsIgnoreCase(loginInfoUrl)) {
