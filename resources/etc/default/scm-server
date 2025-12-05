@@ -34,7 +34,7 @@ fi
 if [ "$(doguctl config 'logging/root' -d 'empty')" != "empty" ];  then
   SCM_CORE_LOG_LEVEL=$(doguctl config "logging/root")
   echo "Setting log level to ${SCM_CORE_LOG_LEVEL}..."
-  export SCM_LOG_LOGGER="sonia.scm:${SCM_CORE_LOG_LEVEL},com.cloudogu.scm:${SCM_CORE_LOG_LEVEL},sonia.scm.filter.GZipFilter:WARN,sonia.scm.filter.GZipResponseStream:WARN,sonia.scm.util.ServiceUtil:WARN,sonia.scm.script:WARN"
+  export SCM_LOG_LOGGER="sonia.scm:${SCM_CORE_LOG_LEVEL},com.cloudogu.scm:${SCM_CORE_LOG_LEVEL}"
 fi
 export SCM_WEBAPP_DISABLEFEEDBACK=true
 export SCM_WEBAPP_RESTART_EXITCODE=42
