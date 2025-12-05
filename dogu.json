@@ -71,11 +71,6 @@
             "Optional": true
         },
         {
-            "Name": "plugin_center_authentication_url",
-            "Description": "URL of SCM-Manager Plugin Center authentication service. To delete the URL and hence disable plugin center authentication, set this to 'none'.",
-            "Optional": true
-        },
-        {
             "Name": "release_feed_url",
             "Description": "URL of SCM-Manager release RSS feed",
             "Optional": true
