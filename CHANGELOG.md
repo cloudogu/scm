@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
  this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.11.2-1] 2026-01-12
+### Changed
+- Upgrade SCM-Manager to version 3.11.2 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.11.2/CHANGELOG.md))
+
 ## [3.11.1-2] 2025-12-05
 ### Fixed
 - Missing configuration of admin group if 'plugin_center_authentication_url' has been configured
