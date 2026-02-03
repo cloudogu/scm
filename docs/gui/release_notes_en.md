@@ -4,7 +4,10 @@ Below you will find the release notes for the SCM-Manager Dogu.
 
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
-## [Unreleased]
+## Release 3.7.7-2
+
+* The Dogu is now based on Alpine 3.23.3 to fix CVE-2025-15467.
+
 
 ## Release 3.7.7-1
 
