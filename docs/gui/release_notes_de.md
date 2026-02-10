@@ -4,6 +4,10 @@ Im Folgenden finden Sie die Release Notes für das SCM-Manager-Dogu.
 
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://scm-manager.org/download/archive).
 
+## Release 3.11.3-1
+
+* Das Dogu bietet nun die SCM-Manager-Version 3.11.3 an.
+
 ## Release 3.11.2-2
 
 * Das Dogu basiert jetzt auf Alpine 3.23.3 zur Behebung von CVE-2025-15467.
