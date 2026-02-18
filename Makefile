@@ -1,4 +1,4 @@
-MAKEFILES_VERSION=9.9.0
+MAKEFILES_VERSION=10.6.0
 .DEFAULT_GOAL:=dogu-release
 
 include build/make/variables.mk

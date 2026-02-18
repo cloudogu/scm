@@ -4,6 +4,10 @@ Below you will find the release notes for the SCM-Manager Dogu.
 
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
+## Release 3.11.4-3
+
+* We have only made technical changes. You can find more details in the changelogs.
+
 ## Release 3.11.4-2
 
 * Update base image to fix CVE-2025-61732 and CVE-2025-68121.
