@@ -21,6 +21,8 @@ if (isProxyEnabledInEcoSystemConfig){
 	setProxyServerSettings(configuration);
 	setProxyAuthenticationSettings(configuration);
 	setProxyExcludes(configuration);
+} else {
+    disableProxy(configuration)
 }
 
 def enableProxy(configuration){
@@ -53,10 +55,28 @@ def setProxyAuthenticationSettings(configuration){
 	}
 }
 
-def setProxyExcludes(configuration){
-	Set<String> excludes = new HashSet<String>();
-	excludes.add(ecoSystem.getGlobalConfig("fqdn"));
-	configuration.setProxyExcludes(excludes);
+def setProxyExcludes(configuration) {
+    HashSet<String> excludes = new HashSet<String>()
+
+    String fqdn = ecoSystem.getGlobalConfig("fqdn")
+    excludes.add(fqdn)
+
+    HashSet<String> configuredExcludes = configuration.getProxyExcludes()
+    excludes.addAll(configuredExcludes)
+
+    boolean excludesExistsInGlobalConfig = ecoSystem.keyExists("global", "proxy/no_proxy_hosts")
+    if (!excludesExistsInGlobalConfig) {
+        excludes.removeAll(ecoSystem.getDoguConfig("proxy/previous_no_proxy_hosts").split(","))
+        ecoSystem.setDoguConfig("proxy/previous_no_proxy_hosts", "")
+        configuration.setProxyExcludes(excludes)
+        System.out.println("proxy exclude configuration not existent in global config.")
+        return
+    }
+
+    def configExcludes = ecoSystem.getGlobalConfig("proxy/no_proxy_hosts")
+    excludes.addAll(configExcludes.split(","))
+    configuration.setProxyExcludes(excludes)
+    ecoSystem.setDoguConfig("proxy/previous_no_proxy_hosts", configExcludes)
 }
 
 // store configuration
