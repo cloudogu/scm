@@ -78,11 +78,14 @@ def setProxyExcludes(configuration) {
         return
     }
 
-    def configExcludes = ecoSystem.getGlobalConfig("proxy/no_proxy_hosts")
-    excludes.addAll(configExcludes.split(","))
-    System.out.println("Adding current proxy excludes from global config: " + configExcludes)
+    def newExcludesFromGlobalConfig = ecoSystem.getGlobalConfig("proxy/no_proxy_hosts").split(",")
+    def configExcludesWithoutExisting = new HashSet()
+    configExcludesWithoutExisting.addAll(newExcludesFromGlobalConfig)
+    configExcludesWithoutExisting.removeAll(configuredExcludes)
+    excludes.addAll(newExcludesFromGlobalConfig)
+    System.out.println("Adding current proxy excludes from global config: " + newExcludesFromGlobalConfig)
     configuration.setProxyExcludes(excludes)
-    ecoSystem.setDoguConfig("proxy/previous_no_proxy_hosts", configExcludes)
+    ecoSystem.setDoguConfig("proxy/previous_no_proxy_hosts", configExcludesWithoutExisting.join(","))
     System.out.println("Setting proxy exclude configuration to result: " + excludes)
 }
 
