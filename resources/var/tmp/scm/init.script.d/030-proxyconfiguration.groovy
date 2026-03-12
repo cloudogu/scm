@@ -64,20 +64,26 @@ def setProxyExcludes(configuration) {
     HashSet<String> configuredExcludes = configuration.getProxyExcludes()
     excludes.addAll(configuredExcludes)
 
-    excludes.removeAll(ecoSystem.getDoguConfig("proxy/previous_no_proxy_hosts").split(","))
-
+    def previouslyProxyExcludes = ecoSystem.getDoguConfig("proxy/previous_no_proxy_hosts").split(",")
+    if (previouslyProxyExcludes.size() > 0) {
+        System.out.println("Cleaning up previously configured proxy excludes: " + previouslyProxyExcludes)
+        excludes.removeAll(previouslyProxyExcludes)
+    }
     boolean excludesExistsInGlobalConfig = ecoSystem.keyExists("global", "proxy/no_proxy_hosts")
     if (!excludesExistsInGlobalConfig) {
         ecoSystem.setDoguConfig("proxy/previous_no_proxy_hosts", "")
         configuration.setProxyExcludes(excludes)
-        System.out.println("proxy exclude configuration not existent in global config.")
+        System.out.println("Proxy exclude configuration not existent in global config.")
+        System.out.println("Resetting proxy exclude configuration to old values: " + excludes)
         return
     }
 
     def configExcludes = ecoSystem.getGlobalConfig("proxy/no_proxy_hosts")
     excludes.addAll(configExcludes.split(","))
+    System.out.println("Adding current proxy excludes from global config: " + configExcludes)
     configuration.setProxyExcludes(excludes)
     ecoSystem.setDoguConfig("proxy/previous_no_proxy_hosts", configExcludes)
+    System.out.println("Setting proxy exclude configuration to result: " + excludes)
 }
 
 // store configuration
