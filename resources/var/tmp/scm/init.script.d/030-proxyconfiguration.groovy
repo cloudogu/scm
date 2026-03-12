@@ -64,9 +64,10 @@ def setProxyExcludes(configuration) {
     HashSet<String> configuredExcludes = configuration.getProxyExcludes()
     excludes.addAll(configuredExcludes)
 
+    excludes.removeAll(ecoSystem.getDoguConfig("proxy/previous_no_proxy_hosts").split(","))
+
     boolean excludesExistsInGlobalConfig = ecoSystem.keyExists("global", "proxy/no_proxy_hosts")
     if (!excludesExistsInGlobalConfig) {
-        excludes.removeAll(ecoSystem.getDoguConfig("proxy/previous_no_proxy_hosts").split(","))
         ecoSystem.setDoguConfig("proxy/previous_no_proxy_hosts", "")
         configuration.setProxyExcludes(excludes)
         System.out.println("proxy exclude configuration not existent in global config.")
