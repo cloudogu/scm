@@ -47,6 +47,17 @@ private boolean isMultinode() {
     return "true" == System.getenv("ECOSYSTEM_MULTINODE")
 }
 
+boolean keyExists(String scope, String key) {
+    String value
+    if (scope == "global") {
+        value = getGlobalConfig(key)
+    } else if (scope == "dogu") {
+        value = getDoguConfig(key)
+    }
+
+    return value != null && value != ""
+}
+
 private String sh(String cmd) {
     try {
         def proc = cmd.execute()
