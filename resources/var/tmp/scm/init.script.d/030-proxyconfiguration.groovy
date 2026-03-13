@@ -55,6 +55,19 @@ def setProxyAuthenticationSettings(configuration){
 	}
 }
 
+/**
+ * The goal of this method is to
+ * - set the proxy excludes configured globally by the ces
+ * - by default add the own fqdn
+ * - keep the manually configured host names
+ * To do so, we keep track of the hosts we add manually in a configuration "proxy/previous_no_proxy_hosts".
+ * With this, we
+ * - create a set to gather the new values (<code>excludes</code>)
+ * - add the fqdn
+ * - remove the previously added hosts
+ * - get the new configured hosts from the ces, add those and store those not already in the list in
+ *   "proxy/previous_no_proxy_hosts" for the next run.
+ */
 def setProxyExcludes(configuration) {
     HashSet<String> excludes = new HashSet<String>()
 
