@@ -77,7 +77,11 @@ def setProxyExcludes(configuration) {
     HashSet<String> configuredExcludes = configuration.getProxyExcludes()
     excludes.addAll(configuredExcludes)
 
-    def previouslyProxyExcludes = ecoSystem.getDoguConfig("proxy/previous_no_proxy_hosts").split(",")
+    def previouslyProxyExcludesList = ecoSystem.getDoguConfig("proxy/previous_no_proxy_hosts")
+    def previouslyProxyExcludes = []
+    if (previouslyProxyExcludesList != null) {
+        previouslyProxyExcludes = previouslyProxyExcludesList.split(",")
+    }
     if (previouslyProxyExcludes.size() > 0) {
         System.out.println("Cleaning up previously configured proxy excludes: " + previouslyProxyExcludes)
         excludes.removeAll(previouslyProxyExcludes)
