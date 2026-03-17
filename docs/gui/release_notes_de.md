@@ -6,6 +6,8 @@ Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https
 
 ## [Unreleased]
 
+## [v3.11.5-3] - 2026-03-17
+
 * Behebt einen Fehler bei der ersten Proxy-Konfiguration.
 
 ## Release 3.11.5-2
