@@ -4,6 +4,10 @@ Below you will find the release notes for the SCM-Manager Dogu.
 
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
+## [Unreleased]
+
+* Fixes an error that occurs during the initial proxy configuration.
+
 ## Release 3.11.5-2
 
 * Use the proxy excludes from global config.

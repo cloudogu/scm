@@ -4,6 +4,10 @@ Im Folgenden finden Sie die Release Notes für das SCM-Manager-Dogu.
 
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://scm-manager.org/download/archive).
 
+## [Unreleased]
+
+* Behebt einen Fehler bei der ersten Proxy-Konfiguration.
+
 ## Release 3.11.5-2
 
 * Das Dogu verwendet die global konfigurierten Ausnahmen für die Proxy-Konfiguration.
