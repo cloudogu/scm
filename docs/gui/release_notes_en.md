@@ -6,7 +6,7 @@ Technical details on a release can be found in the corresponding [Changelog](htt
 
 ## [Unreleased]
 
-## [v3.11.5-3] - 2026-03-17
+## Release 3.11.5-3
 
 * Fixes an error that occurs during the initial proxy configuration.
 
