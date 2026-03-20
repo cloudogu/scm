@@ -6,6 +6,10 @@ Technical details on a release can be found in the corresponding [Changelog](htt
 
 ## [Unreleased]
 
+## Release 3.11.7-1
+
+* The Dogu now offers the SCM-Manager version 3.11.7.
+
 ## Release 3.11.5-3
 
 * Fixes an error that occurs during the initial proxy configuration.
