@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.11.8-1] 2026-04-08
+### Changed
+- Upgrade SCM-Manager to version 3.11.8 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.11.8/CHANGELOG.md))
+
 ## [3.11.7-1] - 2026-03-20
-### Fixed
+### Changed 
 - Upgrade SCM-Manager to version 3.11.7 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.11.7/CHANGELOG.md))
 
 ## [3.11.5-3] - 2026-03-17
