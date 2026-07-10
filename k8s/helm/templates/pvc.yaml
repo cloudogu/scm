@@ -1,0 +1,17 @@
+# scm data volume. Holds the scm work dir (/var/lib/scm) and the writable doguctl local config (/var/ces/config).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "scm.fullname" . }}-data
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+    {{- include "scm.backupLabels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  {{- if .Values.scm.persistence.storageClassName }}
+  storageClassName: {{ .Values.scm.persistence.storageClassName | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.scm.persistence.size }}

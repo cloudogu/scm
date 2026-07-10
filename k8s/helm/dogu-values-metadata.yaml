@@ -1,0 +1,13 @@
+apiVersion: v1
+metavalues:
+  mainLogLevel:
+    name: Log-Level
+    description: Root log level for SCM-Manager
+    keys:
+      - path: scm.configuration.normal.logging.root
+        mapping:
+          debug: DEBUG
+          info: INFO
+          warn: WARN
+          error: ERROR
+          trace: TRACE
