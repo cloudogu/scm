@@ -7,6 +7,9 @@ networkPolicies:
   gateway:
     matchLabels:
       k8s.cloudogu.com/component.name: k8s-ces-gateway
+  serviceAccountOperator:
+    matchLabels:
+      k8s.cloudogu.com/component.name: service-account-operator
 
 extraLabels: {}
 
