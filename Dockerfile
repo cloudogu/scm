@@ -56,11 +56,12 @@ COPY ./resources /
 
 ARG SCM_DOGU_DESC_DIR=/etc/ces/dogu_json/scm
 
+COPY dogu.json /
 RUN mkdir -p ${SCM_DOGU_DESC_DIR} \
-    && chown scm:scm ${SCM_DOGU_DESC_DIR}
-
-COPY dogu.json ${SCM_DOGU_DESC_DIR}/
-RUN jq -r .Version ${SCM_DOGU_DESC_DIR}/dogu.json> ${SCM_DOGU_DESC_DIR}/current
+    && VERSION=$(jq -r .Version /dogu.json) \
+    && echo -n $VERSION > ${SCM_DOGU_DESC_DIR}/current \
+    && cp /dogu.json ${SCM_DOGU_DESC_DIR}/$VERSION \
+    && chown -R scm:scm ${SCM_DOGU_DESC_DIR}
 
 # set permissions
 RUN mkdir -p ${SCM_HOME} \
