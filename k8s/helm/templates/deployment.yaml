@@ -113,8 +113,16 @@ spec:
               mountPath: /var/ces/config
               subPath: localConfig
             # Ephemeral doguctl state (doguctl state ready).
-            - name: ces-state
+            - name: scm-ephemeral
               mountPath: /var/ces/state
+              subPath: state
+            # Ephemeral cache and temp dir
+            - name: scm-ephemeral
+              mountPath: /var/cache
+              subPath: cache
+            - name: scm-ephemeral
+              mountPath: /tmp
+              subPath: tmp
             # Read-only platform config: global + normal + sensitive.
             - name: ces-config
               mountPath: /etc/ces/config
@@ -222,7 +230,7 @@ spec:
         - name: scm-data
           persistentVolumeClaim:
             claimName: {{ include "scm.fullname" . }}-data
-        - name: ces-state
+        - name: scm-ephemeral
           emptyDir: {}
         - name: sa-manager-hooks
           emptyDir: {}
