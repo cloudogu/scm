@@ -91,8 +91,12 @@ spec:
               containerPort: 8080
               protocol: TCP
           env:
+            - name: GOTENBERG_PLUGIN_ENABLED
+              value: {{ .Values.gotenberg.enabled | quote  }}
             - name: HOME
               value: /var/lib/scm
+            - name: GOTENBERG_SERVICE_NAME
+              value: {{ include "scm.gotenbergName" . }}
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:

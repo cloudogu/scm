@@ -1,5 +1,31 @@
 {{- if .Values.networkPolicies.enabled }}
-# TODO Allow scm to reach gotenberg
+{{- if .Values.gotenberg.enabled }}
+# Allow scm to reach gotenberg
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "scm.gotenbergName" . }}-allow-scm
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "scm.gotenbergSelectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Release.Namespace }}
+          podSelector:
+            matchLabels:
+              {{- include "scm.scmSelectorLabels" . | nindent 14 }}
+      ports:
+        - protocol: TCP
+          port: 3000
+{{- end }}
+---
 # Allow the CES gateway to reach scm
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy

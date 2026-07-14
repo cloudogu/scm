@@ -1,0 +1,18 @@
+{{- if .Values.gotenberg.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "scm.gotenbergName" . }}
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gotenberg
+spec:
+  type: ClusterIP
+  ports:
+    {{- range $name, $value := .Values.gotenberg.service.ports }}
+    - name: {{ $name | quote }}
+      {{- toYaml $value | nindent 6 }}
+    {{- end }}
+  selector:
+    {{- include "scm.gotenbergSelectorLabels" . | nindent 4 }}
+{{- end }}

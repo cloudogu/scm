@@ -25,6 +25,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- define "scm.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "scm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: {{ include "scm.name" . }}
 {{- end }}
 
 {{- define "scm.scmSelectorLabels" -}}
@@ -36,6 +37,12 @@ app.kubernetes.io/component: scm
 k8s.cloudogu.com/backup-scope: scm
 {{- end }}
 
-{{- define "scm.postgresqlServiceName" -}}
-{{- printf "%s-postgresql" (include "scm.fullname" .) -}}
+{{- define "scm.gotenbergName" -}}
+{{- printf "%s-gotenberg" (include "scm.fullname" .) -}}
 {{- end -}}
+
+{{- define "scm.gotenbergSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "scm.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: gotenberg
+{{- end }}

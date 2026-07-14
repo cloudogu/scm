@@ -105,6 +105,8 @@ scm:
 
 # Self-contained gotenberg
 gotenberg:
+  enabled: true
+  replicas: 1
   image:
     registry: docker.io
     repository: gotenberg/gotenberg
@@ -115,3 +117,9 @@ gotenberg:
     memory: 200Mi
   resourceLimits:
     memory: 200Mi
+  service:
+    ports:
+      api:
+        protocol: TCP
+        port: 3000
+        targetPort: api

@@ -1,0 +1,42 @@
+{{- if .Values.gotenberg.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "scm.gotenbergName" . }}
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gotenberg
+spec:
+  replicas: {{ .Values.gotenberg.replicas | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "scm.gotenbergSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "scm.gotenbergSelectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- with .Values.scm.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      containers:
+        - name: gotenberg
+          image: "{{ .Values.gotenberg.image.registry }}/{{ .Values.gotenberg.image.repository }}:{{ .Values.gotenberg.image.tag }}"
+          imagePullPolicy: {{ .Values.gotenberg.imagePullPolicy }}
+          ports:
+            - name: api
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            {{- with .Values.scm.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          resources:
+            requests: {{- toYaml .Values.gotenberg.resourceRequests | nindent 14 }}
+            limits: {{- toYaml .Values.gotenberg.resourceLimits | nindent 14 }}
+{{- end }}
