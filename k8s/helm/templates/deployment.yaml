@@ -134,7 +134,7 @@ spec:
             timeoutSeconds: 5
           livenessProbe:
             tcpSocket:
-              port: scm-http
+              port: web
             periodSeconds: 15
             failureThreshold: 5
           readinessProbe:
