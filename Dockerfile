@@ -54,14 +54,7 @@ RUN set -x -o errexit -o nounset -o pipefail \
 # copy resources after package installation, that we can override package defaults
 COPY ./resources /
 
-ARG SCM_DOGU_DESC_DIR=/etc/ces/dogu_json/scm
-
 COPY dogu.json /
-RUN mkdir -p ${SCM_DOGU_DESC_DIR} \
-    && VERSION=$(jq -r .Version /dogu.json) \
-    && echo -n $VERSION > ${SCM_DOGU_DESC_DIR}/current \
-    && cp /dogu.json ${SCM_DOGU_DESC_DIR}/$VERSION \
-    && chown -R scm:scm ${SCM_DOGU_DESC_DIR}
 
 # set permissions
 RUN mkdir -p ${SCM_HOME} \

@@ -58,20 +58,22 @@ spec:
             - name: ces-config
               mountPath: /etc/ces/config
               readOnly: true
-{{/*        - name: sa-manager-hooks-init*/}}
-{{/*          # Copies create-sa.sh/remove-sa.sh, the sa-hook-*.sh adapters and doguctl out of the scm image*/}}
-{{/*          image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"*/}}
-{{/*          imagePullPolicy: {{ .Values.scm.imagePullPolicy }}*/}}
-{{/*          command: ["sh", "-c", "cp /usr/local/bin/doguctl /create-sa.sh /remove-sa.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]*/}}
-{{/*          securityContext:*/}}
-{{/*            allowPrivilegeEscalation: false*/}}
-{{/*            readOnlyRootFilesystem: false*/}}
-{{/*            capabilities:*/}}
-{{/*              drop:*/}}
-{{/*                - ALL*/}}
-{{/*          volumeMounts:*/}}
-{{/*            - name: sa-manager-hooks*/}}
-{{/*              mountPath: /shared*/}}
+            - name: scm-dogu-json
+              mountPath: /etc/ces/dogu_json
+        - name: sa-manager-hooks-init
+          # Copies create-sa.sh/remove-sa.sh, the sa-hook-*.sh adapters and doguctl out of the scm image
+          image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.scm.imagePullPolicy }}
+          command: ["sh", "-c", "cp /usr/local/bin/doguctl /create-sa.sh /remove-sa.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: sa-manager-hooks
+              mountPath: /shared
         {{- with .Values.scm.extraInitContainers }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -127,6 +129,10 @@ spec:
             - name: ces-config
               mountPath: /etc/ces/config
               readOnly: true
+            # dogu.json for doguctl config-key validation.
+            - name: scm-dogu-json
+              mountPath: /etc/ces/dogu_json
+              readOnly: true
             {{- with .Values.scm.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -153,79 +159,90 @@ spec:
           resources:
             requests: {{- toYaml .Values.scm.resourceRequests | nindent 14 }}
             limits: {{- toYaml .Values.scm.resourceLimits | nindent 14 }}
-
-{{/*        - name: scm-sa-manager*/}}
-{{/*          # Generic Go HTTP sidecar implementing the ServiceAccountProducer HTTP API*/}}
-{{/*          image: "{{ .Values.scm.saManager.image.registry }}/{{ .Values.scm.saManager.image.repository }}:{{ .Values.scm.saManager.image.tag }}"*/}}
-{{/*          imagePullPolicy: {{ .Values.scm.saManager.imagePullPolicy }}*/}}
-{{/*          securityContext:*/}}
-{{/*            runAsUser: 1000*/}}
-{{/*            runAsGroup: 1000*/}}
-{{/*            runAsNonRoot: true*/}}
-{{/*            allowPrivilegeEscalation: false*/}}
-{{/*            readOnlyRootFilesystem: false*/}}
-{{/*            capabilities:*/}}
-{{/*              drop:*/}}
-{{/*                - ALL*/}}
-{{/*          ports:*/}}
-{{/*            - name: sa-manager*/}}
-{{/*              containerPort: 8080*/}}
-{{/*              protocol: TCP*/}}
-{{/*          env:*/}}
-{{/*            - name: POD_NAMESPACE*/}}
-{{/*              valueFrom:*/}}
-{{/*                fieldRef:*/}}
-{{/*                  fieldPath: metadata.namespace*/}}
-{{/*            - name: ECOSYSTEM_MULTINODE*/}}
-{{/*              value: "true"*/}}
-{{/*            - name: CREATE_HOOK*/}}
-{{/*              value: /hooks/sa-hook-create.sh*/}}
-{{/*            - name: DELETE_HOOK*/}}
-{{/*              value: /hooks/sa-hook-remove.sh*/}}
-{{/*            - name: EXISTS_HOOK*/}}
-{{/*              value: /hooks/sa-hook-exists.sh*/}}
-{{/*            - name: LOG_LEVEL*/}}
-{{/*              value: {{ .Values.scm.saManager.logLevel | quote }}*/}}
-{{/*            - name: API_KEY*/}}
-{{/*              valueFrom:*/}}
-{{/*                secretKeyRef:*/}}
-{{/*                  name: {{ include "scm.fullname" . }}-sa-manager-auth*/}}
-{{/*                  key: apiKey*/}}
-{{/*            # The hook scripts call bare "doguctl ..." - it's copied into /hooks by sa-manager-hooks-init,*/}}
-{{/*            # so it needs to be on PATH. The sidecar's own Alpine base image doesn't provide doguctl itself.*/}}
-{{/*            - name: PATH*/}}
-{{/*              value: "/hooks:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"*/}}
-{{/*          volumeMounts:*/}}
-{{/*            # Writable local doguctl config*/}}
-{{/*            - name: scm-data*/}}
-{{/*              mountPath: /var/ces/config*/}}
-{{/*              subPath: localConfig*/}}
-{{/*            # Read-only platform config: global + normal + sensitive*/}}
-{{/*            - name: ces-config*/}}
-{{/*              mountPath: /etc/ces/config*/}}
-{{/*              readOnly: true*/}}
-{{/*            # create-sa.sh/remove-sa.sh/scm_api.sh and the sa-hook-*.sh adapters*/}}
-{{/*            - name: sa-manager-hooks*/}}
-{{/*              mountPath: /hooks*/}}
-{{/*              readOnly: true*/}}
-{{/*          # GET /serviceaccounts is the sidecar's unauthenticated readiness route (httpGet probes*/}}
-{{/*          # can only send GET, never HEAD - the method the real service-account-operator client*/}}
-{{/*          # uses for its own Ready() check).*/}}
-{{/*          readinessProbe:*/}}
-{{/*            httpGet:*/}}
-{{/*              path: /serviceaccounts*/}}
-{{/*              port: sa-manager*/}}
-{{/*            periodSeconds: 10*/}}
-{{/*            failureThreshold: 5*/}}
-{{/*          livenessProbe:*/}}
-{{/*            httpGet:*/}}
-{{/*              path: /serviceaccounts*/}}
-{{/*              port: sa-manager*/}}
-{{/*            periodSeconds: 15*/}}
-{{/*            failureThreshold: 5*/}}
-{{/*          resources:*/}}
-{{/*            requests: {{- toYaml .Values.scm.saManager.resourceRequests | nindent 14 }}*/}}
-{{/*            limits: {{- toYaml .Values.scm.saManager.resourceLimits | nindent 14 }}*/}}
+        - name: scm-sa-manager
+          # Generic Go HTTP sidecar implementing the ServiceAccountProducer HTTP API
+          image: "{{ .Values.scm.saManager.image.registry }}/{{ .Values.scm.saManager.image.repository }}:{{ .Values.scm.saManager.image.tag }}"
+          imagePullPolicy: {{ .Values.scm.saManager.imagePullPolicy }}
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: sa-manager
+              containerPort: 8090
+              protocol: TCP
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: ECOSYSTEM_MULTINODE
+              value: "true"
+            - name: CREATE_HOOK
+              value: /hooks/sa-hook-create.sh
+            - name: DELETE_HOOK
+              value: /hooks/sa-hook-remove.sh
+            - name: EXISTS_HOOK
+              value: /hooks/sa-hook-exists.sh
+            - name: LOG_LEVEL
+              value: {{ .Values.scm.saManager.logLevel | quote }}
+            - name: ADDR
+              value: ":8090"
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "scm.fullname" . }}-sa-manager-auth
+                  key: apiKey
+            # The hook scripts call bare "doguctl ..." - it's copied into /hooks by sa-manager-hooks-init,
+            # so it needs to be on PATH. The sidecar's own Alpine base image doesn't provide doguctl itself.
+            - name: PATH
+              value: "/hooks:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            # These variables are usually set in the scm Dockerfile.
+            # They are necessary here to execute the service account scripts.
+            - name: CES_TOKEN_HEADER
+              value: X-CES-Token
+            - name: CES_TOKEN_CONFIGURATION_KEY
+              value: serviceaccount_token
+          volumeMounts:
+            # Writable local doguctl config
+            - name: scm-data
+              mountPath: /var/ces/config
+              subPath: localConfig
+            # Read-only platform config: global + normal + sensitive
+            - name: ces-config
+              mountPath: /etc/ces/config
+              readOnly: true
+            # create-sa.sh/remove-sa.sh/scm_api.sh and the sa-hook-*.sh adapters
+            - name: sa-manager-hooks
+              mountPath: /hooks
+              readOnly: true
+            # dogu.json for doguctl's component-mode registry lookup.
+            - name: scm-dogu-json
+              mountPath: /etc/ces/dogu_json
+              readOnly: true
+          # GET /serviceaccounts is the sidecar's unauthenticated readiness route (httpGet probes
+          # can only send GET, never HEAD - the method the real service-account-operator client
+          # uses for its own Ready() check).
+          readinessProbe:
+            httpGet:
+              path: /serviceaccounts
+              port: sa-manager
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /serviceaccounts
+              port: sa-manager
+            periodSeconds: 15
+            failureThreshold: 5
+          resources:
+            requests: {{- toYaml .Values.scm.saManager.resourceRequests | nindent 14 }}
+            limits: {{- toYaml .Values.scm.saManager.resourceLimits | nindent 14 }}
       volumes:
         - name: scm-data
           persistentVolumeClaim:
@@ -249,6 +266,8 @@ spec:
                       path: normal/config.yaml
                     - key: {{ .Values.scm.configuration.meta.sensitive.key }}
                       path: sensitive/config.yaml
+        - name: scm-dogu-json
+          emptyDir: {}
         {{- with .Values.scm.extraVolumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
