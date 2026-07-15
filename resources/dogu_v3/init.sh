@@ -10,7 +10,10 @@ set -o pipefail
 mkdir -p /var/lib/scm /var/ces/config
 
 # --- 1. dogu_json layout ------------------------------------------------------
-TARGET_DIR="/etc/ces/dogu_json/scm"
+# doguctl resolves the descriptor from /etc/ces/dogu_json/${HOSTNAME}/.
+# As a StatefulSet the pod hostname is the pod name (e.g. nexus-0), NOT a fixed "nexus"
+# (the controller overrides spec.hostname), so the descriptor dir must follow ${HOSTNAME}.
+TARGET_DIR="/etc/ces/dogu_json/${HOSTNAME}"
 SOURCE_DOGU_JSON="/dogu.json"
 
 # Take the first "Version" line

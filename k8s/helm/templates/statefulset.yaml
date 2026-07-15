@@ -1,14 +1,13 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "scm.fullname" . }}
   labels:
     {{- include "scm.labels" . | nindent 4 }}
     {{- include "scm.backupLabels" . | nindent 4 }}
 spec:
+  serviceName: {{ include "scm.name" . }}
   replicas: {{ .Values.scm.replicas | default 1 }}
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       {{- include "scm.selectorLabels" . | nindent 6 }}
@@ -20,14 +19,15 @@ spec:
       labels:
         {{- include "scm.scmSelectorLabels" . | nindent 8 }}
     spec:
-      hostname: scm
+      # No spec.hostname: the StatefulSet controller sets it to the pod name (e.g. scm-0)
+      # and overrides any value here. doguctl's descriptor lookup follows ${HOSTNAME} accordingly
+      # (see dogu_v3/init.sh).
       enableServiceLinks: false
       {{- with .Values.global.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext: {{- toYaml .Values.scm.podSecurityContext | nindent 8 }}
-      # TODO check init-containers
       initContainers:
         - name: dogu-init
           image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
@@ -248,9 +248,11 @@ spec:
             requests: {{- toYaml .Values.scm.saManager.resourceRequests | nindent 14 }}
             limits: {{- toYaml .Values.scm.saManager.resourceLimits | nindent 14 }}
       volumes:
+        {{- if .Values.scm.persistence.existingClaim }}
         - name: scm-data
           persistentVolumeClaim:
-            claimName: {{ include "scm.fullname" . }}-data
+            claimName: {{ .Values.scm.persistence.existingClaim }}
+        {{- end }}
         - name: scm-ephemeral
           emptyDir: {}
         - name: sa-manager-hooks
@@ -284,3 +286,21 @@ spec:
       {{- with .Values.scm.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- if not .Values.scm.persistence.existingClaim }}
+  volumeClaimTemplates:
+    # Holds the SCM work dir (/var/lib/scm) and the writable doguctl local config (/var/ces/config).
+    - metadata:
+        name: scm-data
+        labels:
+          {{- include "scm.labels" . | nindent 10 }}
+          {{- include "scm.backupLabels" . | nindent 10 }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        {{- if .Values.scm.persistence.storageClassName }}
+        storageClassName: {{ .Values.scm.persistence.storageClassName | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.scm.persistence.size }}
+  {{- end }}
