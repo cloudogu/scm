@@ -31,7 +31,7 @@ Darüber hinaus wurden die Dateien `Makefile` und `Dockerfile` aktualisiert, um 
   make scm-v3-install
   ```
   Baut und pusht das Image in die Dev-Registry und macht `helm upgrade --install` mit
-  `--set-string nexus.image.*` + `imagePullPolicy=Always`.
+  `--set-string scm.image.*` + `imagePullPolicy=Always`.
 
 ###  Deinstallieren (PVCs bleiben erhalten):
   ```
