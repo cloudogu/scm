@@ -3,6 +3,8 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+source /hooks/sa-hook-common.sh
+
 # Checks whether a service account for the given consumer currently exists by using doguctl.
 #
 # Exit code convention:
@@ -14,10 +16,9 @@ if [ $# -ne 1 ]; then
   exit 2
 fi
 
-SERVICE="$1"
+CONSUMER="$1"
 
-USER_ID=$(doguctl config service_accounts/"${SERVICE}" --default "default")
-if [ "${USER_ID}" != "default" ]; then
+if getExistingUserForConsumer "${CONSUMER}"; then
   exit 0
 else
   exit 1

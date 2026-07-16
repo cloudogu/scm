@@ -22,9 +22,7 @@ for flag in "$@"; do
   fi
 done
 
-EXISTING_USER_ID=$(doguctl config service_accounts/"${CONSUMER}" --default "default")
-
-if [[ "${EXISTING_USER_ID}" != "default" ]]; then
+if EXISTING_USER_ID=$(getExistingUserForConsumer "${CONSUMER}"); then
   if [[ "${ROTATE}" != "true" ]]; then
     echo "service account for ${CONSUMER} already exists (${EXISTING_USER_ID}), no rotation requested - leaving it as is" >&2
     exit 0
