@@ -21,7 +21,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        {{- with .Values.scm.extraVolumes }}
+        {{- with .Values.gotenberg.extraVolumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       containers:

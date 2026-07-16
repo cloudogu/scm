@@ -121,6 +121,7 @@ gotenberg:
     memory: 200Mi
   resourceLimits:
     memory: 200Mi
+  extraVolumes: []
   service:
     ports:
       api:

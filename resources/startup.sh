@@ -25,7 +25,7 @@ mkdir -p "${INIT_SCRIPT_LIBRARY_FOLDER}"
 cp -rf "${MAIN_INIT_SCRIPTS_LIBRARY_FOLDER}"/*.groovy "${INIT_SCRIPT_LIBRARY_FOLDER}/"
 
 # merge custom init scripts, if the volume is not empty
-if [ "$(ls -A ${CUSTOM_INIT_SCRIPTS_FOLDER}/*.groovy &> /dev/null)" ]; then
+if ls -A ${CUSTOM_INIT_SCRIPTS_FOLDER}/*.groovy &> /dev/null; then
   cp "${CUSTOM_INIT_SCRIPTS_FOLDER}/"*.groovy "${INIT_SCRIPT_FOLDER}/"
 fi
 

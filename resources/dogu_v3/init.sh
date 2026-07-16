@@ -11,7 +11,7 @@ mkdir -p /var/lib/scm /var/ces/config
 
 # --- 1. dogu_json layout ------------------------------------------------------
 # doguctl resolves the descriptor from /etc/ces/dogu_json/${HOSTNAME}/.
-# As a StatefulSet the pod hostname is the pod name (e.g. nexus-0), NOT a fixed "nexus"
+# As a StatefulSet the pod hostname is the pod name (e.g. scm-0), NOT a fixed "scm"
 # (the controller overrides spec.hostname), so the descriptor dir must follow ${HOSTNAME}.
 TARGET_DIR="/etc/ces/dogu_json/${HOSTNAME}"
 SOURCE_DOGU_JSON="/dogu.json"
