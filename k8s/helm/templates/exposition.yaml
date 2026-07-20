@@ -1,0 +1,18 @@
+apiVersion: k8s.cloudogu.com/v1
+kind: Exposition
+metadata:
+  name: {{ include "scm.name" . }}
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+spec:
+  http:
+    - name: {{ include "scm.name" . }}
+      service: {{ include "scm.name" . }}
+      port: {{ .Values.scm.service.ports.web.port }}
+      path: /{{ include "scm.name" . }}
+  tcp:
+    - name: {{ include "scm.name" . }}-ssh
+      service: {{ include "scm.name" . }}
+      port: {{ .Values.scm.service.ports.ssh.port }}
+      requestedExternalPort: {{ .Values.scm.exposition.externalPort }}
+      protocol: ssh

@@ -1,0 +1,48 @@
+{{- if .Values.networkPolicies.enabled }}
+# Allow the CES gateway to reach scm
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "scm.fullname" . }}-gateway
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "scm.scmSelectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Release.Namespace }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .Values.networkPolicies.gateway.matchLabels | nindent 14 }}
+---
+# Allow the service-account-operator to reach the scm-sa-manager sidecar (:8090).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "scm.fullname" . }}-sa-manager
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "scm.scmSelectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Release.Namespace }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .Values.networkPolicies.serviceAccountOperator.matchLabels | nindent 14 }}
+      ports:
+        - protocol: TCP
+          port: {{ (index .Values.scm.service.ports "sa-manager").port }}
+{{- end }}

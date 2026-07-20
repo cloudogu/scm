@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added support for Dogu V3
+
 ## [3.11.10-1] 2026-06-10
 ### Changed
 - Upgrade SCM-Manager to version 3.11.10 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.11.10/CHANGELOG.md))

@@ -16,14 +16,18 @@ def setGotenbergConfig() {
 
     def gotenbergConfiguration = gotenbergConfigurationStore.get()
 
-    gotenbergConfiguration.setUrl("http://gotenberg:3000/")
+    def gotenbergServiceName = System.getenv("GOTENBERG_SERVICE_NAME") ?: "gotenberg"
+    gotenbergConfiguration.setUrl("http://${gotenbergServiceName}:3000/")
     gotenbergConfiguration.setEnabled(true)
 
     gotenbergConfigurationStore.set(gotenbergConfiguration)
 }
 
 try {
-    if (ecoSystem.isInstalled("gotenberg")) {
+
+    def isEnabled = System.getenv("GOTENBERG_PLUGIN_ENABLED") != "false"
+    if (isEnabled || ecoSystem.isInstalled("gotenberg")) {
+        System.out.println  "Gotenberg is installed, configuring gotenberg plugin"
         setGotenbergConfig()
     }
 } catch (ClassNotFoundException e) {

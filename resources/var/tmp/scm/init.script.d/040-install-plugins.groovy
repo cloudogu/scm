@@ -92,7 +92,8 @@ if (ecoSystem.isInstalled("cockpit")) {
     plugins.add("scm-cockpit-legacy-plugin")
 }
 
-if (ecoSystem.isInstalled("gotenberg")) {
+def isEnabled = System.getenv("GOTENBERG_PLUGIN_ENABLED") != "false"
+if (isEnabled || ecoSystem.isInstalled("gotenberg")) {
     plugins.add("scm-gotenberg-plugin")
 }
 

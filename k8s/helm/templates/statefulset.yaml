@@ -1,0 +1,306 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "scm.fullname" . }}
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+    {{- include "scm.backupLabels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "scm.name" . }}
+  replicas: {{ .Values.scm.replicas | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "scm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: scm
+        config/checksum: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+      labels:
+        {{- include "scm.scmSelectorLabels" . | nindent 8 }}
+    spec:
+      # No spec.hostname: the StatefulSet controller sets it to the pod name (e.g. scm-0)
+      # and overrides any value here. doguctl's descriptor lookup follows ${HOSTNAME} accordingly
+      # (see dogu_v3/init.sh).
+      enableServiceLinks: false
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext: {{- toYaml .Values.scm.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: dogu-init
+          image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.scm.imagePullPolicy }}
+          command: ["bash", "/dogu_v3/init.sh"]
+          env:
+            - name: ECOSYSTEM_MULTINODE
+              value: "true"
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CHOWN
+                - DAC_OVERRIDE
+                - FOWNER
+          volumeMounts:
+            - name: scm-data
+              mountPath: /var/lib/scm
+              subPath: data
+            - name: scm-data
+              mountPath: /var/ces/config
+              subPath: localConfig
+            - name: ces-config
+              mountPath: /etc/ces/config
+              readOnly: true
+            - name: scm-dogu-json
+              mountPath: /etc/ces/dogu_json
+        - name: sa-manager-hooks-init
+          # Copies create-sa.sh/remove-sa.sh, the sa-hook-*.sh adapters and doguctl out of the scm image
+          image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.scm.imagePullPolicy }}
+          command: ["sh", "-c", "cp /usr/local/bin/doguctl /create-sa.sh /remove-sa.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: sa-manager-hooks
+              mountPath: /shared
+        {{- with .Values.scm.extraInitContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      containers:
+        - name: scm
+          image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.scm.imagePullPolicy }}
+          args: ["/startup.sh"]
+          securityContext: {{- toYaml .Values.scm.securityContext | nindent 12 }}
+          ports:
+            - name: ssh
+              containerPort: 2222
+              protocol: TCP
+            - name: web
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: GOTENBERG_PLUGIN_ENABLED
+              value: {{ .Values.gotenberg.enabled | quote  }}
+            - name: HOME
+              value: /var/lib/scm
+            - name: GOTENBERG_SERVICE_NAME
+              value: {{ include "scm.gotenbergName" . }}
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: ECOSYSTEM_MULTINODE
+              value: "true"
+            {{- with .Values.scm.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+            - name: scm-data
+              mountPath: /var/lib/scm
+              subPath: data
+            # Writable local doguctl config store (successfulInitialConfiguration, admin_user, ...).
+            - name: scm-data
+              mountPath: /var/ces/config
+              subPath: localConfig
+            # Ephemeral doguctl state (doguctl state ready).
+            - name: scm-ephemeral
+              mountPath: /var/ces/state
+              subPath: state
+            # Ephemeral cache and temp dir
+            - name: scm-ephemeral
+              mountPath: /var/cache
+              subPath: cache
+            - name: scm-ephemeral
+              mountPath: /tmp
+              subPath: tmp
+            # Read-only platform config: global + normal + sensitive.
+            - name: ces-config
+              mountPath: /etc/ces/config
+              readOnly: true
+            # dogu.json for doguctl config-key validation.
+            - name: scm-dogu-json
+              mountPath: /etc/ces/dogu_json
+              readOnly: true
+            {{- with .Values.scm.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          startupProbe:
+            # startup.sh ends with `doguctl state ready`; give first start plenty of time (incl. its restart).
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - '[ "$(doguctl state)" = "ready" ]'
+            periodSeconds: 10
+            failureThreshold: 180
+            timeoutSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: web
+            periodSeconds: 15
+            failureThreshold: 5
+          readinessProbe:
+            tcpSocket:
+              port: web
+            periodSeconds: 10
+            failureThreshold: 5
+          resources:
+            requests: {{- toYaml .Values.scm.resourceRequests | nindent 14 }}
+            limits: {{- toYaml .Values.scm.resourceLimits | nindent 14 }}
+        - name: scm-sa-manager
+          # Generic Go HTTP sidecar implementing the ServiceAccountProducer HTTP API
+          image: "{{ .Values.scm.saManager.image.registry }}/{{ .Values.scm.saManager.image.repository }}:{{ .Values.scm.saManager.image.tag }}"
+          imagePullPolicy: {{ .Values.scm.saManager.imagePullPolicy }}
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: sa-manager
+              containerPort: 8090
+              protocol: TCP
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: ECOSYSTEM_MULTINODE
+              value: "true"
+            - name: CREATE_HOOK
+              value: /hooks/sa-hook-create.sh
+            - name: DELETE_HOOK
+              value: /hooks/sa-hook-remove.sh
+            - name: EXISTS_HOOK
+              value: /hooks/sa-hook-exists.sh
+            - name: LOG_LEVEL
+              value: {{ .Values.scm.saManager.logLevel | quote }}
+            - name: ADDR
+              value: ":8090"
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "scm.fullname" . }}-sa-manager-auth
+                  key: apiKey
+            # The hook scripts call bare "doguctl ..." - it's copied into /hooks by sa-manager-hooks-init,
+            # so it needs to be on PATH. The sidecar's own Alpine base image doesn't provide doguctl itself.
+            - name: PATH
+              value: "/hooks:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            # These variables are usually set in the scm Dockerfile.
+            # They are necessary here to execute the service account scripts.
+            - name: CES_TOKEN_HEADER
+              value: X-CES-Token
+            - name: CES_TOKEN_CONFIGURATION_KEY
+              value: serviceaccount_token
+          volumeMounts:
+            # Writable local doguctl config
+            - name: scm-data
+              mountPath: /var/ces/config
+              subPath: localConfig
+            # Read-only platform config: global + normal + sensitive
+            - name: ces-config
+              mountPath: /etc/ces/config
+              readOnly: true
+            # create-sa.sh/remove-sa.sh/scm_api.sh and the sa-hook-*.sh adapters
+            - name: sa-manager-hooks
+              mountPath: /hooks
+              readOnly: true
+            # dogu.json for doguctl's component-mode registry lookup.
+            - name: scm-dogu-json
+              mountPath: /etc/ces/dogu_json
+              readOnly: true
+          # GET /serviceaccounts is the sidecar's unauthenticated readiness route (httpGet probes
+          # can only send GET, never HEAD - the method the real service-account-operator client
+          # uses for its own Ready() check).
+          readinessProbe:
+            httpGet:
+              path: /serviceaccounts
+              port: sa-manager
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /serviceaccounts
+              port: sa-manager
+            periodSeconds: 15
+            failureThreshold: 5
+          resources:
+            requests: {{- toYaml .Values.scm.saManager.resourceRequests | nindent 14 }}
+            limits: {{- toYaml .Values.scm.saManager.resourceLimits | nindent 14 }}
+      volumes:
+        {{- if .Values.scm.persistence.existingClaim }}
+        - name: scm-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.scm.persistence.existingClaim }}
+        {{- end }}
+        - name: scm-ephemeral
+          emptyDir: {}
+        - name: sa-manager-hooks
+          emptyDir: {}
+        - name: ces-config
+          projected:
+            sources:
+              - configMap:
+                  name: {{ .Values.scm.configuration.meta.global.name }}
+                  items:
+                    - key: {{ .Values.scm.configuration.meta.global.key }}
+                      path: global/config.yaml
+              - configMap:
+                  name: {{ include "scm.fullname" . }}-config
+                  items:
+                    - key: {{ .Values.scm.configuration.meta.normal.key }}
+                      path: normal/config.yaml
+                    - key: {{ .Values.scm.configuration.meta.sensitive.key }}
+                      path: sensitive/config.yaml
+        - name: scm-dogu-json
+          emptyDir: {}
+        {{- with .Values.scm.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.scm.tolerations }}
+      tolerations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.scm.affinity }}
+      affinity: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.scm.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if not .Values.scm.persistence.existingClaim }}
+  volumeClaimTemplates:
+    # Holds the SCM work dir (/var/lib/scm) and the writable doguctl local config (/var/ces/config).
+    - metadata:
+        name: scm-data
+        labels:
+          {{- include "scm.labels" . | nindent 10 }}
+          {{- include "scm.backupLabels" . | nindent 10 }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        {{- if .Values.scm.persistence.storageClassName }}
+        storageClassName: {{ .Values.scm.persistence.storageClassName | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.scm.persistence.size }}
+  {{- end }}

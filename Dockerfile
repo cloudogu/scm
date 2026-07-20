@@ -54,6 +54,8 @@ RUN set -x -o errexit -o nounset -o pipefail \
 # copy resources after package installation, that we can override package defaults
 COPY ./resources /
 
+COPY dogu.json /
+
 # set permissions
 RUN mkdir -p ${SCM_HOME} \
     && chown scm:scm ${SCM_HOME} \

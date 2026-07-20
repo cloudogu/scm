@@ -1,0 +1,23 @@
+apiVersion: v1
+values:
+  images:
+    scm: registry.cloudogu.com/official/scm:3.11.10-1
+    scmSaManager: registry.cloudogu.com/k8s/service-account-producer-sidecar:0.1.2
+    gotenberg: docker.io/gotenberg/gotenberg:8.34.0
+patches:
+  values.yaml:
+    scm:
+      image:
+        registry: "{{ registryFrom .images.scm }}"
+        repository: "{{ repositoryFrom .images.scm }}"
+        tag: "{{ tagFrom .images.scm }}"
+      saManager:
+        image:
+          registry: "{{ registryFrom .images.scmSaManager }}"
+          repository: "{{ repositoryFrom .images.scmSaManager }}"
+          tag: "{{ tagFrom .images.scmSaManager }}"
+    gotenberg:
+      image:
+        registry: "{{ registryFrom .images.gotenberg }}"
+        repository: "{{ repositoryFrom .images.gotenberg }}"
+        tag: "{{ tagFrom .images.gotenberg }}"

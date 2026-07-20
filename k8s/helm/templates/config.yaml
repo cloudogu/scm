@@ -1,0 +1,13 @@
+# Non-sensitive doguctl config. Rendered into the "normal" key and mounted at /etc/ces/config/normal/config.yaml via the projected ces-config volume (see deployment).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "scm.fullname" . }}-config
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+data:
+  normal: |
+    {{- toYaml .Values.scm.configuration.normal | nindent 4 }}
+  # set sensitive to empty here because we don't have any sensitive values
+  # if sensitive values are ever added, they should be added into a secret, not this configmap
+  sensitive: "{}"

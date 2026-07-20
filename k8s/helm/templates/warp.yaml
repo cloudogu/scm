@@ -1,0 +1,12 @@
+apiVersion: k8s.cloudogu.com/v1
+kind: WarpMenuEntry
+metadata:
+  name: {{ include "scm.name" . }}
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+spec:
+  category: Development Apps
+  displayName:
+    de: SCM-Manager
+    en: SCM-Manager
+  path: /{{ include "scm.name" . }}

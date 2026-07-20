@@ -21,7 +21,7 @@ else
 fi
 
 # create random username suffix and password
-ID=$(doguctl random -l 6 | tr '[:upper:]' '[:lower:]')
+ID="SCM_SA"
 USER="${SERVICE}_${ID}"
 PASSWORD=$(doguctl random)
 
