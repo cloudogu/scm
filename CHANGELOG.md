@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Restrict snapshot builds to version 3.x for the time being
 
+### Fixed
+
 ## [3.11.10-1] 2026-06-10
 ### Changed
 - Upgrade SCM-Manager to version 3.11.10 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.11.10/CHANGELOG.md))
