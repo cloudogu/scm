@@ -8,8 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Restrict snapshot builds to version 3.x for the time being
-
-### Fixed
+- [#121] Wait for the externally routed SCM service before starting integration tests
 
 ## [3.11.10-1] 2026-06-10
 ### Changed
