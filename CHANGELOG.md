@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Restrict snapshot builds to version 3.x for the time being
 
 ## [3.11.10-1] 2026-06-10
 ### Changed
