@@ -174,6 +174,7 @@ node('vagrant') {
                 stage('Integration Tests') {
                   echo "Run integration tests."
 
+                  ecoSystem.waitUntilAvailable("scm")
                   ecoSystem.runCypressIntegrationTests([
                     timeoutInMinutes : 15,
                     cypressImage     : "cypress/included:13.13.0",
