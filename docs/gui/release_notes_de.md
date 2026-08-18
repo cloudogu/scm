@@ -6,6 +6,10 @@ Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https
 
 ## [Unreleased]
 
+## Release 3.12.0-1
+
+* Das Dogu bietet nun die SCM-Manager-Version 3.12.0 an.
+
 ## Release 3.11.10-1
 
 * Das Dogu bietet nun die SCM-Manager-Version 3.11.10 an.
