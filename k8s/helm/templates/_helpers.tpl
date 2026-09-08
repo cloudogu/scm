@@ -46,3 +46,51 @@ app.kubernetes.io/name: {{ include "scm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: gotenberg
 {{- end }}
+
+
+{{/*
+Common environment variables shared across all needed containers
+*/}}
+{{- define "scm.configEnv" -}}
+- name: DOGU_NAME
+  value: {{ .Values.scm.configuration.configEnv.doguName | quote }}
+- name: DOGU_REGISTRY_DIR
+  value: {{ .Values.scm.configuration.configEnv.doguRegistryDir  | quote }}
+- name: GLOBAL_CONFIG_DIR
+  value: {{ .Values.scm.configuration.configEnv.globalConfigDir  | quote }}
+- name: DOGU_CONFIG_DIR
+  value: {{ .Values.scm.configuration.configEnv.doguConfigDir | quote }}
+- name: SENSITIVE_CONFIG_DIR
+  value: {{ .Values.scm.configuration.configEnv.sensitiveConfigDir | quote }}
+- name: LOCAL_CONFIG_DIR
+  value: {{ .Values.scm.configuration.configEnv.localConfigDir | quote }}
+{{- end }}
+
+
+{{/*
+
+Common volumes shared across all needed containers
+- dogu registry folder (dogu.json) for doguctl config-key validation.
+- Read-only platform config: global + normal + sensitive.Read-only platform config: global + normal + sensitive.
+- Writable local doguctl config store (successfulInitialConfiguration, admin_user, ...).
+*/}}
+{{- define "scm.configVolumeMounts" -}}
+{{- $root := .root | default . -}}
+- name: scm-dogu-json
+  mountPath: {{ $root.Values.scm.configuration.configEnv.doguRegistryDir | quote }}
+  {{- if hasKey . "doguRegistryReadOnly" }}
+  readOnly: true
+  {{- end }}
+- name: global-config
+  mountPath: {{ $root.Values.scm.configuration.configEnv.globalConfigDir  | quote }}
+  readOnly: true
+- name: normal-config
+  mountPath: {{ $root.Values.scm.configuration.configEnv.doguConfigDir  | quote }}
+  readOnly: true
+- name: secret-config
+  mountPath: {{ $root.Values.scm.configuration.configEnv.sensitiveConfigDir | quote }}
+  readOnly: true
+- name: scm-data
+  mountPath: {{ $root.Values.scm.configuration.configEnv.localConfigDir | quote }}
+  subPath: localConfig
+{{- end }}

@@ -34,7 +34,13 @@ boolean isInstalled(String doguName) {
 }
 
 private static boolean isInstalledMN(String doguName) {
-    return (new File("/etc/ces/dogu_json/${doguName}/current")).exists()
+    String doguRegistryDir = System.getenv("DOGU_REGISTRY_DIR") ?: "/etc/ces/dogu_json"
+    String path = "${doguRegistryDir}/${doguName}/current"
+    boolean exists = (new File(path)).exists()
+
+    println "isInstalledMN: doguName=${doguName}, registryDir=${doguRegistryDir}, path=${path}, exists=${exists}"
+
+    return exists
 }
 
 private static boolean isInstalledClassic(String doguName) {

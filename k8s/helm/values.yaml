@@ -78,6 +78,13 @@ scm:
 
   # Dogu-Configuration
   configuration:
+    configEnv:
+      doguName: "scm"
+      doguRegistryDir: "/scm/doguregistry"
+      globalConfigDir: "/scm/configuration/global"
+      doguConfigDir: "/scm/configuration/normal"
+      sensitiveConfigDir: "/scm/configuration/sensitive"
+      localConfigDir: "/scm/configuration/local"
     meta:
       global:
         name: global-config
