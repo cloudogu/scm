@@ -38,7 +38,7 @@ private static boolean isInstalledMN(String doguName) {
     String path = "${doguRegistryDir}/${doguName}/current"
     boolean exists = (new File(path)).exists()
 
-    println "isInstalledMN: doguName=${doguName}, registryDir=${doguRegistryDir}, path=${path}, exists=${exists}"
+    //println "isInstalledMN: doguName=${doguName}, registryDir=${doguRegistryDir}, path=${path}, exists=${exists}"
 
     return exists
 }
