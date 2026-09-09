@@ -6,6 +6,10 @@ Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https
 
 ## [Unreleased]
 
+## Release 3.12.1-2
+
+* Das Dogu installiert das SCM-Manager MCP-Plugin, falls das LOP-AI Dogu ebenfalls installiert ist.
+
 ## Release 3.12.1-1
 
 * Das Dogu bietet nun die SCM-Manager-Version 3.12.1 an.
