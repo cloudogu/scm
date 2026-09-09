@@ -100,6 +100,10 @@ if (ecoSystem.isInstalled("jira")) {
     plugins.add("scm-jira-plugin")
 }
 
+if (ecoSystem.isInstalled("lopai")) {
+    plugins.add("scm-mcp-plugin")
+}
+
 addMissingDefaultPluginsFromDoguConfig(plugins)
 
 File pluginListFile = new File(sonia.scm.SCMContext.getContext().getBaseDirectory(), "installed_plugins_before_update.lst")

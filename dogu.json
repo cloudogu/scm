@@ -54,6 +54,10 @@
         {
             "type": "dogu",
             "name": "gotenberg"
+        },
+        {
+            "type": "dogu",
+            "name": "lopai"
         }
     ],
     "ServiceAccounts": [
