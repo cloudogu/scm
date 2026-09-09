@@ -58,7 +58,7 @@ spec:
           # Copies create-sa.sh/remove-sa.sh, the sa-hook-*.sh adapters and doguctl out of the scm image
           image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.scm.imagePullPolicy }}
-          command: ["sh", "-c", "cp /usr/local/bin/doguctl /create-sa.sh /remove-sa.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]
+          command: ["sh", "-c", "cp /doguctl/folder/doguctl /create-sa.sh /remove-sa.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
@@ -86,6 +86,8 @@ spec:
               protocol: TCP
           env:
             {{- include "scm.configEnv" . | nindent 12 }}
+            - name: INSTALLED_DOGUS_FOR_SCM
+              value: {{ .Values.scm.installed.dogus | join "," | quote }}
             - name: GOTENBERG_PLUGIN_ENABLED
               value: {{ .Values.gotenberg.enabled | quote  }}
             - name: HOME

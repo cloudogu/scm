@@ -15,6 +15,8 @@ extraLabels: {}
 
 scm:
   replicas: 1
+  installed:
+    dogus: []
 
   image:
     registry: registry.cloudogu.com
