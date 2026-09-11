@@ -47,8 +47,12 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: gotenberg
 {{- end }}
 
+{{/*
+Note: The 2 templates scm.configEnv and scm.configVolumeMounts are used for doguctl and should be removed when doguctl is no longer used.
+*/}}
 
 {{/*
+
 Common environment variables shared across all needed containers
 */}}
 {{- define "scm.configEnv" -}}
