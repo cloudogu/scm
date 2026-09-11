@@ -4,16 +4,14 @@ set -o nounset
 set -o pipefail
 
 # DoguV3-only init-container:
-#   1. Materialize the /etc/ces/dogu_json/scm/{current,<version>} layout that doguctl expects
+#   1. Materialize the ${DOGU_REGISTRY_DIR}/${DOGU_NAME}/{current,<version>} layout that doguctl expects
 #   2. Fix ownership of the persistent volumes for the scm user (uid/gid 1000)
 
-mkdir -p /var/lib/scm /var/ces/config
+mkdir -p /var/lib/scm ${LOCAL_CONFIG_DIR}
 
 # --- 1. dogu_json layout ------------------------------------------------------
-# doguctl resolves the descriptor from /etc/ces/dogu_json/${HOSTNAME}/.
-# As a StatefulSet the pod hostname is the pod name (e.g. scm-0), NOT a fixed "scm"
-# (the controller overrides spec.hostname), so the descriptor dir must follow ${HOSTNAME}.
-TARGET_DIR="/etc/ces/dogu_json/${HOSTNAME}"
+# doguctl resolves the descriptor from ${DOGU_REGISTRY_DIR}/${DOGU_NAME}/
+TARGET_DIR="${DOGU_REGISTRY_DIR}/${DOGU_NAME}"
 SOURCE_DOGU_JSON="/dogu.json"
 
 # Take the first "Version" line
@@ -31,6 +29,6 @@ echo "prepared dogu.json in ${TARGET_DIR} for to be used by doguctl"
 
 # --- persistence ownership -------------------------------------------------
 # Must run last (see header comment): fixes up anything doguctl created as root above.
-chown -R 1000:1000 /var/lib/scm /var/ces/config
+chown -R 1000:1000 /var/lib/scm ${LOCAL_CONFIG_DIR}
 
-echo "set ownership for /var/lib/scm and /var/ces/config"
+echo "set ownership for /var/lib/scm and ${LOCAL_CONFIG_DIR}"
