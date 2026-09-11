@@ -1,6 +1,5 @@
-MAKEFILES_VERSION=10.10.0
+MAKEFILES_VERSION=10.11.1
 .DEFAULT_GOAL:=dogu-release
-
 include build/make/variables.mk
 include build/make/self-update.mk
 include build/make/clean.mk
