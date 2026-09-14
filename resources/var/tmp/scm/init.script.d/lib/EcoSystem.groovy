@@ -41,11 +41,7 @@ private static boolean isInstalledMN(String doguName) {
 
     String doguRegistryDir = System.getenv("DOGU_REGISTRY_DIR") ?: "/etc/ces/dogu_json"
     String path = "${doguRegistryDir}/${doguName}/current"
-    boolean exists = (new File(path)).exists()
-
-    //println "isInstalledMN: doguName=${doguName}, registryDir=${doguRegistryDir}, path=${path}, exists=${exists}"
-
-    return exists
+    return (new File(path)).exists()
 }
 
 private static boolean isInDoguListEnv(String doguName) {
@@ -63,9 +59,7 @@ private static boolean isInDoguListEnv(String doguName) {
         .collect { it.trim().toLowerCase() }
         .toSet()
 
-    boolean contains = installedNames.contains(doguName.toLowerCase())
-    //println "isInDoguListEnv: doguName=${doguName}, INSTALLED_DOGUS_FOR_SCM=${installedDogus}, contains=${contains}"
-    return contains
+    return installedNames.contains(doguName.toLowerCase())
 }
 private static boolean isInstalledClassic(String doguName) {
     String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
