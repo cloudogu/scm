@@ -34,9 +34,33 @@ boolean isInstalled(String doguName) {
 }
 
 private static boolean isInstalledMN(String doguName) {
-    return (new File("/etc/ces/dogu_json/${doguName}/current")).exists()
+
+    if (isInDoguListEnv(doguName)) {
+        return true
+    }
+
+    String doguRegistryDir = System.getenv("DOGU_REGISTRY_DIR") ?: "/etc/ces/dogu_json"
+    String path = "${doguRegistryDir}/${doguName}/current"
+    return (new File(path)).exists()
 }
 
+private static boolean isInDoguListEnv(String doguName) {
+    if (doguName == null || doguName.isEmpty()) {
+        return false
+    }
+
+    String installedDogus = System.getenv("INSTALLED_DOGUS_FOR_SCM") ?: ""
+    if (installedDogus.trim().isEmpty()) {
+        return false
+    }
+
+    Set<String> installedNames = installedDogus.split(/[\s,]+/)
+        .findAll { it && !it.trim().isEmpty() }
+        .collect { it.trim().toLowerCase() }
+        .toSet()
+
+    return installedNames.contains(doguName.toLowerCase())
+}
 private static boolean isInstalledClassic(String doguName) {
     String ip = new File("/etc/ces/node_master").getText("UTF-8").trim();
     URL url = new URL("http://${ip}:4001/v2/keys/dogu/${doguName}/current");

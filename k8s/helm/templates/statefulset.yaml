@@ -34,6 +34,7 @@ spec:
           imagePullPolicy: {{ .Values.scm.imagePullPolicy }}
           command: ["bash", "/dogu_v3/init.sh"]
           env:
+            {{- include "scm.configEnv" . | nindent 12 }}
             - name: ECOSYSTEM_MULTINODE
               value: "true"
           securityContext:
@@ -52,14 +53,7 @@ spec:
             - name: scm-data
               mountPath: /var/lib/scm
               subPath: data
-            - name: scm-data
-              mountPath: /var/ces/config
-              subPath: localConfig
-            - name: ces-config
-              mountPath: /etc/ces/config
-              readOnly: true
-            - name: scm-dogu-json
-              mountPath: /etc/ces/dogu_json
+            {{- include "scm.configVolumeMounts" (dict "root" . ) | nindent 12 }}
         - name: sa-manager-hooks-init
           # Copies create-sa.sh/remove-sa.sh, the sa-hook-*.sh adapters and doguctl out of the scm image
           image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
@@ -91,6 +85,9 @@ spec:
               containerPort: 8080
               protocol: TCP
           env:
+            {{- include "scm.configEnv" . | nindent 12 }}
+            - name: INSTALLED_DOGUS_FOR_SCM
+              value: {{ .Values.scm.installed.dogus | join "," | quote }}
             - name: GOTENBERG_PLUGIN_ENABLED
               value: {{ .Values.gotenberg.enabled | quote  }}
             - name: HOME
@@ -114,10 +111,6 @@ spec:
             - name: scm-data
               mountPath: /var/lib/scm
               subPath: data
-            # Writable local doguctl config store (successfulInitialConfiguration, admin_user, ...).
-            - name: scm-data
-              mountPath: /var/ces/config
-              subPath: localConfig
             # Ephemeral doguctl state (doguctl state ready).
             - name: scm-ephemeral
               mountPath: /var/ces/state
@@ -129,14 +122,7 @@ spec:
             - name: scm-ephemeral
               mountPath: /tmp
               subPath: tmp
-            # Read-only platform config: global + normal + sensitive.
-            - name: ces-config
-              mountPath: /etc/ces/config
-              readOnly: true
-            # dogu.json for doguctl config-key validation.
-            - name: scm-dogu-json
-              mountPath: /etc/ces/dogu_json
-              readOnly: true
+            {{- include "scm.configVolumeMounts" (dict "root" . "doguRegistryReadOnly" true) | nindent 12 }}
             {{- with .Values.scm.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -181,6 +167,7 @@ spec:
               containerPort: 8090
               protocol: TCP
           env:
+            {{- include "scm.configEnv" . | nindent 12 }}
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -213,21 +200,10 @@ spec:
             - name: CES_TOKEN_CONFIGURATION_KEY
               value: serviceaccount_token
           volumeMounts:
-            # Writable local doguctl config
-            - name: scm-data
-              mountPath: /var/ces/config
-              subPath: localConfig
-            # Read-only platform config: global + normal + sensitive
-            - name: ces-config
-              mountPath: /etc/ces/config
-              readOnly: true
+            {{- include "scm.configVolumeMounts" (dict "root" . "doguRegistryReadOnly" true) | nindent 12 }}
             # create-sa.sh/remove-sa.sh/scm_api.sh and the sa-hook-*.sh adapters
             - name: sa-manager-hooks
               mountPath: /hooks
-              readOnly: true
-            # dogu.json for doguctl's component-mode registry lookup.
-            - name: scm-dogu-json
-              mountPath: /etc/ces/dogu_json
               readOnly: true
           # GET /serviceaccounts is the sidecar's unauthenticated readiness route (httpGet probes
           # can only send GET, never HEAD - the method the real service-account-operator client
@@ -257,21 +233,26 @@ spec:
           emptyDir: {}
         - name: sa-manager-hooks
           emptyDir: {}
-        - name: ces-config
-          projected:
-            sources:
-              - configMap:
-                  name: {{ .Values.scm.configuration.meta.global.name }}
-                  items:
-                    - key: {{ .Values.scm.configuration.meta.global.key }}
-                      path: global/config.yaml
-              - configMap:
-                  name: {{ include "scm.fullname" . }}-config
-                  items:
-                    - key: {{ .Values.scm.configuration.meta.normal.key }}
-                      path: normal/config.yaml
-                    - key: {{ .Values.scm.configuration.meta.sensitive.key }}
-                      path: sensitive/config.yaml
+
+        - name: global-config
+          configMap:
+            name:  {{ .Values.scm.configuration.meta.global.name }}
+            items:
+              - key: {{ .Values.scm.configuration.meta.global.key }}
+                path: config.yaml
+        - name: normal-config
+          configMap:
+            name: {{ include "scm.fullname" . }}-config
+            items:
+              - key: {{ .Values.scm.configuration.meta.normal.key }}
+                path: config.yaml
+        # set ssecret-config as value from configmap because we don't have any sensitive values
+        - name: secret-config
+          configMap:
+            name: {{ include "scm.fullname" . }}-config
+            items:
+              - key: {{ .Values.scm.configuration.meta.sensitive.key }}
+                path: config.yaml
         - name: scm-dogu-json
           emptyDir: {}
         {{- with .Values.scm.extraVolumes }}
