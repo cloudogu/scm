@@ -37,6 +37,29 @@ Darüber hinaus wurden die Dateien `Makefile` und `Dockerfile` aktualisiert, um 
   ```
   make scm-v3-uninstall
   ```
+### Veröffentlichen
+
+- Image und Chart veröffentlichen (ohne Cluster-Installation):
+  ```
+  make scm-v3-publish
+  ```
+  Baut und pusht das Image und packt/pusht das Helm-Chart in dieselbe Registry. Das Chart referenziert in
+  `values.yaml` und `chart-patch-tpl.yaml` genau das gepushte Image. Voraussetzung: `docker login <registry>`.
+  Konfigurierbar per Make-Variablen (Defaults):
+  - `SCM_V3_PUBLISH_REGISTRY` (`staging-registry.cloudogu.com`)
+  - `SCM_V3_PUBLISH_IMAGE_REPOSITORY` (`testing/dogu/v3/images/scm`)
+  - `SCM_V3_PUBLISH_CHART_NAMESPACE` (`testing/dogu/v3/charts`)
+  - `SCM_V3_PUBLISH_VERSION`: Image-Tag und Chart-Version (`$(VERSION)`, bei `STAGE=development` siehe unten)
+
+  Einzeln: `make scm-v3-publish-image` bzw. `make scm-v3-publish-chart`.
+
+  Dev-Version (`$(VERSION)-dev.<unix-timestamp>` für Image-Tag und Chart-Version), gesteuert über das
+  bestehende `STAGE` (auch per `.env` setzbar):
+  ```
+  make scm-v3-publish STAGE=development
+  ```
+  Der Timestamp wird einmal pro Make-Aufruf bestimmt. Werden Image und Chart in getrennten Aufrufen
+  veröffentlicht, in beiden dieselbe `SCM_V3_PUBLISH_VERSION=<version>` mitgeben.
 
 ## `isInDoguListEnv` und `INSTALLED_DOGUS_FOR_SCM`
 
