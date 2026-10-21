@@ -5,6 +5,8 @@ Im Folgenden finden Sie die Release Notes für das SCM-Manager-Dogu.
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://scm-manager.org/download/archive).
 
 ## [Unreleased]
+### Added
+- Die Unterstützung für Persönliche Zugriffsschlüssel (PATs) wurde aktiviert.
 
 ## Release 3.12.2-1
 

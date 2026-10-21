@@ -10,7 +10,8 @@
         "scm",
         "git",
         "mercurial",
-        "subversion"
+        "subversion",
+        "pat"
     ],
     "Logo": "https://cloudogu.com/images/dogus/scm-manager.png",
     "Url": "https://www.scm-manager.org",
