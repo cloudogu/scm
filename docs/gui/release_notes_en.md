@@ -5,6 +5,8 @@ Below you will find the release notes for the SCM-Manager Dogu.
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
 ## [Unreleased]
+
+## [v3.12.2-2] - 2026-10-21
 ### Added
 - The support for personal access tokens (PATs) was enabled.
 
