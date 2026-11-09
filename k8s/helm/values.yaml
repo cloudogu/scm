@@ -11,7 +11,7 @@ scm:
   replicas: 1
 
   # Integrations with other dogus.
-  # OAn enabled integration installs and configures the corresponding SCM-Manager plugins.
+  # An enabled integration installs and configures the corresponding SCM-Manager plugins.
   # Changes take effect on the next SCM-Manager start; disabling an integration does not uninstall plugins.
   integrations:
     cockpit:
