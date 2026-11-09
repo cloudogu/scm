@@ -63,14 +63,13 @@ private Boolean getExplicitIntegrationState(String doguName) {
  * redmine_type decides.
  */
 String getRedmineIntegration() {
-    String explicit = getIntegrationEnv("redmine", "ENABLED")
+    Boolean explicit = getExplicitIntegrationState("redmine")
     if (explicit != null) {
-        if (!"true".equalsIgnoreCase(explicit.trim())) {
-            println "redmine integration is explicitly disabled"
+        if (!explicit) {
             return null
         }
         String type = getIntegrationEnv("redmine", "TYPE") == "REDMINE" ? "REDMINE" : "EASY_REDMINE"
-        println "redmine integration is explicitly enabled with type ${type}"
+        println "redmine integration uses type ${type}"
         return type
     }
 
