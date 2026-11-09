@@ -10,7 +10,7 @@ spec:
   replicas: {{ .Values.scm.replicas | default 1 }}
   selector:
     matchLabels:
-      {{- include "scm.selectorLabels" . | nindent 6 }}
+      {{- include "scm.scmSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:

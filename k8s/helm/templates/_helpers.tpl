@@ -25,7 +25,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- define "scm.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "scm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/component: {{ include "scm.name" . }}
 {{- end }}
 
 {{- define "scm.scmSelectorLabels" -}}
