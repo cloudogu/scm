@@ -9,8 +9,21 @@ extraLabels: {}
 
 scm:
   replicas: 1
-  installed:
-    dogus: []
+
+  # Integrations with other dogus.
+  # OAn enabled integration installs and configures the corresponding SCM-Manager plugins.
+  # Changes take effect on the next SCM-Manager start; disabling an integration does not uninstall plugins.
+  integrations:
+    cockpit:
+      enabled: false
+    jenkins:
+      enabled: false
+    redmine:
+      enabled: false
+      # REDMINE | EASY_REDMINE
+      type: EASY_REDMINE
+    jira:
+      enabled: false
 
   image:
     registry: registry.cloudogu.com

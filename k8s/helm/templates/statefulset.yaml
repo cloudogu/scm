@@ -86,8 +86,7 @@ spec:
               protocol: TCP
           env:
             {{- include "scm.configEnv" . | nindent 12 }}
-            - name: INSTALLED_DOGUS_FOR_SCM
-              value: {{ .Values.scm.installed.dogus | join "," | quote }}
+            {{- include "scm.integrationEnv" . | trim | nindent 12 }}
             - name: GOTENBERG_PLUGIN_ENABLED
               value: {{ .Values.gotenberg.enabled | quote  }}
             - name: HOME

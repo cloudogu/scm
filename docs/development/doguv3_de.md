@@ -38,41 +38,35 @@ Darüber hinaus wurden die Dateien `Makefile` und `Dockerfile` aktualisiert, um 
   make scm-v3-uninstall
   ```
 
-## `isInDoguListEnv` und `INSTALLED_DOGUS_FOR_SCM`
+## Integrationen mit anderen Dogus
 
-In der SCM-Initialisierung prüft `EcoSystem.isInstalledMN()` zunächst, 
-ob das betroffene Dogu in der Umgebungsvariable `INSTALLED_DOGUS_FOR_SCM` enthalten ist. 
-Die Logik stammt aus `isInDoguListEnv(String doguName)` und 
-prüft die Liste der installierten Dogus als durch Kommas oder Leerzeichen getrennte Namen.
-
-Beispiele:
-
-- `INSTALLED_DOGUS_FOR_SCM="cockpit"` -> `cockpit` wird als installiert erkannt
-- `INSTALLED_DOGUS_FOR_SCM="cockpit,sonarqube"` -> `sonarqube` und `cockpit` werden als installiert erkannt
-
-Damit kann SCM in einer Dogu-v3-/Multinode-Umgebung feststellen, ob ein Dogu in der installierten Dogu-Liste enthalten ist, auch wenn das `dogu.json`-Layout oder der Registry-Pfad im aktuellen Container noch nicht verfügbar ist.
-
-### Beispiel für das Helm-Deployment
-
-Im `StatefulSet` kann die Liste der installierten Dogus als eine einzelne Variable gesetzt werden:
-
-```yaml
-env:
- - name: INSTALLED_DOGUS_FOR_SCM
-   value: "cockpit,sonarqube"
-```
-
-Die zugehörige Helm-Definition erfolgt über die Werte:
+Im Classic- und Multinode-v2-Betrieb erkennt SCM selbst, ob andere Dogus installiert sind,
+und installiert und konfiguriert daraufhin die passenden Plugins. Mit Dogu v3 geht das nicht mehr.
+Deshalb wird jede Integration explizit über `scm.integrations` in der `values.yaml` aktiviert:
 
 ```yaml
 scm:
- installed:
-   dogus:
-     - cockpit
-     - jenkins
+  integrations:
+    cockpit:
+      enabled: true          # scm-cockpit-legacy-plugin (SCM-Widget im Cockpit)
+    jenkins:
+      enabled: true          # scm-jenkins-plugin, scm-ci-plugin
+    redmine:
+      enabled: true          # scm-redmine-plugin
+      type: EASY_REDMINE     # REDMINE | EASY_REDMINE
+    jira:
+      enabled: false         # scm-jira-plugin
 ```
 
-Die Variable wird beim Rendern in eine CSV-Liste umgewandelt und anschließend in Groovy als Namen-Liste ausgewertet.
+Das Chart rendert daraus pro Integration die Umgebungsvariable `SCM_INTEGRATION_<NAME>_ENABLED` sowie `SCM_INTEGRATION_REDMINE_TYPE`.
+Die Init-Skripte fragen die Integrationen über `EcoSystem.isIntegrationEnabled(<dogu>)` bzw. `EcoSystem.getRedmineIntegration()` ab:
+
+- Ist die Umgebungsvariable gesetzt, gilt ihr Wert.
+- Fehlt sie (Classic, Multinode v2), wird wie bisher geprüft, ob das Dogu installiert ist.
+
+Änderungen greifen beim nächsten Start von SCM. Das Deaktivieren einer Integration deinstalliert keine Plugins.
+
+Gotenberg ist nicht Teil von `scm.integrations`, sondern wird als Subchart über `gotenberg.enabled` gesteuert.
 
 Hinweis: Um sicherzustellen, dass die SCM-Änderungen nach einer Neuinstallation erhalten bleiben,
 wird „pvc“ (scm-data-scm-0) nicht automatisch deinstalliert.
