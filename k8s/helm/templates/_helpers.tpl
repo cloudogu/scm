@@ -25,7 +25,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- define "scm.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "scm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/component: {{ include "scm.name" . }}
 {{- end }}
 
 {{- define "scm.scmSelectorLabels" -}}
@@ -45,6 +44,23 @@ k8s.cloudogu.com/backup-scope: scm
 app.kubernetes.io/name: {{ include "scm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: gotenberg
+{{- end }}
+
+{{/*
+Explicit integration configuration, evaluated by EcoSystem.isIntegrationEnabled / getRedmineIntegration
+in the SCM init scripts: one SCM_INTEGRATION_<NAME>_ENABLED variable per entry in scm.integrations.
+*/}}
+{{- define "scm.integrationEnv" -}}
+{{- range $name, $integration := .Values.scm.integrations }}
+- name: {{ printf "SCM_INTEGRATION_%s_ENABLED" (upper $name) }}
+  value: {{ (default false $integration.enabled) | toString | quote }}
+{{- end }}
+{{- $redmineType := .Values.scm.integrations.redmine.type | default "EASY_REDMINE" }}
+{{- if not (has $redmineType (list "REDMINE" "EASY_REDMINE")) }}
+{{- fail (printf "scm.integrations.redmine.type must be REDMINE or EASY_REDMINE, got %q" $redmineType) }}
+{{- end }}
+- name: SCM_INTEGRATION_REDMINE_TYPE
+  value: {{ $redmineType | quote }}
 {{- end }}
 
 {{/*

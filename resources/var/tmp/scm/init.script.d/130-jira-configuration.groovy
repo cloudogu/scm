@@ -18,7 +18,7 @@ def configureJira(config, fqdn) {
     config.setUrl("https://${fqdn}/jira")
 }
 
-if (ecoSystem.isInstalled("jira")) {
+if (ecoSystem.isIntegrationEnabled("jira")) {
     try {
         def storeClass = findClass("sonia.scm.jira.config.JiraConfigurationStore")
         def store = injector.getInstance(storeClass);

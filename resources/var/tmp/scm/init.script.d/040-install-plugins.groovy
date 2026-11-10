@@ -73,11 +73,11 @@ if (pluginSetConfigStore.getPluginSets().isEmpty()) {
 
 // install plugins depending on other dogus
 
-if (ecoSystem.isInstalled("redmine") || ecoSystem.isInstalled("easyredmine")) {
+if (ecoSystem.getRedmineIntegration() != null) {
 	plugins.add("scm-redmine-plugin")
 }
 
-if (ecoSystem.isInstalled("jenkins")) {
+if (ecoSystem.isIntegrationEnabled("jenkins")) {
 	plugins.add("scm-jenkins-plugin")
 	plugins.add("scm-ci-plugin")
 }
@@ -88,7 +88,7 @@ if (ecoSystem.getDoguConfig("install_smeagol_plugin") == "true") {
     plugins.add("scm-smeagol-plugin")
 }
 
-if (ecoSystem.isInstalled("cockpit")) {
+if (ecoSystem.isIntegrationEnabled("cockpit")) {
     plugins.add("scm-cockpit-legacy-plugin")
 }
 
@@ -97,7 +97,7 @@ if (isEnabled || ecoSystem.isInstalled("gotenberg")) {
     plugins.add("scm-gotenberg-plugin")
 }
 
-if (ecoSystem.isInstalled("jira")) {
+if (ecoSystem.isIntegrationEnabled("jira")) {
     plugins.add("scm-jira-plugin")
 }
 

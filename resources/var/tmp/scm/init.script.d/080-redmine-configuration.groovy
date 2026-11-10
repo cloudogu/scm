@@ -5,15 +5,6 @@ File sourceFile = new File("/opt/scm-server/init.script.d/lib/EcoSystem.groovy")
 Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile);
 ecoSystem = (GroovyObject) groovyClass.newInstance();
 
-String getPreferredRedmine() {
-    String preferredRedmine = ecoSystem.getDoguConfig("redmine_type")
-    if (preferredRedmine == null) {
-        return "EASY_REDMINE"
-    }
-
-    return preferredRedmine
-}
-
 def findClass(clazzAsString) {
     return Class.forName(clazzAsString, true, Thread.currentThread().getContextClassLoader())
 }
@@ -54,24 +45,16 @@ try {
 
     def formattingClass = findClass("sonia.scm.redmine.config.TextFormatting")
 
-    String preferredRedmine = getPreferredRedmine()
-    isEasyRedmineInstalled = ecoSystem.isInstalled("easyredmine")
-    isRedmineInstalled = ecoSystem.isInstalled("redmine")
+    String redmineIntegration = ecoSystem.getRedmineIntegration()
 
-    if (isEasyRedmineInstalled && isRedmineInstalled && preferredRedmine.equals("EASY_REDMINE")) {
-        println "both dogus installed and easy redmine is preferred"
+    if (redmineIntegration == "EASY_REDMINE") {
+        println "configuring redmine plugin for easy redmine"
         configureEasyRedmine(config, fqdn, formattingClass)
-    } else if (isEasyRedmineInstalled && isRedmineInstalled && preferredRedmine.equals("REDMINE")) {
-        println "both dogus installed and redmine is preferred"
-        configureRedmine(config, fqdn, formattingClass)
-    } else if (isEasyRedmineInstalled) {
-        println "only easy redmine is installed"
-        configureEasyRedmine(config, fqdn, formattingClass)
-    } else if (isRedmineInstalled) {
-        println "only redmine is installed"
+    } else if (redmineIntegration == "REDMINE") {
+        println "configuring redmine plugin for redmine"
         configureRedmine(config, fqdn, formattingClass)
     } else {
-        println "no redmine dogu is installed"
+        println "redmine integration is not active"
     }
 
     store.storeConfiguration(config)

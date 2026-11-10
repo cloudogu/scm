@@ -10,7 +10,7 @@ def findClass(clazzAsString) {
 }
 
 try {
-    if (ecoSystem.isInstalled("jenkins")) {
+    if (ecoSystem.isIntegrationEnabled("jenkins")) {
         def jenkins = injector.getInstance(findClass("sonia.scm.jenkins.JenkinsContext"));
         def config = jenkins.getConfiguration();
 
