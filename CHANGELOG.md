@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added support for Dogu V3
+- [#134] Add a migration job to copy the data from the migration PVC to the new PVC
 
 ## [3.11.10-1] 2026-06-10
 ### Changed

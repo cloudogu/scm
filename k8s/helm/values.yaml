@@ -123,6 +123,14 @@ scm:
     resourceLimits:
       memory: 64Mi
 
+# Migration from dogu v2
+migrationJob:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: library/busybox
+    tag: "1.38"
+
 # Self-contained gotenberg
 gotenberg:
   enabled: true

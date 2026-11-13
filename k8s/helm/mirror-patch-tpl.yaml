@@ -4,6 +4,7 @@ values:
     scm: registry.cloudogu.com/official/scm:3.11.10-1
     scmSaManager: registry.cloudogu.com/k8s/service-account-producer-sidecar:0.1.2
     gotenberg: docker.io/gotenberg/gotenberg:8.34.0
+    busybox: docker.io/library/busybox:1.38
 patches:
   values.yaml:
     scm:
@@ -21,3 +22,8 @@ patches:
         registry: "{{ registryFrom .images.gotenberg }}"
         repository: "{{ repositoryFrom .images.gotenberg }}"
         tag: "{{ tagFrom .images.gotenberg }}"
+    migrationJob:
+      image:
+        registry: "{{ registryFrom .images.busybox }}"
+        repository: "{{ repositoryFrom .images.busybox }}"
+        tag: "{{ tagFrom .images.busybox }}"
