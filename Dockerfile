@@ -1,4 +1,4 @@
-FROM registry.cloudogu.com/official/java:17.0.20-3
+FROM registry.cloudogu.com/official/java:17.0.21-3
 LABEL maintainer="sebastian.sdorra@cloudogu.com"
 
 ARG SCM_PKG_URL=https://packages.scm-manager.org/repository/releases/sonia/scm/packaging/unix/3.12.2/unix-3.12.2.tar.gz
