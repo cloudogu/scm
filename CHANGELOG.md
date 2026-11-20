@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update java base image to v17.0.21-3
 
+### Fixed
+- Flaky integration test: ignore the `Unauthorized` error the UI throws while a test logs out through CAS
+
 ### Security
 - Fix [CVE-2026-114938](https://nvd.nist.gov/vuln/detail/CVE-2026-114938)
 
