@@ -49,6 +49,17 @@ spec:
         - name: pvc-migration
           image: "{{ .Values.migrationJob.image.registry }}/{{ .Values.migrationJob.image.repository }}:{{ .Values.migrationJob.image.tag }}"
           command: [ "sh", "-ec"]
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CHOWN
+                - DAC_OVERRIDE
+                - FOWNER
           args:
             - |
               # data holds the repositories and is mandatory; the other volumes are optional.
