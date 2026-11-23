@@ -229,11 +229,6 @@ spec:
             requests: {{- toYaml .Values.scm.saManager.resourceRequests | nindent 14 }}
             limits: {{- toYaml .Values.scm.saManager.resourceLimits | nindent 14 }}
       volumes:
-        {{- if .Values.scm.persistence.existingClaim }}
-        - name: scm-data
-          persistentVolumeClaim:
-            claimName: {{ .Values.scm.persistence.existingClaim }}
-        {{- end }}
         - name: scm-ephemeral
           emptyDir: {}
         - name: sa-manager-hooks
@@ -272,7 +267,6 @@ spec:
       {{- with .Values.scm.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8 }}
       {{- end }}
-  {{- if not .Values.scm.persistence.existingClaim }}
   volumeClaimTemplates:
     # Holds the SCM work dir (/var/lib/scm) and the writable doguctl local config (/var/ces/config).
     - metadata:
@@ -289,4 +283,3 @@ spec:
         resources:
           requests:
             storage: {{ .Values.scm.persistence.size }}
-  {{- end }}
