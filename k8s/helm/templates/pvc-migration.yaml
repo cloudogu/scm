@@ -47,9 +47,19 @@ spec:
           command: [ "sh", "-ec"]
           args:
             - |
-              cp -a /source/localConfig /target/
-              cp -a /source/data /target/
-              cp -a /source/custom.init.script.d /target/
+              # data holds the repositories and is mandatory; the other volumes are optional.
+              if [ ! -d /source/data ]; then
+                echo "source volume does not contain the mandatory directory 'data'" >&2
+                exit 1
+              fi
+              for dir in data localConfig custom.init.script.d; do
+                if [ -d "/source/${dir}" ]; then
+                  echo "copying ${dir}"
+                  cp -a "/source/${dir}" /target/
+                else
+                  echo "skipping ${dir}: not present in source volume"
+                fi
+              done
           volumeMounts:
             - mountPath: /source
               name: source-data
@@ -61,6 +71,7 @@ spec:
       volumes:
         - name: source-data
           persistentVolumeClaim:
+            # The name of the source PVC is defined by the migration API.
             claimName: scm-migration
         - name: target-data
           persistentVolumeClaim:
