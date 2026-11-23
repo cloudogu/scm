@@ -4,11 +4,11 @@ Below you will find the release notes for the SCM-Manager Dogu.
 
 Technical details on a release can be found in the corresponding [Changelog](https://scm-manager.org/download/archive).
 
-## [Unreleased]
+## Release 3.12.2-3
 ### Security
 - Fix vulnerability [CVE-2026-114938](https://nvd.nist.gov/vuln/detail/CVE-2026-114938) (Java4Shell)
 
-## [v3.12.2-2] - 2026-10-21
+## Release 3.12.2-2
 ### Added
 - The support for personal access tokens (PATs) was enabled.
 
