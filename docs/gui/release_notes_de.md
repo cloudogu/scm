@@ -5,6 +5,8 @@ Im Folgenden finden Sie die Release Notes für das SCM-Manager-Dogu.
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://scm-manager.org/download/archive).
 
 ## [Unreleased]
+### Security
+- Sicherheitslücke [CVE-2026-114938](https://nvd.nist.gov/vuln/detail/CVE-2026-114938) (Java4Shell) geschlossen
 
 ## [v3.12.2-2] - 2026-10-21
 ### Added
