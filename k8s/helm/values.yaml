@@ -126,6 +126,11 @@ migrationJob:
     registry: docker.io
     repository: library/busybox
     tag: "1.38"
+  resourceRequests:
+    cpu: 50m
+    memory: 64Mi
+  resourceLimits:
+    memory: 64Mi
 
 # Self-contained gotenberg
 gotenberg:
