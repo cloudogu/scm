@@ -22,7 +22,6 @@ spec:
   {{- if .Values.scm.persistence.storageClassName }}
   storageClassName: {{ .Values.scm.persistence.storageClassName | quote }}
   {{- end }}
-
 ---
 apiVersion: batch/v1
 kind: Job
