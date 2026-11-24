@@ -52,3 +52,15 @@ The chart renders one environment variable `SCM_INTEGRATION_<NAME>_ENABLED` per 
 Changes take effect on the next SCM start. Disabling an integration does not uninstall plugins.
 
 Gotenberg is not part of `scm.integrations`; it is a subchart controlled by `gotenberg.enabled`.
+
+## Migration from Dogu v2
+
+The migration of a v2 SCM to v3 is controlled by the k8s-dogu-operator.
+For this purpose the chart ships a migration job (`templates/pvc-migration.yaml`) which the operator enables via `migrationJob.enabled=true`.
+
+While it is enabled:
+- the chart creates the data claim of the StatefulSet (`scm-data-<fullname>-0`) in advance,
+- the StatefulSet runs with 0 replicas,
+- the job copies the data from the claim `scm-migration` into the new claim
+
+`scm.persistence.size` must be set at least as large as the v2 volume before the migration.
