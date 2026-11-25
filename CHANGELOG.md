@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for Dogu V3
 - [#134] Add a migration job to copy the data from the migration PVC to the new PVC
 
+### Fixed
+- [#134] Keep the service accounts of consumers migrated from dogu v2
+
 ## [3.11.10-1] 2026-06-10
 ### Changed
 - Upgrade SCM-Manager to version 3.11.10 ([Changelog](https://github.com/scm-manager/scm-manager/blob/3.11.10/CHANGELOG.md))

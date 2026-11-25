@@ -58,10 +58,10 @@ spec:
               subPath: custom.init.script.d
             {{- include "scm.configVolumeMounts" (dict "root" . ) | nindent 12 }}
         - name: sa-manager-hooks-init
-          # Copies create-sa.sh/remove-sa.sh, the sa-hook-*.sh adapters and doguctl out of the scm image
+          # Copies create-sa.sh/remove-sa.sh/sa-common.sh, the sa-hook-*.sh adapters and doguctl out of the scm image
           image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.scm.imagePullPolicy }}
-          command: ["sh", "-c", "cp /usr/local/bin/doguctl /create-sa.sh /remove-sa.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]
+          command: ["sh", "-c", "cp /usr/local/bin/doguctl /create-sa.sh /remove-sa.sh /sa-common.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
@@ -206,7 +206,7 @@ spec:
               value: serviceaccount_token
           volumeMounts:
             {{- include "scm.configVolumeMounts" (dict "root" . "doguRegistryReadOnly" true) | nindent 12 }}
-            # create-sa.sh/remove-sa.sh/scm_api.sh and the sa-hook-*.sh adapters
+            # create-sa.sh/remove-sa.sh/sa-common.sh/scm_api.sh and the sa-hook-*.sh adapters
             - name: sa-manager-hooks
               mountPath: /hooks
               readOnly: true
