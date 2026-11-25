@@ -74,7 +74,7 @@ Bei Bedarf kann es manuell entfernt werden.
 
 ## Migration von Dogu v2
 
-Die Migration eines v2-SCM auf v3 steuert der k8s-dogu-operator.
+Die Migration eines v2-SCM auf v3 steuert der [k8s-dogu-operator](https://github.com/cloudogu/k8s-dogu-operator).
 Das Chart bringt dafür einen Migrations-Job mit (`templates/pvc-migration.yaml`), den der Operator über `migrationJob.enabled=true` aktiviert. 
 
 Solange er aktiv ist:

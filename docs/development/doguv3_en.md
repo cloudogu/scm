@@ -55,7 +55,7 @@ Gotenberg is not part of `scm.integrations`; it is a subchart controlled by `got
 
 ## Migration from Dogu v2
 
-The migration of a v2 SCM to v3 is controlled by the k8s-dogu-operator.
+The migration of a v2 SCM to v3 is controlled by the [k8s-dogu-operator]([k8s-dogu-operator](https://github.com/cloudogu/k8s-dogu-operator)).
 For this purpose the chart ships a migration job (`templates/pvc-migration.yaml`) which the operator enables via `migrationJob.enabled=true`.
 
 While it is enabled:
