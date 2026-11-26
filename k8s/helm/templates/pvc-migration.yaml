@@ -1,0 +1,96 @@
+{{- if .Values.migrationJob.enabled }}
+
+{{/*The name of the PVC to be used as migration target, which must match the PVC that is used by the statefulset. */}}
+{{- $pvcName := printf "scm-data-%s-0" (include "scm.fullname" .) }}
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $pvcName }}
+  annotations:
+    helm.sh/resource-policy: keep
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+    {{- include "scm.backupLabels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.scm.persistence.size }}
+  volumeMode: Filesystem
+  {{- if .Values.scm.persistence.storageClassName }}
+  storageClassName: {{ .Values.scm.persistence.storageClassName | quote }}
+  {{- end }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "scm.fullname" . }}-pvc-migration
+  labels:
+    {{- include "scm.labels" . | nindent 4 }}
+    app.kubernetes.io/component: pvc-migration
+    k8s.cloudogu.com/migration-job: "true"
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        {{- include "scm.labels" . | nindent 8 }}
+        app.kubernetes.io/component: pvc-migration
+        k8s.cloudogu.com/dogu.name: scm
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: pvc-migration
+          image: "{{ .Values.migrationJob.image.registry }}/{{ .Values.migrationJob.image.repository }}:{{ .Values.migrationJob.image.tag }}"
+          command: [ "sh", "-ec"]
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CHOWN
+                - DAC_OVERRIDE
+                - FOWNER
+          args:
+            - |
+              # data holds the repositories and is mandatory; the other volumes are optional.
+              if [ ! -d /source/data ]; then
+                echo "source volume does not contain the mandatory directory 'data'" >&2
+                exit 1
+              fi
+              for dir in data localConfig custom.init.script.d; do
+                if [ -d "/source/${dir}" ]; then
+                  echo "copying ${dir}"
+                  cp -a "/source/${dir}" /target/
+                else
+                  echo "skipping ${dir}: not present in source volume"
+                fi
+              done
+          resources:
+            requests: {{- toYaml .Values.migrationJob.resourceRequests | nindent 14 }}
+            limits: {{- toYaml .Values.migrationJob.resourceLimits | nindent 14 }}
+          volumeMounts:
+            - mountPath: /source
+              name: source-data
+              readOnly: true
+            - mountPath: /target
+              name: target-data
+
+      restartPolicy: Never
+      volumes:
+        - name: source-data
+          persistentVolumeClaim:
+            # The name of the source PVC is defined by the migration API.
+            claimName: scm-migration
+        - name: target-data
+          persistentVolumeClaim:
+            claimName: {{ $pvcName }}
+{{- end }}

@@ -7,7 +7,7 @@ set -o pipefail
 #   1. Materialize the ${DOGU_REGISTRY_DIR}/${DOGU_NAME}/{current,<version>} layout that doguctl expects
 #   2. Fix ownership of the persistent volumes for the scm user (uid/gid 1000)
 
-mkdir -p /var/lib/scm ${LOCAL_CONFIG_DIR}
+mkdir -p /var/lib/scm /var/lib/custom.init.script.d ${LOCAL_CONFIG_DIR}
 
 # --- 1. dogu_json layout ------------------------------------------------------
 # doguctl resolves the descriptor from ${DOGU_REGISTRY_DIR}/${DOGU_NAME}/
@@ -29,6 +29,6 @@ echo "prepared dogu.json in ${TARGET_DIR} for to be used by doguctl"
 
 # --- persistence ownership -------------------------------------------------
 # Must run last (see header comment): fixes up anything doguctl created as root above.
-chown -R 1000:1000 /var/lib/scm ${LOCAL_CONFIG_DIR}
+chown -R 1000:1000 /var/lib/scm /var/lib/custom.init.script.d ${LOCAL_CONFIG_DIR}
 
-echo "set ownership for /var/lib/scm and ${LOCAL_CONFIG_DIR}"
+echo "set ownership for /var/lib/scm, /var/lib/custom.init.script.d and ${LOCAL_CONFIG_DIR}"

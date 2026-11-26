@@ -54,10 +54,6 @@ scm:
   persistence:
     size: 2Gi
     storageClassName: ""
-    # Use an existing PersistentVolumeClaim for the scm data volume instead of
-    # letting the chart create one. When set, no PVC is created and its size/
-    # storageClassName above are ignored.
-    existingClaim: ""
 
   exposition:
     externalPort: 2222
@@ -122,6 +118,19 @@ scm:
       memory: 64Mi
     resourceLimits:
       memory: 64Mi
+
+# Migration from dogu v2
+migrationJob:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: library/busybox
+    tag: "1.38"
+  resourceRequests:
+    cpu: 50m
+    memory: 64Mi
+  resourceLimits:
+    memory: 64Mi
 
 # Self-contained gotenberg
 gotenberg:

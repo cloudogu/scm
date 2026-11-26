@@ -7,7 +7,7 @@ metadata:
     {{- include "scm.backupLabels" . | nindent 4 }}
 spec:
   serviceName: {{ include "scm.name" . }}
-  replicas: {{ .Values.scm.replicas | default 1 }}
+  replicas: {{ if .Values.migrationJob.enabled }}0{{ else }}{{ .Values.scm.replicas | default 1 }}{{ end }}
   selector:
     matchLabels:
       {{- include "scm.scmSelectorLabels" . | nindent 6 }}
@@ -53,12 +53,15 @@ spec:
             - name: scm-data
               mountPath: /var/lib/scm
               subPath: data
+            - name: scm-data
+              mountPath: /var/lib/custom.init.script.d
+              subPath: custom.init.script.d
             {{- include "scm.configVolumeMounts" (dict "root" . ) | nindent 12 }}
         - name: sa-manager-hooks-init
-          # Copies create-sa.sh/remove-sa.sh, the sa-hook-*.sh adapters and doguctl out of the scm image
+          # Copies create-sa.sh/remove-sa.sh/sa-common.sh, the sa-hook-*.sh adapters and doguctl out of the scm image
           image: "{{ .Values.scm.image.registry }}/{{ .Values.scm.image.repository }}:{{ .Values.scm.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.scm.imagePullPolicy }}
-          command: ["sh", "-c", "cp /usr/local/bin/doguctl /create-sa.sh /remove-sa.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]
+          command: ["sh", "-c", "cp /usr/local/bin/doguctl /create-sa.sh /remove-sa.sh /sa-common.sh /dogu_v3/sa-hook-common.sh /dogu_v3/sa-hook-create.sh /dogu_v3/sa-hook-remove.sh /dogu_v3/sa-hook-exists.sh /shared/ && chmod 0555 /shared/*"]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
@@ -110,6 +113,9 @@ spec:
             - name: scm-data
               mountPath: /var/lib/scm
               subPath: data
+            - name: scm-data
+              mountPath: /var/lib/custom.init.script.d
+              subPath: custom.init.script.d
             # Ephemeral doguctl state (doguctl state ready).
             - name: scm-ephemeral
               mountPath: /var/ces/state
@@ -200,7 +206,7 @@ spec:
               value: serviceaccount_token
           volumeMounts:
             {{- include "scm.configVolumeMounts" (dict "root" . "doguRegistryReadOnly" true) | nindent 12 }}
-            # create-sa.sh/remove-sa.sh/scm_api.sh and the sa-hook-*.sh adapters
+            # create-sa.sh/remove-sa.sh/sa-common.sh/scm_api.sh and the sa-hook-*.sh adapters
             - name: sa-manager-hooks
               mountPath: /hooks
               readOnly: true
@@ -223,11 +229,6 @@ spec:
             requests: {{- toYaml .Values.scm.saManager.resourceRequests | nindent 14 }}
             limits: {{- toYaml .Values.scm.saManager.resourceLimits | nindent 14 }}
       volumes:
-        {{- if .Values.scm.persistence.existingClaim }}
-        - name: scm-data
-          persistentVolumeClaim:
-            claimName: {{ .Values.scm.persistence.existingClaim }}
-        {{- end }}
         - name: scm-ephemeral
           emptyDir: {}
         - name: sa-manager-hooks
@@ -266,7 +267,6 @@ spec:
       {{- with .Values.scm.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8 }}
       {{- end }}
-  {{- if not .Values.scm.persistence.existingClaim }}
   volumeClaimTemplates:
     # Holds the SCM work dir (/var/lib/scm) and the writable doguctl local config (/var/ces/config).
     - metadata:
@@ -283,4 +283,3 @@ spec:
         resources:
           requests:
             storage: {{ .Values.scm.persistence.size }}
-  {{- end }}

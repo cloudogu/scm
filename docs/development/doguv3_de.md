@@ -71,3 +71,15 @@ Gotenberg ist nicht Teil von `scm.integrations`, sondern wird als Subchart über
 Hinweis: Um sicherzustellen, dass die SCM-Änderungen nach einer Neuinstallation erhalten bleiben,
 wird „pvc“ (scm-data-scm-0) nicht automatisch deinstalliert.
 Bei Bedarf kann es manuell entfernt werden.
+
+## Migration von Dogu v2
+
+Die Migration eines v2-SCM auf v3 steuert der [k8s-dogu-operator](https://github.com/cloudogu/k8s-dogu-operator).
+Das Chart bringt dafür einen Migrations-Job mit (`templates/pvc-migration.yaml`), den der Operator über `migrationJob.enabled=true` aktiviert. 
+
+Solange er aktiv ist:
+- legt das Chart den Daten-Claim des StatefulSets (`scm-data-<fullname>-0`) vorab an,
+- läuft das StatefulSet mit 0 Replicas,
+- kopiert der Job die Daten aus dem Claim `scm-migration` in den neuen Claim
+
+`scm.persistence.size` muss vor der Migration mindestens so groß gesetzt werden wie das v2-Volume.
